@@ -7,7 +7,7 @@
     {
         public Purchase()
         {
-            this.Products = new List<Product>();
+            this.Products = new List<PurchasedProduct>();
         }
 
         public string Id { get; set; }
@@ -23,6 +23,6 @@
 
         public decimal Discount { get; set; }
 
-        public ICollection<Product> Products { get; set; }
+        public ICollection<PurchasedProduct> Products { get; set; }
     }
 }

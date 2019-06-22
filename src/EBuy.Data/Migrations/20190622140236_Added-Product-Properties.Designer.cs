@@ -4,14 +4,16 @@ using EBuy.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EBuy.Data.Migrations
 {
     [DbContext(typeof(EBuyDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190622140236_Added-Product-Properties")]
+    partial class AddedProductProperties
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,13 +86,13 @@ namespace EBuy.Data.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<string>("ImageUrl");
-
                     b.Property<int>("InStock");
 
                     b.Property<string>("Name");
 
                     b.Property<decimal>("Price");
+
+                    b.Property<string>("PurchaseId");
 
                     b.Property<int>("PurchasesCount");
 
@@ -101,6 +103,8 @@ namespace EBuy.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("PurchaseId");
 
                     b.ToTable("Products");
                 });
@@ -125,26 +129,6 @@ namespace EBuy.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Purchases");
-                });
-
-            modelBuilder.Entity("EBuy.Models.PurchasedProduct", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ImageUrl");
-
-                    b.Property<string>("Name");
-
-                    b.Property<decimal>("Price");
-
-                    b.Property<string>("PurchaseId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PurchaseId");
-
-                    b.ToTable("PurchasedProducts");
                 });
 
             modelBuilder.Entity("EBuy.Models.User", b =>
@@ -336,6 +320,10 @@ namespace EBuy.Data.Migrations
                     b.HasOne("EBuy.Models.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId");
+
+                    b.HasOne("EBuy.Models.Purchase")
+                        .WithMany("Products")
+                        .HasForeignKey("PurchaseId");
                 });
 
             modelBuilder.Entity("EBuy.Models.Purchase", b =>
@@ -343,13 +331,6 @@ namespace EBuy.Data.Migrations
                     b.HasOne("EBuy.Models.User", "User")
                         .WithMany("PurchaseHistory")
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("EBuy.Models.PurchasedProduct", b =>
-                {
-                    b.HasOne("EBuy.Models.Purchase")
-                        .WithMany("Products")
-                        .HasForeignKey("PurchaseId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -16,6 +16,7 @@
 
         public DbSet<Purchase> Purchases { get; set; }
 
+        public DbSet<PurchasedProduct> PurchasedProducts { get; set; }
 
         public EBuyDbContext(DbContextOptions<EBuyDbContext> options)
             : base(options)
