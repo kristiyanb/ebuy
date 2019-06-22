@@ -1,0 +1,14 @@
+﻿@using EBuy.Services;
+@inject ICategoryService CategoryService
+
+<div class="dropdown">
+    <button class="nav-link btn btn-link text-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Categories
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        @foreach (var category in CategoryService.GetCategoryNames())
+        {
+            <a class="dropdown-item" asp-controller="Categories" asp-action="Products" name="@category">@category</a>
+        }
+    </div>
+</div>

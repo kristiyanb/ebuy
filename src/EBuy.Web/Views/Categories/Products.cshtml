@@ -1,0 +1,42 @@
+﻿@model EBuy.Web.Models.Categories.CategoryViewModel
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<h1>@Model.Name</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Rating</th>
+            <th scope="col">Purchases</th>
+            <th scope="col">Available In Stock</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.Products)
+        {
+            <tr>
+                <td>
+                    @product.Name
+                </td>
+                <td>
+                    @product.Price
+                </td>
+                <td>
+                    @product.Rating
+                </td>
+                <td>
+                    @product.Purchases
+                </td>
+                <td>
+                    @product.InStock
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

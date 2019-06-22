@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EBuy.Data\EBuy.Data.csproj" />
+    <ProjectReference Include="..\EBuy.Services\EBuy.Services.csproj" />
   </ItemGroup>
 
 </Project>

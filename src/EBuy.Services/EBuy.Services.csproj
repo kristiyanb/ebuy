@@ -4,4 +4,9 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EBuy.Data\EBuy.Data.csproj" />
+    <ProjectReference Include="..\EBuy.Models\EBuy.Models.csproj" />
+  </ItemGroup>
+
 </Project>
