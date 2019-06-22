@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EBuy.Web", "EBuy.Web\EBuy.Web.csproj", "{5C7E8B54-A92C-49DB-8933-9F8D4DF38978}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EBuy.Web", "EBuy.Web\EBuy.Web.csproj", "{5C7E8B54-A92C-49DB-8933-9F8D4DF38978}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EBuy.Data", "EBuy.Data\EBuy.Data.csproj", "{CE31F894-58AF-49E5-9131-86B8D4E62276}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EBuy.Data", "EBuy.Data\EBuy.Data.csproj", "{CE31F894-58AF-49E5-9131-86B8D4E62276}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EBuy.Models", "EBuy.Models\EBuy.Models.csproj", "{884E84EF-E806-42E8-AA85-EB739CCFCCB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EBuy.Models", "EBuy.Models\EBuy.Models.csproj", "{884E84EF-E806-42E8-AA85-EB739CCFCCB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EBuy.Services", "EBuy.Services\EBuy.Services.csproj", "{24A8279A-ACB5-4E0C-BEC4-582FC2E139C9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EBuy.Services", "EBuy.Services\EBuy.Services.csproj", "{24A8279A-ACB5-4E0C-BEC4-582FC2E139C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandbox", "Sandbox\Sandbox.csproj", "{A40DE4FB-4364-4689-9E1D-B22A546B0ED4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{24A8279A-ACB5-4E0C-BEC4-582FC2E139C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24A8279A-ACB5-4E0C-BEC4-582FC2E139C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24A8279A-ACB5-4E0C-BEC4-582FC2E139C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A40DE4FB-4364-4689-9E1D-B22A546B0ED4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A40DE4FB-4364-4689-9E1D-B22A546B0ED4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A40DE4FB-4364-4689-9E1D-B22A546B0ED4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A40DE4FB-4364-4689-9E1D-B22A546B0ED4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

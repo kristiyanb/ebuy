@@ -4,7 +4,7 @@
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
-    public class EBuyDbContext : IdentityDbContext
+    public class EBuyDbContext : IdentityDbContext<User>
     {
         public DbSet<Category> Categories { get; set; }
 
