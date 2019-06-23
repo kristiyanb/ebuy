@@ -21,7 +21,9 @@
         {
             <tr>
                 <td>
-                    @product.Name
+                    <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
+                        @product.Name
+                    </a>
                 </td>
                 <td>
                     @product.Price
@@ -39,4 +41,3 @@
         }
     </tbody>
 </table>
-

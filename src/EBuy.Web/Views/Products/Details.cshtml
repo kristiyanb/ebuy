@@ -1,7 +1,22 @@
-﻿
+﻿@model  EBuy.Web.Models.Products.ProductViewModel
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<div class="container">
+
+    <img src="@Model.ImageUrl"/>
+    <h1>@Model.Name</h1>
+    <span>Rating: @Model.Rating</span><br />
+    <span>Price: @Model.Price</span><br /><br />
+    <p>@Model.Description</p><br />
+    <span>Currently Available: @Model.InStock</span><br />
+    <label>Quantity</label>
+    <input type="number" />
+    <button>Add to Cart</button>
+
+    <div>
+        Reviews
+    </div>
+</div>
 
