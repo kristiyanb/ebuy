@@ -1,6 +1,7 @@
 ﻿namespace EBuy.Web.Controllers
 {
     using EBuy.Services;
+    using EBuy.Web.Models.Comments;
     using EBuy.Web.Models.Products;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
@@ -33,5 +34,13 @@
 
             return View(productViewModel);
         }
+
+        //[HttpPost]
+        //public async Task<IActionResult> Comment(CommentInputModel input)
+        //{
+            
+
+        //    return View(this.Details(input.ProductId));
+        //}
     }
 }

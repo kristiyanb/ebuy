@@ -11,6 +11,8 @@
     using Microsoft.Extensions.DependencyInjection;
     using EBuy.Data;
     using EBuy.Services;
+    using EBuy.Models;
+    using System;
 
     public class Startup
     {
@@ -415,6 +417,20 @@
                     //    PurchasesCount = 247,
                     //    InStock = 59,
                     //    CategoryId = "ad3e8c65-9136-4012-8163-d905e1ef8a2a",
+                    //});
+
+                    //context.Comments.Add(new Comment()
+                    //{
+                    //    Content = "Very nice.",
+                    //    LastModified = DateTime.UtcNow,
+                    //    ProductId = "25efbf72-7b16-4b09-8c6d-c6ea8d504838"
+                    //});
+
+                    //context.Comments.Add(new Comment()
+                    //{
+                    //    Content = "Veery nice.",
+                    //    LastModified = DateTime.UtcNow,
+                    //    ProductId = "25efbf72-7b16-4b09-8c6d-c6ea8d504838"
                     //});
 
                     //context.SaveChanges();

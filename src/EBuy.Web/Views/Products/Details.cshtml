@@ -1,11 +1,11 @@
-﻿@model  EBuy.Web.Models.Products.ProductViewModel
+﻿@model EBuy.Web.Models.Products.ProductViewModel
 @{
     ViewData["Title"] = "Details";
 }
 
 <div class="container">
 
-    <img src="@Model.ImageUrl"/>
+    <img src="@Model.ImageUrl" />
     <h1>@Model.Name</h1>
     <span>Rating: @Model.Rating</span><br />
     <span>Price: @Model.Price</span><br /><br />
@@ -15,8 +15,21 @@
     <input type="number" />
     <button>Add to Cart</button>
 
-    <div>
-        Reviews
-    </div>
+    @foreach (var comment in Model.Comments)
+    {
+        <div>
+            @comment.LastModified
+            <hr />
+            @comment.Content
+        </div>
+
+        <br />
+    }
+
+    <br />
+
+    <textarea placeholder="Comment.."></textarea>
+    <button type="submit">Comment</button>
 </div>
+
 
