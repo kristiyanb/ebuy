@@ -3,33 +3,35 @@
     ViewData["Title"] = "Details";
 }
 
-<div class="container">
+    <div class="container">
 
-    <img src="@Model.ImageUrl" />
-    <h1>@Model.Name</h1>
-    <span>Rating: @Model.Rating</span><br />
-    <span>Price: @Model.Price</span><br /><br />
-    <p>@Model.Description</p><br />
-    <span>Currently Available: @Model.InStock</span><br />
-    <label>Quantity</label>
-    <input type="number" />
-    <button>Add to Cart</button>
+        <img src="@Model.ImageUrl" />
+        <h1>@Model.Name</h1>
+        <span>Rating: @Model.Rating</span><br />
+        <span>Price: @Model.Price</span><br /><br />
+        <p>@Model.Description</p><br />
+        <span>Currently Available: @Model.InStock</span><br />
+        <label>Quantity</label>
+        <input type="number" />
+        <button>Add to Cart</button>
 
-    @foreach (var comment in Model.Comments)
-    {
-        <div>
-            @comment.LastModified
+        <hr>
+
+        @foreach (var comment in Model.Comments)
+        {
+            <div>
+                @comment.User.UserName
+                <br>
+                @comment.LastModified
+                <br>
+                @comment.Content
+            </div>
+
             <hr />
-            @comment.Content
-        </div>
+        }
 
-        <br />
-    }
-
-    <br />
-
-    <textarea placeholder="Comment.."></textarea>
-    <button type="submit">Comment</button>
-</div>
+        <textarea placeholder="Comment.."></textarea>
+        <button type="submit">Comment</button>
+    </div>
 
 
