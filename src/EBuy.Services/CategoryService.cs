@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using EBuy.Data;
     using EBuy.Models;
     using Microsoft.EntityFrameworkCore;
@@ -15,15 +16,20 @@
             this.context = context;
         }
 
+        public async Task<Category> GetCategoryByName(string categoryName)
+            => await this.context.Categories
+            .FirstOrDefaultAsync(x => x.Name == categoryName);
+
         public List<string> GetCategoryNames() 
             => this.context.Categories
                 .Select(x => x.Name)
                 .ToList();
 
-        public List<Product> GetProductsByCategoryName(string categoryName)
-            => this.context.Products
+        public async Task<List<Product>> GetProductsByCategoryName(string categoryName)
+            => await this.context.Products
                 .Include(x => x.Category)
                 .Where(x => x.Category.Name == categoryName)
-                .ToList();
+                .ToListAsync();
+
     }
 }

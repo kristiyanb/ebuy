@@ -1,8 +1,8 @@
-﻿using EBuy.Models;
-using System.Collections.Generic;
-
-namespace EBuy.Web.Models.Products
+﻿namespace EBuy.Web.Models.Products
 {
+    using EBuy.Models;
+    using System.Collections.Generic;
+
     public class ProductViewModel
     {
         public string Id { get; set; }

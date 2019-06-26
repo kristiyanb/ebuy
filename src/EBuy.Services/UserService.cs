@@ -14,6 +14,8 @@
             this.context = context;
         }
 
-        public async Task<User> GetUserByUserName(string username) => await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
+        public async Task<User> GetUserByUserName(string username) 
+            => await this.context.Users
+            .FirstOrDefaultAsync(x => x.UserName == username);
     }
 }

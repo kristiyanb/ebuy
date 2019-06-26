@@ -23,20 +23,21 @@
         [Route("/Products/{name}")]
         public async Task<IActionResult> Products(string name)
         {
-            var products = this.categoryService
-                .GetProductsByCategoryName(name)
-                .Select(x => new CategoryProductsViewModel()
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Description = x.Description,
-                    Price = x.Price.ToString("F2"),
-                    Purchases = x.PurchasesCount,
-                    Rating = (x.Score / x.VotesCount).ToString("F1"),
-                    InStock = x.InStock,
-                    ImageUrl = x.ImageUrl
-                })
-                .ToList();
+            var productsFromDb = await this.categoryService
+                .GetProductsByCategoryName(name);
+
+            var products = productsFromDb.Select(x => new CategoryProductsViewModel()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Description = x.Description,
+                Price = x.Price.ToString("F2"),
+                Purchases = x.PurchasesCount,
+                Rating = x.Score != 0 ? (x.Score / x.VotesCount).ToString("F1") : "0.0",
+                InStock = x.InStock,
+                ImageUrl = x.ImageUrl
+            })
+            .ToList();
 
             var categoryViewModel = new CategoryViewModel
             {
