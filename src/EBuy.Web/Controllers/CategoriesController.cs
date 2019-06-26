@@ -20,7 +20,7 @@
             return View();
         }
 
-        [Route("{controller}/{action}/{name}")]
+        [Route("/Products/{name}")]
         public async Task<IActionResult> Products(string name)
         {
             var products = this.categoryService

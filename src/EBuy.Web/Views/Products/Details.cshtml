@@ -3,35 +3,40 @@
     ViewData["Title"] = "Details";
 }
 
-    <div class="container">
+<div class="container">
 
-        <img src="@Model.ImageUrl" />
-        <h1>@Model.Name</h1>
-        <span>Rating: @Model.Rating</span><br />
-        <span>Price: @Model.Price</span><br /><br />
-        <p>@Model.Description</p><br />
-        <span>Currently Available: @Model.InStock</span><br />
-        <label>Quantity</label>
-        <input type="number" />
-        <button>Add to Cart</button>
+    <img src="@Model.ImageUrl" />
+    <h1>@Model.Name</h1>
+    <span>Rating: @Model.Rating</span><br />
+    <span>Price: @Model.Price</span><br /><br />
+    <p>@Model.Description</p><br />
+    <span>Currently Available: @Model.InStock</span><br />
+    <label>Quantity</label>
+    <input type="number" />
+    <button>Add to Cart</button>
 
-        <hr>
+    <hr>
 
-        @foreach (var comment in Model.Comments)
-        {
-            <div>
-                @comment.User.UserName
-                <br>
-                @comment.LastModified
-                <br>
-                @comment.Content
-            </div>
+    @foreach (var comment in Model.Comments)
+    {
+        <div>
+            @comment.User.UserName
+            <br>
+            @comment.LastModified
+            <br>
+            @comment.Content
+        </div>
+        <a asp-controller="Comments" asp-action="Edit">Edit</a>
+        <a asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id">Delete</a>
+        <hr />
+    }
 
-            <hr />
-        }
-
-        <textarea placeholder="Comment.."></textarea>
+    <form asp-controller="Comments" asp-action="Add">
+        <input type="hidden" name="username" value="@User.Identity.Name" />
+        <input type="hidden" name="productId" value="@Model.Id" />
+        <textarea placeholder="Comment.." name="content"></textarea>
         <button type="submit">Comment</button>
-    </div>
+    </form>
+</div>
 
 

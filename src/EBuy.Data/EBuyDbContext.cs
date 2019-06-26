@@ -1,5 +1,6 @@
 ﻿namespace EBuy.Data
 {
+    using System;
     using EBuy.Models;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,11 @@
         public EBuyDbContext(DbContextOptions<EBuyDbContext> options)
             : base(options)
         {
+        }
+
+        public object FirstOrDefaultAsync(string commentId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
