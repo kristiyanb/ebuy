@@ -1,0 +1,8 @@
+.checked {
+    color: darkorange;
+}
+
+.rating {
+    float: left;
+    font-size: 80%;
+}

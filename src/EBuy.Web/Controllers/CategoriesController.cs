@@ -31,7 +31,7 @@
                 Id = x.Id,
                 Name = x.Name,
                 Price = x.Price.ToString("F2"),
-                Rating = x.Score != 0 ? (x.Score / x.VotesCount).ToString("F1") : "0.0",
+                Rating = x.Score != 0 ? (x.Score / x.VotesCount) : 0,
                 ImageUrl = x.ImageUrl
             })
             .ToList();

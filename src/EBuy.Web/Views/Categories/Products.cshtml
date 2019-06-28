@@ -4,20 +4,60 @@
     ViewData["Title"] = "Products";
 }
 
-<h1 class="text-center mb-5">@Model.Name</h1>
+<h1>@Model.Name</h1>
+<div class="d-flex justify-content-between">
+    <div class="text-black-50">
+        @Model.Products.Count Products
+    </div>
+    <div class="dropdown show">
+        <a class="btn text-dark dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Sort By
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="dropdown-item" href="#">Name</a>
+            <a class="dropdown-item" href="#">Rating</a>
+            <a class="dropdown-item" href="#">Price Asc.</a>
+            <a class="dropdown-item" href="#">Price Desc.</a>
+        </div>
+    </div>
+</div>
+
+<hr class="mb-5" />
 
 <div class="d-flex flex-md-wrap">
     @foreach (var product in Model.Products)
     {
-        <div class="w-25 mb-4">
+        <div class="col-md-3 mb-3 mt-3">
             <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
                 <img src="@product.ImageUrl" class="w-100 h-75" />
-                <span class="mt-1">Rating: @product.Rating</span>
-                <br />
-                <span class="mt-1">@product.Name</span>
-                <br />
-                <span class="mt-1">$@product.Price</span>
+
             </a>
+            <div class="rating">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    if (product.Rating >= i)
+                    {
+                        <span class="fa fa-star checked" id="star@(i)"></span>
+                    }
+                    else if (i - product.Rating <= 0.5)
+                    {
+                        <span class="fa fa-star checked" id="star@(i)"></span>
+                    }
+                    else
+                    {
+                        <span class="fa fa-star" id="star@(i)"></span>
+                    }
+                }
+            </div>
+            <div>
+                <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="text-black-50">
+                    <br />
+                    <span class="mt-1">@product.Name</span>
+                    <br />
+                    <span class="mt-1">$@product.Price</span>
+                </a>
+            </div>
         </div>
     }
 </div>
