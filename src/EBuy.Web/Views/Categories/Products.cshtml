@@ -4,40 +4,20 @@
     ViewData["Title"] = "Products";
 }
 
-<h1>@Model.Name</h1>
+<h1 class="text-center mb-5">@Model.Name</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Price</th>
-            <th scope="col">Rating</th>
-            <th scope="col">Purchases</th>
-            <th scope="col">Available In Stock</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var product in Model.Products)
-        {
-            <tr>
-                <td>
-                    <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
-                        @product.Name
-                    </a>
-                </td>
-                <td>
-                    @product.Price
-                </td>
-                <td>
-                    @product.Rating
-                </td>
-                <td>
-                    @product.Purchases
-                </td>
-                <td>
-                    @product.InStock
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="d-flex flex-md-wrap">
+    @foreach (var product in Model.Products)
+    {
+        <div class="w-25 mb-4">
+            <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
+                <img src="@product.ImageUrl" class="w-100 h-75" />
+                <span class="mt-1">Rating: @product.Rating</span>
+                <br />
+                <span class="mt-1">@product.Name</span>
+                <br />
+                <span class="mt-1">$@product.Price</span>
+            </a>
+        </div>
+    }
+</div>

@@ -30,11 +30,8 @@
             {
                 Id = x.Id,
                 Name = x.Name,
-                Description = x.Description,
                 Price = x.Price.ToString("F2"),
-                Purchases = x.PurchasesCount,
                 Rating = x.Score != 0 ? (x.Score / x.VotesCount).ToString("F1") : "0.0",
-                InStock = x.InStock,
                 ImageUrl = x.ImageUrl
             })
             .ToList();

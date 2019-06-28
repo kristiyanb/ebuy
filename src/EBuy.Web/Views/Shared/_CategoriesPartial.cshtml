@@ -2,9 +2,9 @@
 @inject ICategoryService CategoryService
 
 <div class="dropdown">
-    <button class="nav-link btn btn-link text-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <a class="nav-link btn btn-link text-dark dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Categories
-    </button>
+    </a>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         @foreach (var category in CategoryService.GetCategoryNames())
         {
