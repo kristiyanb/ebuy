@@ -3,40 +3,52 @@
     ViewData["Title"] = "Details";
 }
 
-<div class="container">
+<div class="container d-flex justify-content-between">
 
-    <img src="@Model.ImageUrl" />
-    <h1>@Model.Name</h1>
-    <span>Rating: @Model.Rating</span><br />
-    <span>Price: @Model.Price</span><br /><br />
-    <p>@Model.Description</p><br />
-    <span>Currently Available: @Model.InStock</span><br />
-    <label>Quantity</label>
-    <input type="number" />
-    <button>Add to Cart</button>
-
-    <hr>
-
-    @foreach (var comment in Model.Comments)
-    {
-        <div>
-            @comment.User.UserName
-            <br>
-            @comment.LastModified
-            <br>
-            @comment.Content
-        </div>
-        <a asp-controller="Comments" asp-action="Edit">Edit</a>
-        <a asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id">Delete</a>
+    <img class="w-50" src="@Model.ImageUrl" />
+    <div class="container">
+        <h1>@Model.Name</h1>
+        <p>Currently Available: @Model.InStock</p><br />
+        <span class="mt-5">Rating: @Model.Rating</span><br />
+        <span>$@Model.Price</span><br /><br />
         <hr />
-    }
-
-    <form asp-controller="Comments" asp-action="Add">
-        <input type="hidden" name="username" value="@User.Identity.Name" />
-        <input type="hidden" name="productId" value="@Model.Id" />
-        <textarea placeholder="Comment.." name="content"></textarea>
-        <button type="submit">Comment</button>
-    </form>
+        <p>@Model.Description</p><br />
+        <hr />
+        <form class="form-group w-25" method="post">
+            <label>Quantity</label>
+            <div class="d-flex justify-content-between">
+                <div class="d-flex border h-25">
+                    <button class="btn bg-white">-</button>
+                    <input class="form-control border-0" type="number" />
+                    <button class="btn bg-white">+</button>
+                </div>
+                <button class="btn btn-danger text-light ml-5 w-100" type="submit">Add to Cart</button>
+            </div>
+        </form>
+    </div>
 </div>
+
+<hr>
+
+@foreach (var comment in Model.Comments)
+{
+<div>
+    @comment.User.UserName
+    <br>
+    @comment.LastModified
+    <br>
+    @comment.Content
+</div>
+<a asp-controller="Comments" asp-action="Edit">Edit</a>
+<a asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id">Delete</a>
+<hr />
+}
+
+<form asp-controller="Comments" asp-action="Add">
+    <input type="hidden" name="username" value="@User.Identity.Name" />
+    <input type="hidden" name="productId" value="@Model.Id" />
+    <textarea placeholder="Comment.." name="content"></textarea>
+    <button type="submit">Comment</button>
+</form>
 
 

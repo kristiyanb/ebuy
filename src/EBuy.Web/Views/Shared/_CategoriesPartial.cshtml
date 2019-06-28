@@ -2,7 +2,7 @@
 @inject ICategoryService CategoryService
 
 <div class="dropdown">
-    <a class="nav-link btn btn-link text-dark dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <a asp-controller="Categories" asp-action="Index" class="nav-link btn btn-link text-dark" id="dropdownMenuButton" aria-haspopup="true" aria-expanded="false">
         Categories
     </a>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">

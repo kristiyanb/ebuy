@@ -1,1 +1,11 @@
-﻿
+﻿@using EBuy.Services;
+@inject ICategoryService CategoryService
+
+<table>
+    @foreach (var category in CategoryService.GetCategoryNames())
+    {
+        <tr>
+            <td>@category</td>
+        </tr>
+    }
+</table>
