@@ -19,7 +19,7 @@
         {
             var product = await this.productService.GetProductById(id);
 
-            var productViewModel = new ProductViewModel()
+            var productViewModel = new ProductDetailsModel()
             {
                 Id = id,
                 Name = product.Name,

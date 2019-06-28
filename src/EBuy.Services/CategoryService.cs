@@ -18,9 +18,9 @@
 
         public async Task<Category> GetCategoryByName(string categoryName)
             => await this.context.Categories
-            .FirstOrDefaultAsync(x => x.Name == categoryName);
+                .FirstOrDefaultAsync(x => x.Name == categoryName);
 
-        public List<string> GetCategoryNames() 
+        public List<string> GetCategoryNames()
             => this.context.Categories
                 .Select(x => x.Name)
                 .ToList();
@@ -31,5 +31,9 @@
                 .Where(x => x.Category.Name == categoryName)
                 .ToListAsync();
 
+        public async Task<List<Category>> GetCategories()
+            => await this.context.Categories
+                .Include(x => x.Products)
+                .ToListAsync();
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace EBuy.Web.Models.Categories
+﻿namespace EBuy.Web.Models.Products
 {
-    public class CategoryProductsViewModel
+    public class ProductGridModel
     {
         public string Id { get; set; }
 

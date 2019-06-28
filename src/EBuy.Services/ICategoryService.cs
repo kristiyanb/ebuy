@@ -11,5 +11,7 @@
         Task<List<Product>> GetProductsByCategoryName(string categoryName);
 
         Task<Category> GetCategoryByName(string categoryName);
+
+        Task<List<Category>> GetCategories();
     }
 }

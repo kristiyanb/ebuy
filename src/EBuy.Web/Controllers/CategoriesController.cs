@@ -2,6 +2,7 @@
 {
     using EBuy.Services;
     using EBuy.Web.Models.Categories;
+    using EBuy.Web.Models.Products;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;
     using System.Threading.Tasks;
@@ -15,9 +16,21 @@
             this.categoryService = categoryService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var categories = await this.categoryService.GetCategories();
+
+            var categoriesViewModel = new CategoriesIndexViewModel()
+            {
+                Categories = categories.Select(x => new CategoryGridModel()
+                {
+                    Name = x.Name,
+                    ImageUrl = x.ImageUrl,
+                    ProductCount = x.Products.Count
+                }).ToList()
+            };
+
+            return View(categoriesViewModel);
         }
 
         [Route("/Products/{name}")]
@@ -26,7 +39,7 @@
             var productsFromDb = await this.categoryService
                 .GetProductsByCategoryName(name);
 
-            var products = productsFromDb.Select(x => new CategoryProductsViewModel()
+            var products = productsFromDb.Select(x => new ProductGridModel()
             {
                 Id = x.Id,
                 Name = x.Name,

@@ -1,14 +1,13 @@
-﻿@model EBuy.Web.Models.Products.ProductViewModel
+﻿@model EBuy.Web.Models.Products.ProductDetailsModel
 @{
     ViewData["Title"] = "Details";
 }
 
-<div class="container d-flex justify-content-between">
-
+<div class="container d-flex justify-content-between mt-5">
     <img class="w-50" src="@Model.ImageUrl" />
     <div class="container">
         <h1>@Model.Name</h1>
-        <p>Currently Available: @Model.InStock</p><br />
+        <p class="font-weight-light">Currently Available: @Model.InStock</p><br />
         <span class="mt-5">Rating: @Model.Rating</span><br />
         <span>$@Model.Price</span><br /><br />
         <hr />

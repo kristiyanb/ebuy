@@ -30,6 +30,10 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
+                    <form asp-controller="Home" asp-action="SearchResult" class="form-inline mr-5 border">
+                        <input class="form-control border-0" type="text" placeholder="Search" aria-label="Search" id="searchParam" name="searchParam">
+                        <button class="btn bg-white" type="submit">&#128269;</button>
+                    </form>
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <partial name="_CategoriesPartial" />

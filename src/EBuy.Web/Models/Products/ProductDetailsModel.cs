@@ -3,7 +3,7 @@
     using EBuy.Models;
     using System.Collections.Generic;
 
-    public class ProductViewModel
+    public class ProductDetailsModel
     {
         public string Id { get; set; }
 

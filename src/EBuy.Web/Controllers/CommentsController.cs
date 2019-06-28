@@ -25,7 +25,7 @@
 
             var product = await this.productService.GetProductById(input.ProductId);
 
-            var productViewModel = new ProductViewModel()
+            var productViewModel = new ProductDetailsModel()
             {
                 Id = product.Id,
                 Name = product.Name,
@@ -47,7 +47,7 @@
 
             var product = await this.productService.GetProductById(comment.ProductId);
 
-            var productViewModel = new ProductViewModel()
+            var productViewModel = new ProductDetailsModel()
             {
                 Id = product.Id,
                 Name = product.Name,

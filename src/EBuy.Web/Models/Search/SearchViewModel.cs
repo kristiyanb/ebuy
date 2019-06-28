@@ -1,15 +1,10 @@
-﻿namespace EBuy.Web.Models.Categories
+﻿namespace EBuy.Web.Models.Search
 {
     using EBuy.Web.Models.Products;
     using System.Collections.Generic;
 
-    public class CategoryViewModel
+    public class SearchViewModel
     {
-        public CategoryViewModel()
-        {
-            this.Products = new List<ProductGridModel>();
-        }
-
         public string Name { get; set; }
 
         public List<ProductGridModel> Products { get; set; }
