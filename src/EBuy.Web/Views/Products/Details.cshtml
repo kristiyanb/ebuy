@@ -3,7 +3,7 @@
     ViewData["Title"] = "Details";
 }
 
-<div class="container d-flex justify-content-between mt-5">
+<div class="container d-flex justify-content-between mt-5 mb-5">
     <img class="w-50" src="@Model.ImageUrl" />
     <div class="container">
         <h1>@Model.Name</h1>
@@ -18,7 +18,7 @@
             <div class="d-flex justify-content-between">
                 <div class="d-flex border h-25">
                     <button class="btn bg-white" id="quantity-decrement" type="button">-</button>
-                    <input class="quantity border-0" id="quantity" type="number" name="quantity" value="1"/>
+                    <input class="quantity border-0" id="quantity" type="number" name="quantity" value="1" />
                     <button class="btn bg-white" id="quantity-increment" type="button">+</button>
                 </div>
                 <button class="btn btn-danger text-light ml-5 w-100" type="submit">Add to Cart</button>
@@ -27,27 +27,75 @@
     </div>
 </div>
 
-<hr>
+<div class="col-12 mt-5">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a class="nav-link btn btn-link text-dark" data-toggle="tab" href="#home">Product Info</a>
+        </li>
+        <li>
+            <a class="nav-link btn btn-link text-dark" data-toggle="tab" href="#menu1">Comments</a>
+        </li>
+        <li>
+            <a class="nav-link btn btn-link text-dark" data-toggle="tab" href="#menu2">Delivery</a>
+        </li>
+    </ul>
 
-@foreach (var comment in Model.Comments)
-{
-<div>
-    @comment.User.UserName
-    <br>
-    @comment.LastModified
-    <br>
-    @comment.Content
+    <div class="tab-content mt-3 mb-3">
+        <div id="home" class="tab-pane fade in active">
+            <div class="col-12 d-flex text-center">
+                @Model.Description
+            </div>
+        </div>
+        <div id="menu1" class="tab-pane fade">
+            @foreach (var comment in Model.Comments)
+            {
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <h6>@comment.Content</h6>
+                    </div>
+                    <div class="mr-3">
+                        @comment.User.UserName
+                        <br>
+                        @comment.LastModified
+                        <br>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            if (User.Identity.Name == comment.User.UserName)
+                            {
+                                <a class="btn btn-danger text-light" asp-controller="Comments" asp-action="Edit">Edit</a>
+                                <a class="btn btn-danger text-light" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id">Delete</a>
+                            }
+                            if (User.IsInRole("Admin"))
+                            {
+                                <a class="btn btn-danger text-light" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id">Delete</a>
+                            }
+                        }
+                    </div>
+                </div>
+                <hr />
+            }
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <form asp-controller="Comments" asp-action="Add">
+                    <input type="hidden" name="username" value="@User.Identity.Name" />
+                    <input type="hidden" name="productId" value="@Model.Id" />
+                    <textarea class="float-xl-none form-control mb-2" name="content"></textarea>
+                    <button class="btn btn-danger text-light" type="submit">Comment</button>
+                </form>
+            }
+            else
+            {
+                //TODO: Redirect to same page after login
+                <div class="container text-center">
+                    <a class="nav-link btn btn-link text-dark border" asp-area="Identity" asp-page="/Account/Login">
+                        Log in to post a comment
+                    </a>
+                </div>
+            }
+        </div>
+        <div id="menu2" class="tab-pane fade">
+            <p>Delivery info.</p>
+        </div>
+    </div>
 </div>
-<a asp-controller="Comments" asp-action="Edit">Edit</a>
-<a asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id">Delete</a>
-<hr />
-}
-
-<form asp-controller="Comments" asp-action="Add">
-    <input type="hidden" name="username" value="@User.Identity.Name" />
-    <input type="hidden" name="productId" value="@Model.Id" />
-    <textarea placeholder="Comment.." name="content"></textarea>
-    <button type="submit">Comment</button>
-</form>
-
-
