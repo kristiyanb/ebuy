@@ -25,11 +25,27 @@
                 .Select(x => x.Name)
                 .ToList();
 
-        public async Task<List<Product>> GetProductsByCategoryName(string categoryName)
-            => await this.context.Products
+        public async Task<List<Product>> GetProductsByCategoryName(string categoryName, string orderBy)
+        {
+            var products = this.context.Products
                 .Include(x => x.Category)
-                .Where(x => x.Category.Name == categoryName)
-                .ToListAsync();
+                .Where(x => x.Category.Name == categoryName);
+
+            if (orderBy != null)
+            {
+                switch (orderBy)
+                {
+                    case "Name": products = products.OrderBy(x => x.Name); break;
+                    case "Rating": products = products.OrderByDescending(x => (x.Score / x.VotesCount)); break;
+                    case "Price": products = products.OrderBy(x => x.Price); break;
+                    case "PriceDescending": products = products.OrderByDescending(x => x.Price); break;
+                    default: break;
+                }
+            }
+
+            return await products.ToListAsync();
+        }
+
 
         public async Task<List<Category>> GetCategories()
             => await this.context.Categories

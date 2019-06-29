@@ -8,7 +8,7 @@
     {
         List<string> GetCategoryNames();
 
-        Task<List<Product>> GetProductsByCategoryName(string categoryName);
+        Task<List<Product>> GetProductsByCategoryName(string categoryName, string orderBy);
 
         Task<Category> GetCategoryByName(string categoryName);
 

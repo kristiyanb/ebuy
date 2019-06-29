@@ -28,7 +28,7 @@
             return View();
         }
 
-        public async  Task<IActionResult> SearchResult(string searchParam)
+        public async  Task<IActionResult> SearchResult(string searchParam, string orderBy)
         {
             var products = await this.productService.GetProductsByNameOrCategoryMatch(searchParam);
 

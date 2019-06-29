@@ -15,10 +15,10 @@
         </a>
 
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            <a class="dropdown-item" href="#">Name</a>
-            <a class="dropdown-item" href="#">Rating</a>
-            <a class="dropdown-item" href="#">Price Asc.</a>
-            <a class="dropdown-item" href="#">Price Desc.</a>
+            <a class="dropdown-item" asp-controller="Categories" asp-action="Products" asp-route-orderBy="Name">Name</a>
+            <a class="dropdown-item" asp-controller="Categories" asp-action="Products" asp-route-orderBy="Rating">Rating</a>
+            <a class="dropdown-item" asp-controller="Categories" asp-action="Products" asp-route-orderBy="Price">Price Asc.</a>
+            <a class="dropdown-item" asp-controller="Categories" asp-action="Products" asp-route-orderBy="PriceDescending">Price Desc.</a>
         </div>
     </div>
 </div>

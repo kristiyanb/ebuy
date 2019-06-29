@@ -34,10 +34,10 @@
         }
 
         [Route("/Products/{name}")]
-        public async Task<IActionResult> Products(string name)
+        public async Task<IActionResult> Products(string name, string orderBy)
         {
             var productsFromDb = await this.categoryService
-                .GetProductsByCategoryName(name);
+                .GetProductsByCategoryName(name, orderBy);
 
             var products = productsFromDb.Select(x => new ProductGridModel()
             {
