@@ -32,5 +32,7 @@
 
             return products;
         }
+
+        public Task<List<Product>> GetLastFiveProducts() => this.context.Products.Take(5).ToListAsync();
     }
 }

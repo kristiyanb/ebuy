@@ -10,5 +10,7 @@
         Task<Product> GetProductById(string id);
 
         Task<List<Product>> GetProductsByNameOrCategoryMatch(string searchParam);
+
+        Task<List<Product>> GetLastFiveProducts();
     }
 }

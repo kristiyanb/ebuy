@@ -13,5 +13,11 @@ function incrementQuantity(e) {
 
 function decrementQuantity(e) {
     e.preventDefault();
+
+    if (+quantity.value === 1) {
+        quantity.value = 1;
+        return;
+    } 
+
     quantity.value = +quantity.value - 1;
 }

@@ -18,9 +18,23 @@
             this.productService = productService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var products = await this.productService.GetLastFiveProducts();
+
+            var carouselModel = new ProductsCarouselModel()
+            {
+                Products = products.Select(x => new ProductGridModel()
+                {
+                    Id = x.Id,
+                    ImageUrl = x.ImageUrl,
+                    Name = x.Name,
+                    Price = x.Price.ToString("F2"),
+                    Rating = x.Score != 0 ? (x.Score / x.VotesCount) : 0
+                }).ToList()
+            };
+
+            return View(carouselModel);
         }
 
         public IActionResult Contacts()
@@ -28,7 +42,7 @@
             return View();
         }
 
-        public async  Task<IActionResult> SearchResult(string searchParam, string orderBy)
+        public async Task<IActionResult> SearchResult(string searchParam, string orderBy)
         {
             var products = await this.productService.GetProductsByNameOrCategoryMatch(searchParam);
 
