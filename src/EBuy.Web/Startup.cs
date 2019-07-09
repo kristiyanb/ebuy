@@ -12,6 +12,8 @@
     using EBuy.Data;
     using EBuy.Services;
     using EBuy.Models;
+    using EBuy.Services.Mapping;
+    using EBuy.Web.Models;
 
     public class Startup
     {
@@ -25,6 +27,8 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).Assembly);
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
