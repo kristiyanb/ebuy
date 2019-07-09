@@ -13,5 +13,7 @@
         Task<Category> GetCategoryByName(string categoryName);
 
         Task<List<Category>> GetCategories();
+
+        Task Add(Category category);
     }
 }

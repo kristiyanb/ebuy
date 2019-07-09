@@ -2,13 +2,13 @@
 @inject ICategoryService CategoryService
 
 <div class="dropdown dropdown-hover">
-    <a asp-controller="Categories" asp-action="Index" class="nav-link btn btn-link text-dark" id="dropdownMenuButton">
+    <a asp-area="" asp-controller="Categories" asp-action="Index" class="nav-link btn btn-link text-dark" id="dropdownMenuButton">
         Categories
     </a>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         @foreach (var category in CategoryService.GetCategoryNames())
         {
-            <a class="dropdown-item" asp-controller="Categories" asp-action="Products" asp-route-name="@category">@category</a>
+            <a class="dropdown-item" asp-area="" asp-controller="Categories" asp-action="Products" asp-route-name="@category">@category</a>
         }
     </div>
 </div>

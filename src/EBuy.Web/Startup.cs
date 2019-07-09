@@ -55,7 +55,6 @@
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IAdminService, AdminService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,6 +80,10 @@
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "areaRoute", 
+                    template: "{area:exists}/{controller=Dashboard}/{action=Index}");
+
                 routes.MapRoute(
                     name: "sortedProducts",
                     template: "{controller}/{action}/{name}/{orderBy}");

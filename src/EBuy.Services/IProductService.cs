@@ -12,5 +12,7 @@
         Task<List<Product>> GetProductsByNameOrCategoryMatch(string searchParam);
 
         Task<List<Product>> GetLastFiveProducts();
+
+        Task Add(Product product);
     }
 }

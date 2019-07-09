@@ -51,5 +51,11 @@
             => await this.context.Categories
                 .Include(x => x.Products)
                 .ToListAsync();
+
+        public async Task Add(Category category)
+        {
+            await this.context.Categories.AddAsync(category);
+            await this.context.SaveChangesAsync();
+        }
     }
 }

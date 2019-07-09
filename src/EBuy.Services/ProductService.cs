@@ -34,5 +34,11 @@
         }
 
         public Task<List<Product>> GetLastFiveProducts() => this.context.Products.Take(5).ToListAsync();
+
+        public async Task Add(Product product)
+        {
+            await this.context.Products.AddAsync(product);
+            await this.context.SaveChangesAsync();
+        }
     }
 }

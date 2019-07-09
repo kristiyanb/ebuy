@@ -1,4 +1,4 @@
-﻿namespace EBuy.Web.Models.Admin
+﻿namespace EBuy.Web.Areas.Admin.Models
 {
     public class CategoryInputModel
     {

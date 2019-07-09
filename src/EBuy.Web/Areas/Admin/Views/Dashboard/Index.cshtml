@@ -1,0 +1,11 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h1 class="text-center">Admin Panel</h1>
+
+<div class="d-flex justify-content-between mt-5 text-light">
+    <a asp-area="Admin" asp-controller="Products" asp-action="Add" class="btn btn-primary">Add Product</a>
+    <a asp-area="Admin" asp-controller="Categories" asp-action="Add" class="btn btn-primary">Add Category</a>
+    <a asp-area="Admin" asp-action="AddCompany" class="btn btn-primary">Add Company</a>
+</div>
