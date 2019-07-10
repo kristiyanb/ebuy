@@ -7,7 +7,14 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            <a class="nav-link btn btn-link text-dark" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+            @if (User.IsInRole("Administrator") || User.IsInRole("Employee"))
+            {
+                <a class="nav-link btn btn-link text-dark" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+            }
+            else
+            {
+                <a class="nav-link btn btn-link text-dark">Shopping Cart</a>
+            }
         </li>
         <li class="nav-item">
             <a class="nav-link btn btn-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">My Profile</a>
@@ -25,6 +32,6 @@
         </li>
         <li class="nav-item">
             <a class="nav-link btn btn-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
-        </li> 
+        </li>
     }
 </ul>
