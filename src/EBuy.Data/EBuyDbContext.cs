@@ -16,6 +16,10 @@
 
         public DbSet<Purchase> Purchases { get; set; }
 
+        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
+
+        public DbSet<ShoppingCartProduct> ShoppingCartProducts { get; set; }
+
         public DbSet<PurchasedProduct> PurchasedProducts { get; set; }
 
         public EBuyDbContext(DbContextOptions<EBuyDbContext> options)
