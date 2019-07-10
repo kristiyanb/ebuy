@@ -1,11 +1,10 @@
 ﻿namespace EBuy.Data
 {
-    using System;
     using EBuy.Models;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
 
-    public class EBuyDbContext : IdentityDbContext<User>
+    public class EBuyDbContext : IdentityDbContext<User, Role, string>
     {
         public DbSet<Category> Categories { get; set; }
 
@@ -22,11 +21,6 @@
         public EBuyDbContext(DbContextOptions<EBuyDbContext> options)
             : base(options)
         {
-        }
-
-        public object FirstOrDefaultAsync(string commentId)
-        {
-            throw new NotImplementedException();
         }
     }
 }

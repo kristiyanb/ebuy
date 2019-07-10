@@ -15,6 +15,8 @@
 
         public string LastName { get; set; }
 
+        public string ImageUrl { get; set; }
+
         public DateTime LastOnline { get; set; }
 
         public DateTime RegisteredOn { get; set; }

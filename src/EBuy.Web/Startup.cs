@@ -40,6 +40,7 @@
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<User>()
+                .AddRoles<Role>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<EBuyDbContext>();
 
@@ -85,7 +86,7 @@
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "areaRoute", 
+                    name: "areaRoute",
                     template: "{area:exists}/{controller=Dashboard}/{action=Index}");
 
                 routes.MapRoute(
