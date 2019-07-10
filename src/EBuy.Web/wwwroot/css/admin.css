@@ -85,13 +85,13 @@ a:focus {
 
 #sidebar ul li a:hover {
     color: #fff;
-    background: #c40037;
+    background: #e8465d;
 }
 
 #sidebar ul li.active>a,
 a[aria-expanded="true"] {
     color: #fff;
-    background: #c40037;
+    background: #e8465d;
 }
 
 a[data-toggle="collapse"] {
@@ -109,7 +109,7 @@ a[data-toggle="collapse"] {
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: #db0b45;
+    background: #f55f75;
 }
 
 ul.CTAs {
