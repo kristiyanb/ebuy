@@ -88,3 +88,9 @@ input[type=number]::-webkit-outer-spin-button {
     width: 2rem;
     text-align: center;
 }
+
+@media (min-width: 768px) {
+    .dropdown-menu {
+        width: 300px !important;
+    }
+}
