@@ -30,7 +30,7 @@
         <hr />
         <p>@Model.Description</p><br />
         <hr />
-        <form class="form-group w-25" method="post">
+        <form class="form-group w-25" method="post" asp-area="" asp-controller="ShoppingCart" asp-action="Add">
             <label>Quantity</label>
             <div class="d-flex justify-content-between">
                 <div class="d-flex border h-25">
@@ -38,6 +38,9 @@
                     <input class="quantity border-0" id="quantity" type="number" name="quantity" value="1" />
                     <button class="btn bg-white" id="quantity-increment" type="button">+</button>
                 </div>
+                <input hidden="hidden" name="name" value="@Model.Name" />
+                <input hidden="hidden" name="imageUrl" value="@Model.ImageUrl" />
+                <input hidden="hidden" name="price" value="@Model.Price" />
                 <button class="btn btn-danger text-light ml-5 w-100" type="submit">Add to Cart</button>
             </div>
         </form>
