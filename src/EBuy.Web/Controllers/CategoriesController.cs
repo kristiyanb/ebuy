@@ -18,44 +18,18 @@
 
         public async Task<IActionResult> Index()
         {
-            var categories = this.categoryService.GetCategories();
+            var categories = await this.categoryService.GetCategories<CategoryGridModel>();
 
-            var categoriesViewModel = new CategoriesIndexViewModel()
-            {
-                Categories = categories.Select(x => new CategoryGridModel()
-                {
-                    Name = x.Name,
-                    ImageUrl = x.ImageUrl,
-                    ProductCount = x.Products.Count
-                }).ToList()
-            };
-
-            return View(categoriesViewModel);
+            return View(new CategoriesIndexViewModel { Categories = categories.ToList() });
         }
 
         [Route("/Products/{name}")]
         public async Task<IActionResult> Products(string name, string orderBy)
         {
-            var productsFromDb = this.categoryService
-                .GetProductsByCategoryName(name, orderBy);
+            var products = await this.categoryService
+                .GetProductsByCategoryName<ProductGridModel>(name, orderBy);
 
-            var products = productsFromDb.Select(x => new ProductGridModel()
-            {
-                Id = x.Id,
-                Name = x.Name,
-                Price = x.Price.ToString("F2"),
-                Rating = x.Score != 0 ? (x.Score / x.VotesCount) : 0,
-                ImageUrl = x.ImageUrl
-            })
-            .ToList();
-
-            var categoryViewModel = new CategoryViewModel
-            {
-                Name = name,
-                Products = products
-            };
-
-            return View(categoryViewModel);
+            return View(new CategoryViewModel { Name = name, Products = products.ToList() });
         }
     }
 }

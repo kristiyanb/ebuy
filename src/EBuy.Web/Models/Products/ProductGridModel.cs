@@ -1,6 +1,9 @@
 ﻿namespace EBuy.Web.Models.Products
 {
-    public class ProductGridModel
+    using EBuy.Models;
+    using EBuy.Services.Mapping;
+
+    public class ProductGridModel : IMapFrom<Product>
     {
         public string Id { get; set; }
 

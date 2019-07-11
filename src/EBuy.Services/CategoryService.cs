@@ -5,6 +5,8 @@
     using Microsoft.EntityFrameworkCore;
     using EBuy.Data;
     using EBuy.Models;
+    using EBuy.Services.Mapping;
+    using System.Threading.Tasks;
 
     public class CategoryService : ICategoryService
     {
@@ -24,7 +26,7 @@
                 .Select(x => x.Name)
                 .ToList();
 
-        public List<Product> GetProductsByCategoryName(string categoryName, string orderBy)
+        public async Task<IEnumerable<TViewModel>> GetProductsByCategoryName<TViewModel>(string categoryName, string orderBy)
         {
             var products = this.context.Products
                 .Include(x => x.Category)
@@ -42,18 +44,19 @@
                 }
             }
 
-            return products.ToList();
+            return await products.To<TViewModel>().ToListAsync();
         }
 
-        public List<Category> GetCategories()
-            => this.context.Categories
+        public async Task<IEnumerable<TViewModel>> GetCategories<TViewModel>()
+            => await this.context.Categories
                 .Include(x => x.Products)
-                .ToList();
+                .To<TViewModel>()
+                .ToListAsync();
 
-        public void Add(Category category)
+        public async Task Add(Category category)
         {
-            this.context.Categories.AddAsync(category);
-            this.context.SaveChangesAsync();
+            await this.context.Categories.AddAsync(category);
+            await this.context.SaveChangesAsync();
         }
     }
 }

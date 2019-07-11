@@ -18,34 +18,37 @@
 
         public async Task<IActionResult> Index()
         {
-            var shoppingCart = this.shoppingCartService.GetShoppingCartByUsername(this.User.Identity.Name).FirstOrDefault();
+            var products = await this.shoppingCartService
+                .GetShoppingCartProductsByUsername<ShoppingCartProductViewModel>(this.User.Identity.Name);
 
-            var shoppingCartViewModel = new ShoppingCartViewModel()
-            {
-                Products = shoppingCart.Products
-                    .Select(x => new ShoppingCartProductViewModel()
-                    {
-                        Id = x.Id,
-                        Name = x.Name,
-                        ImageUrl = x.ImageUrl,
-                        Price = x.Price,
-                        Quantity = x.Quantity
-                    }).ToList()
-            };
+            //var shoppingCartViewModel = new ShoppingCartViewModel()
+            //{
+            //    Products = shoppingCart.Products
+            //        .Select(x => new ShoppingCartProductViewModel()
+            //        {
+            //            Id = x.Id,
+            //            Name = x.Name,
+            //            ImageUrl = x.ImageUrl,
+            //            Price = x.Price,
+            //            Quantity = x.Quantity
+            //        }).ToList()
+            //};
 
-            return View(shoppingCartViewModel);
+            return View(new ShoppingCartViewModel { Products = products.ToList() });
         }
 
         [HttpPost]
         public async Task<IActionResult> Add(ShoppingCartProductInputModel input)
         {
-            this.shoppingCartService.AddProduct(new ShoppingCartProduct()
+            var shoppingCart = this.shoppingCartService.GetShoppingCartByUsername(this.User.Identity.Name);
+
+            await this.shoppingCartService.AddProduct(new ShoppingCartProduct()
             {
                 Name = input.Name,
                 ImageUrl = input.ImageUrl,
                 Price = input.Price,
                 Quantity = input.Quantity,
-                ShoppingCartId = this.shoppingCartService.GetShoppingCartByUsername(this.User.Identity.Name).First().Id
+                ShoppingCartId = shoppingCart.Id
             });
 
             return Redirect("/ShoppingCart/Index");
@@ -53,7 +56,7 @@
 
         public async Task<IActionResult> Remove(string id)
         {
-            this.shoppingCartService.RemoveProduct(id);
+            await this.shoppingCartService.RemoveProduct(id);
 
             return Redirect("/ShoppingCart/Index");
         }

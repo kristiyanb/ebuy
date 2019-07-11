@@ -2,8 +2,11 @@
 {
     using EBuy.Data;
     using EBuy.Models;
+    using EBuy.Services.Mapping;
     using Microsoft.EntityFrameworkCore;
+    using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     public class ShoppingCartService : IShoppingCartService
     {
@@ -14,31 +17,29 @@
             this.context = context;
         }
 
-        public void AddProduct(ShoppingCartProduct product)
+        public async Task AddProduct(ShoppingCartProduct product)
         {
-            this.context.Add(product);
-            this.context.SaveChanges();
+            await this.context.AddAsync(product);
+            await this.context.SaveChangesAsync();
         }
 
-        public bool RemoveProduct(string id)
+        public async Task RemoveProduct(string id)
         {
-            var product = this.context.ShoppingCartProducts.FirstOrDefault(x => x.Id == id);
-
-            if (product == null)
-            {
-                return false;
-            }
+            var product = await this.context.ShoppingCartProducts.FirstOrDefaultAsync(x => x.Id == id);
 
             this.context.ShoppingCartProducts.Remove(product);
-            this.context.SaveChanges();
-
-            return true;
+            await this.context.SaveChangesAsync();
         }
 
-        public IQueryable<ShoppingCart> GetShoppingCartByUsername(string username)
+        public ShoppingCart GetShoppingCartByUsername(string username)
             => this.context.ShoppingCarts
-            .Include(x => x.Products)
-            .Include(x => x.User)
-            .Where(x => x.User.UserName == username);
+                .Where(x => x.User.UserName == username)
+                .FirstOrDefault();
+
+        public async Task<IEnumerable<TViewModel>> GetShoppingCartProductsByUsername<TViewModel>(string username)
+            => await this.context.ShoppingCartProducts
+                .Where(x => x.ShoppingCart.User.UserName == username)
+                .To<TViewModel>()
+                .ToListAsync();
     }
 }

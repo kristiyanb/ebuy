@@ -1,9 +1,10 @@
 ﻿namespace EBuy.Web.Models.Products
 {
     using EBuy.Models;
+    using EBuy.Services.Mapping;
     using System.Collections.Generic;
 
-    public class ProductDetailsModel
+    public class ProductDetailsModel : IMapFrom<Product>
     {
         public string Id { get; set; }
 

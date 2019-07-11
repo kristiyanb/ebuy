@@ -4,6 +4,7 @@
     using EBuy.Data;
     using EBuy.Models;
     using System.Linq;
+    using System.Threading.Tasks;
 
     public class CommentService : ICommentService
     {
@@ -16,9 +17,9 @@
             this.userService = userService;
         }
 
-        public Comment Add(string username, string productId, string content)
+        public async Task<Comment> Add(string username, string productId, string content)
         {
-            var user = this.userService.GetUserByUserName(username);
+            var user = await this.userService.GetUserByUserName(username);
 
             var comment = new Comment()
             {

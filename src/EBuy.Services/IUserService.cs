@@ -1,9 +1,10 @@
 ﻿namespace EBuy.Services
 {
     using EBuy.Models;
+    using System.Threading.Tasks;
 
     public interface IUserService
     {
-        User GetUserByUserName(string username);
+        Task<User> GetUserByUserName(string username);
     }
 }

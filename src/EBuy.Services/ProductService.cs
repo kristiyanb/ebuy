@@ -2,9 +2,11 @@
 {
     using EBuy.Data;
     using EBuy.Models;
+    using EBuy.Services.Mapping;
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     public class ProductService : IProductService
     {
@@ -15,29 +17,29 @@
             this.context = context;
         }
 
-        public Product GetProductById(string id)
-            => this.context.Products
-            .Include(x => x.Comments)
-            .ThenInclude(x => x.User)
-            .FirstOrDefault(x => x.Id == id);
+        public async Task<TViewModel> GetProductById<TViewModel>(string id)
+            => await this.context.Products
+                .Where(x => x.Id == id)
+                .To<TViewModel>()
+                .FirstOrDefaultAsync();
 
-        public List<Product> GetProductsByNameOrCategoryMatch(string searchParam)
-        {
-            var products = this.context.Products
-                .Include(x => x.Category)
+        public async Task<IEnumerable<TViewModel>> GetProductsByNameOrCategoryMatch<TViewModel>(string searchParam)
+            => await this.context.Products
                 .Where(x => x.Name.ToLower().Contains(searchParam.ToLower()) ||
                             x.Category.Name.ToLower().Contains(searchParam.ToLower()))
-                .ToList();
+                .To<TViewModel>()
+                .ToListAsync();
 
-            return products;
-        }
+        public async Task<IEnumerable<TViewModel>> GetLastFiveProducts<TViewModel>()
+            => await this.context.Products
+                .Take(5)
+                .To<TViewModel>()
+                .ToListAsync();
 
-        public List<Product> GetLastFiveProducts() => this.context.Products.Take(5).ToList();
-
-        public void Add(Product product)
+        public async Task Add(Product product)
         {
-            this.context.Products.Add(product);
-            this.context.SaveChanges();
+            await this.context.Products.AddAsync(product);
+            await this.context.SaveChangesAsync();
         }
     }
 }

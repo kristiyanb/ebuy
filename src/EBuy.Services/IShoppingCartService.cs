@@ -1,14 +1,17 @@
 ﻿namespace EBuy.Services
 {
     using EBuy.Models;
-    using System.Linq;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public interface IShoppingCartService
     {
-        void AddProduct(ShoppingCartProduct product);
+        Task AddProduct(ShoppingCartProduct product);
 
-        bool RemoveProduct(string id);
+        Task RemoveProduct(string id);
 
-        IQueryable<ShoppingCart> GetShoppingCartByUsername(string username);
+        ShoppingCart GetShoppingCartByUsername(string username);
+
+        Task<IEnumerable<TViewModel>> GetShoppingCartProductsByUsername<TViewModel>(string username);
     }
 }

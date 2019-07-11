@@ -2,17 +2,18 @@
 {
     using EBuy.Models;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public interface ICategoryService
     {
         List<string> GetCategoryNames();
 
-        List<Product> GetProductsByCategoryName(string categoryName, string orderBy);
-
         Category GetCategoryByName(string categoryName);
 
-        List<Category> GetCategories();
+        Task<IEnumerable<TViewModel>> GetProductsByCategoryName<TViewModel>(string categoryName, string orderBy);
 
-        void Add(Category category);
+        Task<IEnumerable<TViewModel>> GetCategories<TViewModel>();
+
+        Task Add(Category category);
     }
 }

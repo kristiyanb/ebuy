@@ -2,15 +2,16 @@
 {
     using EBuy.Models;
     using System.Collections.Generic;
+    using System.Threading.Tasks;
 
     public interface IProductService
     {
-        Product GetProductById(string id);
+        Task<TViewModel> GetProductById<TViewModel>(string id);
 
-        List<Product> GetProductsByNameOrCategoryMatch(string searchParam);
+        Task<IEnumerable<TViewModel>> GetProductsByNameOrCategoryMatch<TViewModel>(string searchParam);
 
-        List<Product> GetLastFiveProducts();
+        Task<IEnumerable<TViewModel>> GetLastFiveProducts<TViewModel>();
 
-        void Add(Product product);
+        Task Add(Product product);
     }
 }

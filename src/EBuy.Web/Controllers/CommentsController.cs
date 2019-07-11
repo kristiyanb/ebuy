@@ -21,46 +21,46 @@
         [HttpPost]
         public async Task<IActionResult> Add(CommentInputModel input)
         {
-            this.commentService.Add(input.Username, input.ProductId, input.Content);
+            await this.commentService.Add(input.Username, input.ProductId, input.Content);
 
-            var product = this.productService.GetProductById(input.ProductId);
+            var product = await this.productService.GetProductById<ProductDetailsModel>(input.ProductId);
 
-            var productViewModel = new ProductDetailsModel()
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                ImageUrl = product.ImageUrl,
-                InStock = product.InStock,
-                Price = product.Price.ToString("F2"),
-                Purchases = product.PurchasesCount,
-                Rating = product.Score != 0 ? (product.Score / product.VotesCount) : 0.0,
-                Comments = product.Comments.ToList()
-            };
+            //var productViewModel = new ProductDetailsModel()
+            //{
+            //    Id = product.Id,
+            //    Name = product.Name,
+            //    Description = product.Description,
+            //    ImageUrl = product.ImageUrl,
+            //    InStock = product.InStock,
+            //    Price = product.Price.ToString("F2"),
+            //    Purchases = product.PurchasesCount,
+            //    Rating = product.Score != 0 ? (product.Score / product.VotesCount) : 0.0,
+            //    Comments = product.Comments.ToList()
+            //};
 
-            return View("Views/Products/Details.cshtml", productViewModel);
+            return View("Views/Products/Details.cshtml", product);
         }
 
-        public async Task<IActionResult> Delete(string id)
-        {
-            var comment = this.commentService.Delete(id);
+        //public async Task<IActionResult> Delete(string id)
+        //{
+        //    var comment = this.commentService.Delete(id);
 
-            var product = this.productService.GetProductById(comment.ProductId);
+        //    var product = this.productService.GetProductById(comment.ProductId);
 
-            var productViewModel = new ProductDetailsModel()
-            {
-                Id = product.Id,
-                Name = product.Name,
-                Description = product.Description,
-                ImageUrl = product.ImageUrl,
-                InStock = product.InStock,
-                Price = product.Price.ToString("F2"),
-                Purchases = product.PurchasesCount,
-                Rating = product.Score != 0 ? (product.Score / product.VotesCount) : 0.0,
-                Comments = product.Comments.ToList()
-            };
+        //    var productViewModel = new ProductDetailsModel()
+        //    {
+        //        Id = product.Id,
+        //        Name = product.Name,
+        //        Description = product.Description,
+        //        ImageUrl = product.ImageUrl,
+        //        InStock = product.InStock,
+        //        Price = product.Price.ToString("F2"),
+        //        Purchases = product.PurchasesCount,
+        //        Rating = product.Score != 0 ? (product.Score / product.VotesCount) : 0.0,
+        //        Comments = product.Comments.ToList()
+        //    };
 
-            return View("Views/Products/Details.cshtml", productViewModel);
-        }
+        //    return View("Views/Products/Details.cshtml", productViewModel);
+        //}
     }
 }

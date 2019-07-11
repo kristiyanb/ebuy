@@ -1,6 +1,6 @@
 ﻿namespace EBuy.Web.Models.Categories
 {
-    using EBuy.Web.Models.Products;
+    using Models.Products;
     using System.Collections.Generic;
 
     public class CategoryViewModel
