@@ -2,11 +2,12 @@
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using System.Threading.Tasks;
 
     public class DashboardController : AdminController
     {
         [Authorize(Roles = "Administrator, Employee")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             return View();
         }

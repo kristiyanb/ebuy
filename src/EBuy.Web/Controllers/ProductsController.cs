@@ -17,7 +17,7 @@
 
         public async Task<IActionResult> Details(string id)
         {
-            var product = await this.productService.GetProductById(id);
+            var product = this.productService.GetProductById(id);
 
             var productViewModel = new ProductDetailsModel()
             {

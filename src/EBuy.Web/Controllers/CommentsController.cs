@@ -21,9 +21,9 @@
         [HttpPost]
         public async Task<IActionResult> Add(CommentInputModel input)
         {
-            await this.commentService.Add(input.Username, input.ProductId, input.Content);
+            this.commentService.Add(input.Username, input.ProductId, input.Content);
 
-            var product = await this.productService.GetProductById(input.ProductId);
+            var product = this.productService.GetProductById(input.ProductId);
 
             var productViewModel = new ProductDetailsModel()
             {
@@ -43,9 +43,9 @@
 
         public async Task<IActionResult> Delete(string id)
         {
-            var comment = await this.commentService.Delete(id);
+            var comment = this.commentService.Delete(id);
 
-            var product = await this.productService.GetProductById(comment.ProductId);
+            var product = this.productService.GetProductById(comment.ProductId);
 
             var productViewModel = new ProductDetailsModel()
             {

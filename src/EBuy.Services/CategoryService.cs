@@ -1,11 +1,10 @@
 ﻿namespace EBuy.Services
 {
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
+    using System.Collections.Generic;
+    using Microsoft.EntityFrameworkCore;
     using EBuy.Data;
     using EBuy.Models;
-    using Microsoft.EntityFrameworkCore;
 
     public class CategoryService : ICategoryService
     {
@@ -16,16 +15,16 @@
             this.context = context;
         }
 
-        public async Task<Category> GetCategoryByName(string categoryName)
-            => await this.context.Categories
-                .FirstOrDefaultAsync(x => x.Name == categoryName);
+        public Category GetCategoryByName(string categoryName)
+            => this.context.Categories
+                .FirstOrDefault(x => x.Name == categoryName);
 
         public List<string> GetCategoryNames()
             => this.context.Categories
                 .Select(x => x.Name)
                 .ToList();
 
-        public async Task<List<Product>> GetProductsByCategoryName(string categoryName, string orderBy)
+        public List<Product> GetProductsByCategoryName(string categoryName, string orderBy)
         {
             var products = this.context.Products
                 .Include(x => x.Category)
@@ -43,19 +42,18 @@
                 }
             }
 
-            return await products.ToListAsync();
+            return products.ToList();
         }
 
-
-        public async Task<List<Category>> GetCategories()
-            => await this.context.Categories
+        public List<Category> GetCategories()
+            => this.context.Categories
                 .Include(x => x.Products)
-                .ToListAsync();
+                .ToList();
 
-        public async Task Add(Category category)
+        public void Add(Category category)
         {
-            await this.context.Categories.AddAsync(category);
-            await this.context.SaveChangesAsync();
+            this.context.Categories.AddAsync(category);
+            this.context.SaveChangesAsync();
         }
     }
 }

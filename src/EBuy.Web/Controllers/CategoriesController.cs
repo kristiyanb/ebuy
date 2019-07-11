@@ -18,7 +18,7 @@
 
         public async Task<IActionResult> Index()
         {
-            var categories = await this.categoryService.GetCategories();
+            var categories = this.categoryService.GetCategories();
 
             var categoriesViewModel = new CategoriesIndexViewModel()
             {
@@ -36,7 +36,7 @@
         [Route("/Products/{name}")]
         public async Task<IActionResult> Products(string name, string orderBy)
         {
-            var productsFromDb = await this.categoryService
+            var productsFromDb = this.categoryService
                 .GetProductsByCategoryName(name, orderBy);
 
             var products = productsFromDb.Select(x => new ProductGridModel()

@@ -17,7 +17,7 @@
             this.categoryService = categoryService;
         }
 
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
             return View();
         }
@@ -25,9 +25,9 @@
         [HttpPost]
         public async Task<IActionResult> AddProduct(ProductInputModel input)
         {
-            var category = await this.categoryService.GetCategoryByName(input.CategoryName);
+            var category = this.categoryService.GetCategoryByName(input.CategoryName);
 
-            await this.productService.Add(new Product()
+            this.productService.Add(new Product()
             {
                 Name = input.Name,
                 Description = input.Description,

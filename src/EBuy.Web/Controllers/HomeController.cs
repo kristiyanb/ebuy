@@ -20,7 +20,7 @@
 
         public async Task<IActionResult> Index()
         {
-            var products = await this.productService.GetLastFiveProducts();
+            var products = this.productService.GetLastFiveProducts();
 
             var carouselModel = new ProductsCarouselModel()
             {
@@ -37,14 +37,14 @@
             return View(carouselModel);
         }
 
-        public IActionResult Contacts()
+        public async Task<IActionResult> Contacts()
         {
             return View();
         }
 
         public async Task<IActionResult> SearchResult(string searchParam, string orderBy)
         {
-            var products = await this.productService.GetProductsByNameOrCategoryMatch(searchParam);
+            var products = this.productService.GetProductsByNameOrCategoryMatch(searchParam);
 
             var searchViewModel = new SearchViewModel()
             {
@@ -63,7 +63,7 @@
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public async Task<IActionResult> Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }

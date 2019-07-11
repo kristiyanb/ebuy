@@ -15,7 +15,7 @@
             this.categoryService = categoryService;
         }
 
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
             return View();
         }
@@ -23,7 +23,7 @@
         [HttpPost]
         public async Task<IActionResult> AddCategory(CategoryInputModel input)
         {
-            await this.categoryService.Add(new Category()
+            this.categoryService.Add(new Category()
             {
                 Name = input.Name
             });

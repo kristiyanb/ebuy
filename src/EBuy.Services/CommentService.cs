@@ -1,10 +1,9 @@
 ﻿namespace EBuy.Services
 {
     using System;
-    using System.Threading.Tasks;
-    using EBuy.Models;
     using EBuy.Data;
-    using Microsoft.EntityFrameworkCore;
+    using EBuy.Models;
+    using System.Linq;
 
     public class CommentService : ICommentService
     {
@@ -17,9 +16,9 @@
             this.userService = userService;
         }
 
-        public async Task<Comment> Add(string username, string productId, string content)
+        public Comment Add(string username, string productId, string content)
         {
-            var user = await this.userService.GetUserByUserName(username);
+            var user = this.userService.GetUserByUserName(username);
 
             var comment = new Comment()
             {
@@ -29,18 +28,18 @@
                 LastModified = DateTime.UtcNow
             };
 
-            await this.context.AddAsync(comment);
-            await this.context.SaveChangesAsync();
+            this.context.Add(comment);
+            this.context.SaveChanges();
 
             return comment;
         }
 
-        public async Task<Comment> Delete(string commentId)
+        public Comment Delete(string commentId)
         {
-            var comment = await this.context.Comments.FirstOrDefaultAsync(x => x.Id == commentId);
+            var comment = this.context.Comments.FirstOrDefault(x => x.Id == commentId);
 
             this.context.Remove(comment);
-            await this.context.SaveChangesAsync();
+            this.context.SaveChanges();
 
             return comment;
         }

@@ -5,7 +5,6 @@
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
 
     public class ProductService : IProductService
     {
@@ -16,29 +15,29 @@
             this.context = context;
         }
 
-        public async Task<Product> GetProductById(string id)
-            => await this.context.Products
+        public Product GetProductById(string id)
+            => this.context.Products
             .Include(x => x.Comments)
             .ThenInclude(x => x.User)
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefault(x => x.Id == id);
 
-        public async Task<List<Product>> GetProductsByNameOrCategoryMatch(string searchParam)
+        public List<Product> GetProductsByNameOrCategoryMatch(string searchParam)
         {
-            var products = await this.context.Products
+            var products = this.context.Products
                 .Include(x => x.Category)
                 .Where(x => x.Name.ToLower().Contains(searchParam.ToLower()) ||
                             x.Category.Name.ToLower().Contains(searchParam.ToLower()))
-                .ToListAsync();
+                .ToList();
 
             return products;
         }
 
-        public Task<List<Product>> GetLastFiveProducts() => this.context.Products.Take(5).ToListAsync();
+        public List<Product> GetLastFiveProducts() => this.context.Products.Take(5).ToList();
 
-        public async Task Add(Product product)
+        public void Add(Product product)
         {
-            await this.context.Products.AddAsync(product);
-            await this.context.SaveChangesAsync();
+            this.context.Products.Add(product);
+            this.context.SaveChanges();
         }
     }
 }
