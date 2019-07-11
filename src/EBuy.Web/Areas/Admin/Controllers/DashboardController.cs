@@ -5,7 +5,7 @@
 
     public class DashboardController : AdminController
     {
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator, Employee")]
         public IActionResult Index()
         {
             return View();

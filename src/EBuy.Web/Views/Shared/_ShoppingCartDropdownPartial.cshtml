@@ -5,8 +5,8 @@
     <button class="nav-link btn btn-link text-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Shopping Cart
     </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <div id="shoppingCart" class="dropdown-item">
+    <div id="shoppingCart" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <div class="dropdown-item">
             @foreach (var product in ShoppingCartService.GetShoppingCartByUsername(User.Identity.Name).FirstOrDefault().Products)
             {
                 <div id="shoppingCart-item" class="d-flex justify-content-between mt-1">
