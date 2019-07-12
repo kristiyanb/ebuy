@@ -5,6 +5,8 @@
     using EBuy.Web.Areas.Admin.Models;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
+    using Models.Categories;
+    using System.Linq;
 
     public class CategoriesController : AdminController
     {
@@ -23,12 +25,19 @@
         [HttpPost]
         public async Task<IActionResult> AddCategory(CategoryInputModel input)
         {
-            this.categoryService.Add(new Category()
+            await this.categoryService.Add(new Category()
             {
                 Name = input.Name
             });
 
             return View("Areas/Admin/Views/Dashboard/Index.cshtml");
+        }
+
+        public async Task<IActionResult> Data()
+        {
+            var categories = await this.categoryService.GetCategories<CategoryDetailsModel>();
+
+            return View(new CategoryListModel { Categories = categories.ToList() });
         }
     }
 }

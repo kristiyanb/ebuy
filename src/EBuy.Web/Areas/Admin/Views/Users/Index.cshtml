@@ -1,0 +1,43 @@
+﻿@using EBuy.Web.Areas.Admin.Models.Users
+@model UserListModel
+
+<h4>Users Info: </h4>
+<hr />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                FirstName
+            </th>
+            <th>
+                LastName
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Registered On
+            </th>
+            <th>
+                Last Online
+            </th>
+            <th>
+                Purchases
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Users)
+        {
+            <tr>
+                <td>@user.FirstName</td>
+                <td>@user.LastName</td>
+                <td>@user.UserName</td>
+                <td>@user.RegisteredOn</td>
+                <td>@user.LastOnline</td>
+                <td>@user.PurchaseHistoryCount</td>
+            </tr>
+        }
+    </tbody>
+</table>

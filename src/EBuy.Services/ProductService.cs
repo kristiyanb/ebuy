@@ -36,6 +36,11 @@
                 .To<TViewModel>()
                 .ToListAsync();
 
+        public async Task<IEnumerable<TViewModel>> GetAll<TViewModel>() 
+            => await this.context.Products
+                .To<TViewModel>()
+                .ToListAsync();
+
         public async Task Add(Product product)
         {
             await this.context.Products.AddAsync(product);

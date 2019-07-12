@@ -1,0 +1,39 @@
+﻿@using EBuy.Web.Areas.Admin.Models
+@model ProductsListModel
+
+<h4>Products Info: </h4>
+<hr />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Rating
+            </th>
+            <th>
+                In Stock
+            </th>
+            <th>
+                Purchases
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.Products)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Price</td>
+                <td>@product.Rating.ToString("F2")</td>
+                <td>@product.InStock</td>
+                <td>@product.PurchasesCount</td>
+            </tr>
+        }
+    </tbody>
+</table>

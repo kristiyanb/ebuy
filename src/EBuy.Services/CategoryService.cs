@@ -29,7 +29,6 @@
         public async Task<IEnumerable<TViewModel>> GetProductsByCategoryName<TViewModel>(string categoryName, string orderBy)
         {
             var products = this.context.Products
-                .Include(x => x.Category)
                 .Where(x => x.Category.Name == categoryName);
 
             if (orderBy != null)
@@ -49,7 +48,6 @@
 
         public async Task<IEnumerable<TViewModel>> GetCategories<TViewModel>()
             => await this.context.Categories
-                .Include(x => x.Products)
                 .To<TViewModel>()
                 .ToListAsync();
 

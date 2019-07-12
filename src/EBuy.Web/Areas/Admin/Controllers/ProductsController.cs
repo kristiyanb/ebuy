@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
     using EBuy.Models;
+    using System.Linq;
 
     public class ProductsController : AdminController
     {
@@ -27,7 +28,7 @@
         {
             var category = this.categoryService.GetCategoryByName(input.CategoryName);
 
-            this.productService.Add(new Product()
+            await this.productService.Add(new Product()
             {
                 Name = input.Name,
                 Description = input.Description,
@@ -38,6 +39,13 @@
             });
 
             return View("Areas/Admin/Views/Dashboard/Index.cshtml");
+        }
+
+        public async Task<IActionResult> Data()
+        {
+            var products = await this.productService.GetAll<ProductDetailsModel>();
+
+            return View(new ProductsListModel { Products = products.ToList() });
         }
     }
 }

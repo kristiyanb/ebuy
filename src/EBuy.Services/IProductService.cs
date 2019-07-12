@@ -12,6 +12,8 @@
 
         Task<IEnumerable<TViewModel>> GetLastFiveProducts<TViewModel>();
 
+        Task<IEnumerable<TViewModel>> GetAll<TViewModel>();
+
         Task Add(Product product);
     }
 }
