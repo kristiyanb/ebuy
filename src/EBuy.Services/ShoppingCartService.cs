@@ -35,6 +35,7 @@
         public ShoppingCart GetShoppingCartByUsername(string username)
             => this.context.ShoppingCarts
                 .Where(x => x.User.UserName == username)
+                .Include(x => x.Products)
                 .FirstOrDefault();
 
         public async Task<IEnumerable<TViewModel>> GetShoppingCartProductsByUsername<TViewModel>(string username)
