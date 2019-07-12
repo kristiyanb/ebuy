@@ -7,6 +7,7 @@
     using EBuy.Models;
     using EBuy.Services.Mapping;
     using System.Threading.Tasks;
+    using Contracts;
 
     public class CategoryService : ICategoryService
     {

@@ -1,7 +1,7 @@
 ﻿namespace EBuy.Web.Areas.Admin.Controllers
 {
     using EBuy.Models;
-    using EBuy.Services;
+    using EBuy.Services.Contracts;
     using EBuy.Web.Areas.Admin.Models;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;

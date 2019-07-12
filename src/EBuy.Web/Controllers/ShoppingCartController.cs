@@ -1,7 +1,7 @@
 ﻿namespace EBuy.Web.Controllers
 {
     using EBuy.Models;
-    using EBuy.Services;
+    using EBuy.Services.Contracts;
     using EBuy.Web.Models.ShoppingCart;
     using Microsoft.AspNetCore.Mvc;
     using System.Linq;

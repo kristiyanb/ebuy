@@ -1,4 +1,4 @@
-﻿namespace EBuy.Services
+﻿namespace EBuy.Services.Contracts
 {
     using EBuy.Models;
     using System.Collections.Generic;

@@ -5,6 +5,7 @@
     using EBuy.Models;
     using System.Linq;
     using System.Threading.Tasks;
+    using Contracts;
 
     public class CommentService : ICommentService
     {

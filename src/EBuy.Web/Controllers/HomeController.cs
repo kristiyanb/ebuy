@@ -5,7 +5,7 @@
     using EBuy.Web.Models;
     using EBuy.Web.Models.Search;
     using EBuy.Web.Models.Products;
-    using EBuy.Services;
+    using EBuy.Services.Contracts;
     using System.Threading.Tasks;
     using System.Linq;
 

@@ -1,9 +1,8 @@
 ﻿namespace EBuy.Web.Controllers
 {
-    using EBuy.Services;
+    using EBuy.Services.Contracts;
     using EBuy.Web.Models.Products;
     using Microsoft.AspNetCore.Mvc;
-    using System.Linq;
     using System.Threading.Tasks;
 
     public class ProductsController : Controller

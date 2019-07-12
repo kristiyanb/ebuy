@@ -6,6 +6,7 @@
     using EBuy.Models;
     using System.Collections.Generic;
     using EBuy.Services.Mapping;
+    using Contracts;
 
     public class UserService : IUserService
     {

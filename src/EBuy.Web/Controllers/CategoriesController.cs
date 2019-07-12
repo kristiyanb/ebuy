@@ -1,6 +1,6 @@
 ﻿namespace EBuy.Web.Controllers
 {
-    using EBuy.Services;
+    using EBuy.Services.Contracts;
     using EBuy.Web.Models.Categories;
     using EBuy.Web.Models.Products;
     using Microsoft.AspNetCore.Mvc;
