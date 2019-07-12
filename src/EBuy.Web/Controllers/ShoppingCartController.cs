@@ -21,19 +21,6 @@
             var products = await this.shoppingCartService
                 .GetShoppingCartProductsByUsername<ShoppingCartProductViewModel>(this.User.Identity.Name);
 
-            //var shoppingCartViewModel = new ShoppingCartViewModel()
-            //{
-            //    Products = shoppingCart.Products
-            //        .Select(x => new ShoppingCartProductViewModel()
-            //        {
-            //            Id = x.Id,
-            //            Name = x.Name,
-            //            ImageUrl = x.ImageUrl,
-            //            Price = x.Price,
-            //            Quantity = x.Quantity
-            //        }).ToList()
-            //};
-
             return View(new ShoppingCartViewModel { Products = products.ToList() });
         }
 

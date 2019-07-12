@@ -22,18 +22,6 @@
         {
             var products = await this.productService.GetLastFiveProducts<ProductGridModel>();
 
-            //var carouselModel = new ProductsCarouselModel()
-            //{
-            //    Products = products.Select(x => new ProductGridModel()
-            //    {
-            //        Id = x.Id,
-            //        ImageUrl = x.ImageUrl,
-            //        Name = x.Name,
-            //        Price = x.Price.ToString("F2"),
-            //        Rating = x.Score != 0 ? (x.Score / x.VotesCount) : 0
-            //    }).ToList()
-            //};
-
             return View(new ProductsCarouselModel { Products = products.ToList() });
         }
 
@@ -45,19 +33,6 @@
         public async Task<IActionResult> SearchResult(string searchParam, string orderBy)
         {
             var products = await this.productService.GetProductsByNameOrCategoryMatch<ProductGridModel>(searchParam);
-
-            //var searchViewModel = new SearchViewModel()
-            //{
-            //    Name = searchParam,
-            //    Products = products.Select(x => new ProductGridModel()
-            //    {
-            //        Id = x.Id,
-            //        Name = x.Name,
-            //        Price = x.Price.ToString("F2"),
-            //        Rating = x.Score != 0 ? (x.Score / x.VotesCount) : 0,
-            //        ImageUrl = x.ImageUrl
-            //    }).ToList()
-            //};
 
             return View(new SearchViewModel { Name = searchParam, Products = products.ToList() });
         }

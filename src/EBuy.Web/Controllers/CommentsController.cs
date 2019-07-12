@@ -25,19 +25,6 @@
 
             var product = await this.productService.GetProductById<ProductDetailsModel>(input.ProductId);
 
-            //var productViewModel = new ProductDetailsModel()
-            //{
-            //    Id = product.Id,
-            //    Name = product.Name,
-            //    Description = product.Description,
-            //    ImageUrl = product.ImageUrl,
-            //    InStock = product.InStock,
-            //    Price = product.Price.ToString("F2"),
-            //    Purchases = product.PurchasesCount,
-            //    Rating = product.Score != 0 ? (product.Score / product.VotesCount) : 0.0,
-            //    Comments = product.Comments.ToList()
-            //};
-
             return View("Views/Products/Details.cshtml", product);
         }
 
