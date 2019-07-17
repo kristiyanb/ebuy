@@ -32,11 +32,13 @@
             await this.context.SaveChangesAsync();
         }
 
-        public ShoppingCart GetShoppingCartByUsername(string username)
-            => this.context.ShoppingCarts
-                .Where(x => x.User.UserName == username)
-                .Include(x => x.Products)
-                .FirstOrDefault();
+        public async Task<string> GetShoppingCartIdByUsername(string username)
+        {
+            var shoppingCart = await this.context.ShoppingCarts.FirstOrDefaultAsync(x => x.User.UserName == username);
+
+            return shoppingCart.Id;
+        }
+
 
         public async Task<IEnumerable<TViewModel>> GetShoppingCartProductsByUsername<TViewModel>(string username)
             => await this.context.ShoppingCartProducts

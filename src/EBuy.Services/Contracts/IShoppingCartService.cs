@@ -10,7 +10,7 @@
 
         Task RemoveProduct(string id);
 
-        ShoppingCart GetShoppingCartByUsername(string username);
+        Task<string> GetShoppingCartIdByUsername(string username);
 
         Task<IEnumerable<TViewModel>> GetShoppingCartProductsByUsername<TViewModel>(string username);
     }

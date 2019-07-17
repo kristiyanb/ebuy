@@ -1,5 +1,4 @@
-﻿@using EBuy.Services.Contracts
-@inject IShoppingCartService ShoppingCartService
+﻿@model EBuy.Web.Models.ShoppingCart.ShoppingCartDropdownViewModel
 
 <div class="dropdown">
     <button class="nav-link btn btn-link text-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -7,7 +6,7 @@
     </button>
     <div id="shoppingCart" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <div class="dropdown-item">
-            @foreach (var product in ShoppingCartService.GetShoppingCartByUsername(User.Identity.Name).Products)
+            @foreach (var product in Model.Products)
             {
                 <div id="shoppingCart-item" class="d-flex justify-content-between mt-1">
                     <img class="w-25" src="@product.ImageUrl" />
@@ -23,7 +22,7 @@
                     Total:
                 </h5>
                 <div>
-                    $@ShoppingCartService.GetShoppingCartByUsername(User.Identity.Name).Products.Sum(x => x.Price * x.Quantity)
+                    $@Model.Products.Sum(x => x.Price * x.Quantity)
                 </div>
             </div>
             <a class="btn btn-danger w-100 mt-2" asp-area="" asp-controller="ShoppingCart" asp-action="Index">Buy</a>

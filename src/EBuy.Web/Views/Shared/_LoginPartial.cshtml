@@ -7,16 +7,6 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item">
-            @if (User.IsInRole("Administrator") || User.IsInRole("Employee"))
-            {
-                <a class="nav-link btn btn-link text-dark" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
-            }
-            else
-            {
-                <partial name="_ShoppingCartDropdownPartial" />
-            }
-        </li>
-        <li class="nav-item">
             <a class="nav-link btn btn-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">My Profile</a>
         </li>
         <li class="nav-item">

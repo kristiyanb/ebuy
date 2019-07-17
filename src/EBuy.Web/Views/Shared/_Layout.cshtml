@@ -31,6 +31,7 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
+                    @await Component.InvokeAsync("ShoppingCartDropdown")
                     <form asp-area="" asp-controller="Home" asp-action="SearchResult" class="form-inline mr-5 border">
                         <input class="form-control border-0" type="text" placeholder="Search" aria-label="Search" id="searchParam" name="searchParam" />
                         <button class="btn bg-white" type="submit">&#128269;</button>
@@ -42,6 +43,12 @@
                         <li class="nav-item">
                             <a class="nav-link btn btn-link text-dark" asp-area="" asp-controller="Home" asp-action="Contacts">Contacts</a>
                         </li>
+                        @if (User.IsInRole("Administrator") || User.IsInRole("Employee"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link btn btn-link text-dark" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

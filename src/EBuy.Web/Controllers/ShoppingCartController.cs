@@ -27,7 +27,7 @@
         [HttpPost]
         public async Task<IActionResult> Add(ShoppingCartProductInputModel input)
         {
-            var shoppingCart = this.shoppingCartService.GetShoppingCartByUsername(this.User.Identity.Name);
+            var shoppingCartId = await this.shoppingCartService.GetShoppingCartIdByUsername(this.User.Identity.Name);
 
             await this.shoppingCartService.AddProduct(new ShoppingCartProduct()
             {
@@ -35,7 +35,7 @@
                 ImageUrl = input.ImageUrl,
                 Price = input.Price,
                 Quantity = input.Quantity,
-                ShoppingCartId = shoppingCart.Id
+                ShoppingCartId = shoppingCartId
             });
 
             return Redirect("/ShoppingCart/Index");
