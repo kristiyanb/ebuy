@@ -78,6 +78,14 @@ namespace EBuy.Web.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+
+                    var redirectUrl = this.TempData["RedirectUrl"];
+
+                    if (redirectUrl != null)
+                    {
+                        return Redirect(redirectUrl.ToString());
+                    }
+
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

@@ -79,6 +79,7 @@
             else
             {
                 //TODO: Redirect to same page after login
+                TempData["RedirectUrl"] = "/Products/Details/" + Model.Id;
                 <div class="container text-center">
                     <a class="nav-link btn btn-link text-dark border" asp-area="Identity" asp-page="/Account/Login">
                         Log in to post a comment
