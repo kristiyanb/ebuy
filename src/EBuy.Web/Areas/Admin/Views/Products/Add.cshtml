@@ -1,8 +1,4 @@
-﻿@using EBuy.Services.Contracts;
-@inject ICategoryService CategoryService
-
-
-<div class="container col-4 text-center">
+﻿<div class="container col-4 text-center">
     <form method="post">
         <h4>Add New Product</h4>
         <hr />
@@ -13,12 +9,7 @@
         </div>
         <div class="mb-3">
             <label>Category</label>
-            <select class="form-control custom-select" id="categoryName" name="categoryName">
-                @foreach (var category in CategoryService.GetCategoryNames())
-                {
-                    <option value="@category">@category</option>
-                }
-            </select>
+            @await Component.InvokeAsync("CategoryList")
         </div>
         <div class="form-group">
             <label>Price</label>

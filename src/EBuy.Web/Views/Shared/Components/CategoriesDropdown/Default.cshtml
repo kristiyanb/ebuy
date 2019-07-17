@@ -1,14 +1,14 @@
-﻿@using EBuy.Services.Contracts;
-@inject ICategoryService CategoryService
+﻿@using EBuy.Web.Models.Categories
+@model CategoriesDropdownViewModel
 
-@*<div class="dropdown dropdown-hover">
+<div class="dropdown dropdown-hover">
     <a asp-area="" asp-controller="Categories" asp-action="Index" class="nav-link btn btn-link text-dark" id="dropdownMenuButton">
         Categories
     </a>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        @foreach (var category in CategoryService.GetCategoryNames())
+        @foreach (var category in Model.Categories)
         {
             <a class="dropdown-item" asp-area="" asp-controller="Categories" asp-action="Products" asp-route-name="@category">@category</a>
         }
     </div>
-</div>*@
+</div>

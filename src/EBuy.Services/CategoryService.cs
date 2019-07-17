@@ -22,10 +22,10 @@
             => this.context.Categories
                 .FirstOrDefault(x => x.Name == categoryName);
 
-        public List<string> GetCategoryNames()
-            => this.context.Categories
+        public async Task<IEnumerable<string>> GetCategoryNames()
+            => await this.context.Categories
                 .Select(x => x.Name)
-                .ToList();
+                .ToListAsync();
 
         public async Task<IEnumerable<TViewModel>> GetProductsByCategoryName<TViewModel>(string categoryName, string orderBy)
         {

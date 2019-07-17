@@ -6,7 +6,7 @@
 
     public interface ICategoryService
     {
-        List<string> GetCategoryNames();
+        Task<IEnumerable<string>> GetCategoryNames();
 
         Category GetCategoryByName(string categoryName);
 

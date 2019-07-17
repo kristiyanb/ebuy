@@ -1,0 +1,8 @@
+﻿@model EBuy.Web.Areas.Admin.Models.Categories.CategoriesDropdownViewModel
+
+<select class="form-control custom-select" id="categoryName" name="categoryName">
+    @foreach (var category in Model.Categories)
+    {
+        <option value="@category">@category</option>
+    }
+</select>
