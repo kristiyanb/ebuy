@@ -27,18 +27,9 @@
         [HttpPost]
         public async Task<IActionResult> Add(ShoppingCartProductInputModel input)
         {
-            var shoppingCartId = await this.shoppingCartService.GetShoppingCartIdByUsername(this.User.Identity.Name);
+            await this.shoppingCartService.AddProduct(User.Identity.Name, input.Id, input.Quantity);
 
-            await this.shoppingCartService.AddProduct(new ShoppingCartProduct()
-            {
-                Name = input.Name,
-                ImageUrl = input.ImageUrl,
-                Price = input.Price,
-                Quantity = input.Quantity,
-                ShoppingCartId = shoppingCartId
-            });
-
-            return Redirect("/ShoppingCart/Index");
+            return Redirect("/Products/Details/" + input.Id);
         }
 
         public async Task<IActionResult> Remove(string id)
