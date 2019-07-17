@@ -21,8 +21,8 @@
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<User, UserDetailsModel>()
-                .ForMember(x => x.RegisteredOn, opt => opt.MapFrom(x => x.RegisteredOn.ToString("dd/mm/yyyy")))
-                .ForMember(x => x.LastOnline, opt => opt.MapFrom(x => x.LastOnline.ToString("dd/mm/yyyy")));
+                .ForMember(x => x.RegisteredOn, opt => opt.MapFrom(x => x.RegisteredOn.ToString("dd/MM/yyyy")))
+                .ForMember(x => x.LastOnline, opt => opt.MapFrom(x => x.LastOnline.ToString("dd/MM/yyyy")));
         }
     }
 }

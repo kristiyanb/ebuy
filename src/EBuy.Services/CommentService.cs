@@ -6,6 +6,9 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Contracts;
+    using System.Collections.Generic;
+    using Microsoft.EntityFrameworkCore;
+    using EBuy.Services.Mapping;
 
     public class CommentService : ICommentService
     {
@@ -18,7 +21,13 @@
             this.userService = userService;
         }
 
-        public async Task<Comment> Add(string username, string productId, string content)
+        public async Task<IEnumerable<TViewModel>> GetCommentsByProductId<TViewModel>(string id)
+            => await this.context.Comments
+                .Where(x => x.ProductId == id)
+                .To<TViewModel>()
+                .ToListAsync();
+
+        public async Task Add(string username, string productId, string content)
         {
             var user = await this.userService.GetUserByUserName(username);
 
@@ -30,10 +39,8 @@
                 LastModified = DateTime.UtcNow
             };
 
-            this.context.Add(comment);
-            this.context.SaveChanges();
-
-            return comment;
+            await this.context.AddAsync(comment);
+            await this.context.SaveChangesAsync();
         }
 
         public Comment Delete(string commentId)

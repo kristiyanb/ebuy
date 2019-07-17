@@ -23,8 +23,6 @@
 
         public int Purchases { get; set; }
 
-        public List<Comment> Comments { get; set; }
-
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Product, ProductDetailsModel>()

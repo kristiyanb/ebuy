@@ -67,42 +67,14 @@
             </div>
         </div>
         <div id="menu1" class="tab-pane fade">
-            @foreach (var comment in Model.Comments)
-            {
-                <div class="d-flex justify-content-between">
-                    <div>
-                        <h6>@comment.Content</h6>
-                    </div>
-                    <div class="mr-3">
-                        @comment.User.UserName
-                        <br>
-                        @comment.LastModified
-                        <br>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            if (User.Identity.Name == comment.User.UserName)
-                            {
-                                <a class="btn btn-danger text-light" asp-controller="Comments" asp-action="Edit">Edit</a>
-                                <a class="btn btn-danger text-light" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id">Delete</a>
-                            }
-                            if (User.IsInRole("Admin"))
-                            {
-                                <a class="btn btn-danger text-light" asp-controller="Comments" asp-action="Delete" asp-route-id="@comment.Id">Delete</a>
-                            }
-                        }
-                    </div>
-                </div>
-                <hr />
-            }
-
+            <div id="comments">
+            </div>
             @if (User.Identity.IsAuthenticated)
             {
-                <form asp-controller="Comments" asp-action="Add">
-                    <input type="hidden" name="username" value="@User.Identity.Name" />
-                    <input type="hidden" name="productId" value="@Model.Id" />
-                    <textarea class="float-xl-none form-control mb-2" name="content"></textarea>
-                    <button class="btn btn-danger text-light" type="submit">Comment</button>
-                </form>
+                <input id="username" type="hidden" name="username" value="@User.Identity.Name" />
+                <input id="productId" type="hidden" name="productId" value="@Model.Id" />
+                <textarea id="content" class="float-xl-none form-control mb-2" name="content"></textarea>
+                <button id="add-comment" class="btn btn-danger text-light">Comment</button>
             }
             else
             {
@@ -119,3 +91,6 @@
         </div>
     </div>
 </div>
+
+<script src="~/js/productDetails.js" asp-append-version="true"></script>
+<script src="~/js/comments.js" asp-append-version="true"></script>
