@@ -43,7 +43,7 @@ async function addComment() {
         body: JSON.stringify(comment)
     });
 
-    loadComments();
+    await loadComments();
     document.getElementById('content').value = '';
 }
 
@@ -56,6 +56,6 @@ async function getComments() {
     return response.json();
 }
 
-document.getElementById('add-comment').addEventListener('click', addComment);
-
 loadComments();
+
+document.getElementById('add-comment').addEventListener('click', addComment);
