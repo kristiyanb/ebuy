@@ -14,14 +14,10 @@
 
         public string Address { get; set; }
 
-        public decimal Amount { get; set; }
-
         public string UserId { get; set; }
         public User User { get; set; }
 
         public DateTime DateOfOrder { get; set; }
-
-        public decimal Discount { get; set; }
 
         public ICollection<PurchasedProduct> Products { get; set; }
     }

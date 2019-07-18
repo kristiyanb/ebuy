@@ -1,0 +1,51 @@
+﻿@{
+    ViewData["Title"] = "Checkout";
+}
+
+<h3 class="text-center">Order Info: </h3>
+
+<hr />
+<div class="container mt-5">
+    <form asp-area="" asp-controller="Checkout" asp-action="Order" class="col-8 m-auto">
+        <div class="d-flex justify-content-between">
+            <div class="form-group col-5">
+                <label>Full Name</label>
+                <input class="form-control" type="text" id="name" name="name" />
+            </div>
+            <div class="form-group col-5">
+                <label>Email</label>
+                <input class="form-control" type="text" id="email" name="email" />
+            </div>
+        </div>
+        <div class="d-flex justify-content-between">
+            <div class="form-group col-5">
+                <label>Phone Number</label>
+                <input class="form-control" type="text" id="phoneNumber" name="phoneNumber" />
+            </div>
+            <div class="form-group col-5">
+                <label>Address for delivery</label>
+                <input class="form-control" type="text" id="address" name="address" />
+            </div>
+        </div>
+        <div class="d-flex justify-content-between">
+            <div class="form-group col-5">
+                <label>Discount code</label>
+                <input class="form-control" type="text" id="discountCode" name="discountCode" />
+            </div>
+            <div class="form-group col-5">
+                <label>Payment Method</label>
+                <select class="form-control">
+                    <option>
+                        Cash on delivery
+                    </option>
+                    <option>
+                        Online with credit / debit card
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="text-center w-100">
+            <button type="submit" class="btn btn-danger w-25 mt-5">Order</button>
+        </div>
+    </form>
+</div>

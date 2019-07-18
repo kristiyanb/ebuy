@@ -3,32 +3,41 @@
 @{
     ViewData["Title"] = "Purchase History";
     ViewData["ActivePage"] = ManageNavPages.PurchaseHistory;
+    var counter = 1;
 }
 
 <h4>@ViewData["Title"]</h4>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col">Date</th>
-            <th scope="col">Amount</th>
-            <th scope="col">Address</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var product in Model.Purchases)
-        {
-            <tr>
-                <td>
-                    @product.DateOfOrder
-                </td>
-                <td>
-                    @product.Amount
-                </td>
-                <td>
-                    @product.Address
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="accordion" id="purchaseHistoryAccordion">
+    @foreach (var purchase in Model.Purchases)
+    {
+        var collapseId = "collapse" + counter;
+        var headingId = "heading" + counter;
+
+        <div class="card">
+            <div class="card-header" id=@headingId>
+                <h2 class="mb-0 text-center">
+                    <button class="btn btn-link text-dark" type="button" data-toggle="collapse" data-target="#@collapseId" aria-expanded="true" aria-controls="@collapseId">
+                        @purchase.DateOfOrder
+                    </button>
+                </h2>
+            </div>
+
+            <div id=@collapseId class="collapse" aria-labelledby=@headingId data-parent="#purchaseHistoryAccordion">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var product in purchase.Products)
+                        {
+                            <li class="list-group-item">@product.Name, Price: $@product.Price, Quantity @product.Quantity</li>
+                        }
+                        <li class="list-group-item">Amount: $@purchase.Amount</li>
+                        <li class="list-group-item">Address: @purchase.Address</li>
+                        <li class="list-group-item">Date: @purchase.DateOfOrder</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        counter++;
+    }
+</div>
