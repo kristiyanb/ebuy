@@ -50,7 +50,7 @@
         public async Task<IActionResult> Search(string searchParam)
         {
             var cacheEntryOptions = new MemoryCacheEntryOptions()
-                .SetSlidingExpiration(TimeSpan.FromSeconds(5));
+                .SetSlidingExpiration(TimeSpan.FromMinutes(10));
 
             this.cache.Set("searchParam", searchParam, cacheEntryOptions);
 
