@@ -94,3 +94,12 @@ input[type=number]::-webkit-outer-spin-button {
         width: 300px !important;
     }
 }
+
+.nav-pills .nav-link {
+    color: #000000;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #d9534f;
+}
