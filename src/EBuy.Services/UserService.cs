@@ -7,6 +7,7 @@
     using System.Collections.Generic;
     using EBuy.Services.Mapping;
     using Contracts;
+    using System.Linq;
 
     public class UserService : IUserService
     {
@@ -23,6 +24,12 @@
 
         public async Task<IEnumerable<TViewModel>> GetAll<TViewModel>() 
             => await this.context.Users
+                .To<TViewModel>()
+                .ToListAsync();
+
+        public async Task<IEnumerable<TViewModel>> GetPurchaseHistory<TViewModel>(string username)
+            => await this.context.Purchases
+                .Where(x => x.User.UserName == username)
                 .To<TViewModel>()
                 .ToListAsync();
     }

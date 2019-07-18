@@ -1,12 +1,12 @@
-﻿using System.Threading.Tasks;
-using EBuy.Models;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
-
-namespace EBuy.Web.Areas.Identity.Pages.Account.Manage
+﻿namespace EBuy.Web.Areas.Identity.Pages.Account.Manage
 {
+    using System.Threading.Tasks;
+    using EBuy.Models;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+    using Microsoft.Extensions.Logging;
+
     public class PersonalDataModel : PageModel
     {
         private readonly UserManager<User> _userManager;

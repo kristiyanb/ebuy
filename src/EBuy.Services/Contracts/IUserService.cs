@@ -9,5 +9,7 @@
         Task<User> GetUserByUserName(string username);
 
         Task<IEnumerable<TViewModel>> GetAll<TViewModel>();
+
+        Task<IEnumerable<TViewModel>> GetPurchaseHistory<TViewModel>(string username);
     }
 }
