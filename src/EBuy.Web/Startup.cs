@@ -15,6 +15,8 @@
     using EBuy.Models;
     using EBuy.Services.Mapping;
     using EBuy.Web.Models;
+    using Microsoft.AspNetCore.Identity.UI.Services;
+    using EBuy.Services.EmailSender;
 
     public class Startup
     {
@@ -40,7 +42,10 @@
             services.AddDbContext<EBuyDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<User>()
+            services.AddDefaultIdentity<User>(config =>
+            {
+                config.SignIn.RequireConfirmedEmail = true;
+            })
                 .AddRoles<Role>()
                 .AddDefaultUI(UIFramework.Bootstrap4)
                 .AddEntityFrameworkStores<EBuyDbContext>();
@@ -57,6 +62,8 @@
 
             services.AddMemoryCache();
 
+            services.Configure<AuthMessageSenderOptions>(Configuration);
+
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddCookieTempDataProvider();
@@ -69,6 +76,7 @@
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IShoppingCartService, ShoppingCartService>();
             services.AddTransient<ICheckoutService, CheckoutService>();
+            services.AddTransient<IEmailSender, EmailSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

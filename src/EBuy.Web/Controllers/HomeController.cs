@@ -35,6 +35,11 @@
             return View();
         }
 
+        public async Task<IActionResult> ConfirmEmail()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> SearchResult()
         {
             if (!this.cache.TryGetValue("searchParam", out string searchParam))
