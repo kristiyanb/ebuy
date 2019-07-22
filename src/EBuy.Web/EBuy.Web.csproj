@@ -15,6 +15,7 @@
 
 
   <ItemGroup>
+    <ProjectReference Include="..\EBuy.Common\EBuy.Common.csproj" />
     <ProjectReference Include="..\EBuy.Data\EBuy.Data.csproj" />
     <ProjectReference Include="..\EBuy.Services\EBuy.Services.csproj" />
   </ItemGroup>

@@ -32,5 +32,23 @@
                 .Where(x => x.User.UserName == username)
                 .To<TViewModel>()
                 .ToListAsync();
+
+        public async Task SetFirstName(string username, string firstName)
+        {
+            var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
+            user.FirstName = firstName;
+
+            this.context.Update(user);
+            await this.context.SaveChangesAsync();
+        }
+
+        public async Task SetLastName(string username, string lastName)
+        {
+            var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
+            user.LastName = lastName;
+
+            this.context.Update(user);
+            await this.context.SaveChangesAsync();
+        }
     }
 }

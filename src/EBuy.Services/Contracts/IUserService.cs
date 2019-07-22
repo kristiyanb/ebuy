@@ -11,5 +11,9 @@
         Task<IEnumerable<TViewModel>> GetAll<TViewModel>();
 
         Task<IEnumerable<TViewModel>> GetPurchaseHistory<TViewModel>(string username);
+
+        Task SetFirstName(string username, string firstName);
+
+        Task SetLastName(string username, string lastName);
     }
 }
