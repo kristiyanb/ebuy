@@ -82,6 +82,7 @@ namespace EBuy.Web.Areas.Identity.Pages.Account
 
                     if (redirectUrl != null)
                     {
+                        this.TempData.Remove("RedirectUrl");
                         return Redirect(redirectUrl.ToString());
                     }
 
