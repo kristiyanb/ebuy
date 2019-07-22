@@ -63,7 +63,7 @@
 
             product.ImageUrl = updatedProduct.ImageUrl;
             product.Name = updatedProduct.Name;
-            product.Category = updatedProduct.Category;
+            product.CategoryId = updatedProduct.CategoryId;
             product.Description = updatedProduct.Description;
             product.Price = updatedProduct.Price;
             product.InStock = updatedProduct.InStock;

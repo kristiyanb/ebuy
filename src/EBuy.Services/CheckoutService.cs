@@ -3,6 +3,7 @@
     using Contracts;
     using EBuy.Data;
     using EBuy.Models;
+    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Linq;
     using System.Threading.Tasks;
@@ -49,7 +50,14 @@
                     Purchase = purchase
                 };
 
+                var catelogProduct = await this.context.Products.FirstOrDefaultAsync(x => x.Name == purchasedProduct.Name && 
+                                                                          x.Price == purchasedProduct.Price && 
+                                                                          x.ImageUrl == purchasedProduct.ImageUrl);
+
+                catelogProduct.InStock -= purchasedProduct.Quantity;
+
                 await this.context.PurchasedProducts.AddAsync(purchasedProduct);
+                this.context.Update(catelogProduct);
                 this.context.Remove(product);
             }
 
