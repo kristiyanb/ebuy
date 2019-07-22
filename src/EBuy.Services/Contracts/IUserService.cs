@@ -19,5 +19,7 @@
         Task AddUserToRole(string username, string roleName);
 
         Task RemoveUserFromRole(string username, string roleName);
+
+        Task SetLastOnlineNow(string username);
     }
 }

@@ -1,8 +1,8 @@
-using System;
-using Xunit;
-
 namespace EBuy.Tests
 {
+    using System;
+    using Xunit;
+
     public class UnitTest1
     {
         [Fact]

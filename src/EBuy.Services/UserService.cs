@@ -9,6 +9,7 @@
     using Contracts;
     using System.Linq;
     using Microsoft.AspNetCore.Identity;
+    using System;
 
     public class UserService : IUserService
     {
@@ -73,6 +74,21 @@
             {
                 await this.userManager.RemoveFromRoleAsync(user, roleName);
             }
+        }
+
+        public async Task SetLastOnlineNow(string username)
+        {
+            var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
+
+            if (user == null)
+            {
+                return;
+            }
+
+            user.LastOnline = DateTime.UtcNow;
+
+            this.context.Update(user);
+            await this.context.SaveChangesAsync();
         }
     }
 }

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using EBuy.Models;
+using EBuy.Services.Contracts;
 
 namespace EBuy.Web.Areas.Identity.Pages.Account
 {
@@ -18,11 +19,13 @@ namespace EBuy.Web.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<User> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IUserService userService;
 
-        public LoginModel(SignInManager<User> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<User> signInManager, ILogger<LoginModel> logger, IUserService userService)
         {
             _signInManager = signInManager;
             _logger = logger;
+            this.userService = userService;
         }
 
         [BindProperty]
@@ -77,6 +80,8 @@ namespace EBuy.Web.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+
+                    await this.userService.SetLastOnlineNow(Input.Username);
 
                     var redirectUrl = this.TempData["RedirectUrl"];
 
