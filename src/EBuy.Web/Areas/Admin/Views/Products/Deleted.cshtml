@@ -34,10 +34,7 @@
                 <td>@product.InStock</td>
                 <td>@product.PurchasesCount</td>
                 <td>
-                    <a class="btn-link text-danger mt-5" asp-area="Admin" asp-controller="Products" asp-action="Edit" asp-route-id="@product.Id">Edit</a>
-                </td>
-                <td>
-                    <a class="btn-link text-danger mt-5" asp-area="Admin" asp-controller="Products" asp-action="Remove" asp-route-id="@product.Id">Remove</a>
+                    <a class="btn-link text-danger mt-5" asp-area="Admin" asp-controller="Products" asp-action="Restore" asp-route-id="@product.Id">Restore</a>
                 </td>
             </tr>
         }

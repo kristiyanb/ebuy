@@ -23,7 +23,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddCategory(CategoryInputModel input)
+        public async Task<IActionResult> Add(CategoryInputModel input)
         {
             await this.categoryService.Add(new Category()
             {

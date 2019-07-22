@@ -30,6 +30,7 @@
         public async Task<IEnumerable<TViewModel>> GetProductsByCategoryName<TViewModel>(string categoryName, string orderBy)
         {
             var products = this.context.Products
+                .Where(x => x.IsDeleted == false)
                 .Where(x => x.Category.Name == categoryName);
 
             if (orderBy != null)

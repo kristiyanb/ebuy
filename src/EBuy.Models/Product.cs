@@ -27,6 +27,8 @@
 
         public int InStock { get; set; }
 
+        public bool IsDeleted { get; set; }
+
         public string CategoryId { get; set; }
         public Category Category { get; set; }
 

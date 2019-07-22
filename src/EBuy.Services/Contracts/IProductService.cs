@@ -14,6 +14,14 @@
 
         Task<IEnumerable<TViewModel>> GetAll<TViewModel>();
 
+        Task<IEnumerable<TViewModel>> GetDeleted<TViewModel>();
+
         Task Add(Product product);
+
+        Task Edit(Product product);
+
+        Task Remove(string id);
+
+        Task Restore(string id);
     }
 }

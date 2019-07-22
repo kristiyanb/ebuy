@@ -1,4 +1,4 @@
-﻿namespace EBuy.Web.Areas.Admin.Models
+﻿namespace EBuy.Web.Areas.Admin.Models.Products
 {
     using AutoMapper;
     using EBuy.Models;
