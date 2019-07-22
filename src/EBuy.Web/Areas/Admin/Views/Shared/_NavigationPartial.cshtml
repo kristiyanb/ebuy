@@ -17,8 +17,8 @@
             <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
         </li>
         <li>
-            <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Products</a>
-            <ul class="collapse list-unstyled" id="homeSubmenu">
+            <a href="#productsMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Products</a>
+            <ul class="collapse list-unstyled" id="productsMenu">
                 <li>
                     <a asp-area="Admin" asp-controller="Products" asp-action="Add">Add New Product</a>
                 </li>
@@ -28,8 +28,8 @@
             </ul>
         </li>
         <li>
-            <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Categories</a>
-            <ul class="collapse list-unstyled" id="pageSubmenu">
+            <a href="#categoriesMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Categories</a>
+            <ul class="collapse list-unstyled" id="categoriesMenu">
                 <li>
                     <a asp-area="Admin" asp-controller="Categories" asp-action="Add">Add New Category</a>
                 </li>
@@ -39,7 +39,18 @@
             </ul>
         </li>
         <li>
-            <a  asp-area="Admin" asp-controller="Users" asp-action="Index">Users</a>
+            <a href="#usersMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Users</a>
+            <ul class="collapse list-unstyled" id="usersMenu">
+                <li>
+                    <a asp-area="Admin" asp-controller="Users" asp-action="Index">Users List</a>
+                </li>
+                <li>
+                    <a asp-area="Admin" asp-controller="Users" asp-action="RolesList">Roles List</a>
+                </li>
+                <li>
+                    <a asp-area="Admin" asp-controller="Users" asp-action="ManageRoles">Manage Roles</a>
+                </li>
+            </ul>
         </li>
     </ul>
 

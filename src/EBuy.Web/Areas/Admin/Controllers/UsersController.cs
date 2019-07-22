@@ -5,6 +5,8 @@
     using System.Threading.Tasks;
     using Models.Users;
     using System.Linq;
+    using EBuy.Models;
+    using Microsoft.AspNetCore.Identity;
 
     public class UsersController : AdminController
     {
@@ -20,6 +22,32 @@
             var users = await this.userService.GetAll<UserDetailsModel>();
 
             return View(new UserListModel { Users = users.ToList() });
+        }
+
+        public async Task<IActionResult> ManageRoles()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> RolesList()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddRole(string username, string roleName)
+        {
+            await this.userService.AddUserToRole(username, roleName);
+
+            return Redirect("/Admin/Users");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveRole(string username, string roleName)
+        {
+            await this.userService.RemoveUserFromRole(username, roleName);
+
+            return Redirect("/Admin/Users");
         }
     }
 }

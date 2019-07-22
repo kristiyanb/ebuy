@@ -15,5 +15,9 @@
         Task SetFirstName(string username, string firstName);
 
         Task SetLastName(string username, string lastName);
+
+        Task AddUserToRole(string username, string roleName);
+
+        Task RemoveUserFromRole(string username, string roleName);
     }
 }
