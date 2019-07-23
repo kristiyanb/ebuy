@@ -10,5 +10,7 @@
         Task RemoveProduct(string id);
 
         Task<IEnumerable<TViewModel>> GetShoppingCartProductsByUsername<TViewModel>(string username);
+
+        Task<string> AddProductToGuestCart(string cart, string id, int quantity);
     }
 }

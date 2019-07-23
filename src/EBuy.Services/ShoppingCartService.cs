@@ -8,6 +8,8 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Contracts;
+    using Newtonsoft.Json;
+    using System;
 
     public class ShoppingCartService : IShoppingCartService
     {
@@ -25,16 +27,28 @@
             var product = await this.context.Products.FirstOrDefaultAsync(x => x.Id == id);
             var shoppingCart = await this.GetShoppingCart(username);
 
-            var cartProduct = new ShoppingCartProduct
-            {
-                Name = product.Name,
-                ImageUrl = product.ImageUrl,
-                Price = product.Price,
-                Quantity = quantity,
-                ShoppingCartId = shoppingCart.Id
-            };
+            var cartProduct = this.context.ShoppingCartProducts.FirstOrDefault(x => x.Name == product.Name);
 
-            await this.context.AddAsync(cartProduct);
+            if (cartProduct != null)
+            {
+                cartProduct.Quantity += quantity;
+
+                this.context.ShoppingCartProducts.Update(cartProduct);
+            }
+            else
+            {
+                var newCartProduct = new ShoppingCartProduct
+                {
+                    Name = product.Name,
+                    ImageUrl = product.ImageUrl,
+                    Price = product.Price,
+                    Quantity = quantity,
+                    ShoppingCartId = shoppingCart.Id
+                };
+
+                await this.context.ShoppingCartProducts.AddAsync(newCartProduct);
+            }
+
             await this.context.SaveChangesAsync();
         }
 
@@ -51,6 +65,43 @@
                 .Where(x => x.ShoppingCart.User.UserName == username)
                 .To<TViewModel>()
                 .ToListAsync();
+
+        public async Task<string> AddProductToGuestCart(string cart, string id, int quantity)
+        {
+            var productFromDb = await this.context.Products.FirstOrDefaultAsync(x => x.Id == id);
+            List<GuestCartProduct> products;
+
+            if (cart == null)
+            {
+                products = new List<GuestCartProduct>();
+            }
+            else
+            {
+                products = JsonConvert.DeserializeObject<List<GuestCartProduct>>(cart);
+
+                var product = products.FirstOrDefault(x => x.Name == productFromDb.Name);
+
+                if (product != null)
+                {
+                    product.Quantity += quantity;
+
+                    return JsonConvert.SerializeObject(products);
+                }
+            }
+
+            var newProduct = new GuestCartProduct()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = productFromDb.Name,
+                ImageUrl = productFromDb.ImageUrl,
+                Price = productFromDb.Price,
+                Quantity = quantity
+            };
+
+            products.Add(newProduct);
+
+            return JsonConvert.SerializeObject(products);
+        }
 
         private async Task<ShoppingCart> GetShoppingCart(string username)
         {

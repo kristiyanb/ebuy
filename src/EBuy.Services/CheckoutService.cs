@@ -4,7 +4,9 @@
     using EBuy.Data;
     using EBuy.Models;
     using Microsoft.EntityFrameworkCore;
+    using Newtonsoft.Json;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -55,10 +57,50 @@
                                                                           x.ImageUrl == purchasedProduct.ImageUrl);
 
                 catelogProduct.InStock -= purchasedProduct.Quantity;
+                catelogProduct.PurchasesCount += purchasedProduct.Quantity;
 
                 await this.context.PurchasedProducts.AddAsync(purchasedProduct);
-                this.context.Update(catelogProduct);
-                this.context.Remove(product);
+                this.context.Products.Update(catelogProduct);
+                this.context.ShoppingCartProducts.Remove(product);
+            }
+
+            await this.context.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<bool> CheckoutAsGuest(string cart, string address)
+        {
+            var purchase = new Purchase
+            {
+                Address = address, 
+                DateOfOrder = DateTime.UtcNow,
+            };
+
+            await this.context.AddAsync(purchase);
+
+            var products = JsonConvert.DeserializeObject<List<ShoppingCartProduct>>(cart);
+
+            foreach (var product in products)
+            {
+                var purchasedProduct = new PurchasedProduct
+                {
+                    Name = product.Name,
+                    Price = product.Price,
+                    ImageUrl = product.ImageUrl,
+                    Quantity = product.Quantity,
+                    Purchase = purchase
+                };
+
+                var catelogProduct = await this.context.Products.FirstOrDefaultAsync(x => x.Name == purchasedProduct.Name &&
+                                                                          x.Price == purchasedProduct.Price &&
+                                                                          x.ImageUrl == purchasedProduct.ImageUrl);
+
+                catelogProduct.InStock -= purchasedProduct.Quantity;
+                catelogProduct.PurchasesCount += purchasedProduct.Quantity;
+
+                await this.context.PurchasedProducts.AddAsync(purchasedProduct);
+                this.context.Products.Update(catelogProduct);
             }
 
             await this.context.SaveChangesAsync();
