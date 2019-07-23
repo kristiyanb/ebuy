@@ -11,10 +11,12 @@
     public class CategoriesController : AdminController
     {
         private readonly ICategoryService categoryService;
+        private readonly ICloudinaryService cloudinaryService;
 
-        public CategoriesController(ICategoryService categoryService)
+        public CategoriesController(ICategoryService categoryService, ICloudinaryService cloudinaryService)
         {
             this.categoryService = categoryService;
+            this.cloudinaryService = cloudinaryService;
         }
 
         public async Task<IActionResult> Add()
@@ -25,12 +27,15 @@
         [HttpPost]
         public async Task<IActionResult> Add(CategoryInputModel input)
         {
+            var imageUrl = await this.cloudinaryService.UploadImage(input.Image, input.Name + "-image");
+
             await this.categoryService.Add(new Category()
             {
-                Name = input.Name
+                Name = input.Name,
+                ImageUrl = imageUrl
             });
 
-            return View("Areas/Admin/Views/Dashboard/Index.cshtml");
+            return Redirect("/Admin/Dashboard/Index");
         }
 
         public async Task<IActionResult> Data()

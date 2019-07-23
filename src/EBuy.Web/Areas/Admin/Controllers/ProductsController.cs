@@ -11,11 +11,13 @@
     {
         private readonly IProductService productService;
         private readonly ICategoryService categoryService;
+        private readonly ICloudinaryService cloudinaryService;
 
-        public ProductsController(IProductService productService, ICategoryService categoryService)
+        public ProductsController(IProductService productService, ICategoryService categoryService, ICloudinaryService cloudinaryService)
         {
             this.productService = productService;
             this.categoryService = categoryService;
+            this.cloudinaryService = cloudinaryService;
         }
 
         public async Task<IActionResult> Add()
@@ -26,19 +28,26 @@
         [HttpPost]
         public async Task<IActionResult> Add(ProductInputModel input)
         {
+            if (!ModelState.IsValid)
+            {
+                return await this.Add();
+            }
+
+            var imageUrl = await this.cloudinaryService.UploadImage(input.Image, input.Name + "-image");
+
             var category = this.categoryService.GetCategoryByName(input.CategoryName);
 
             await this.productService.Add(new Product()
             {
                 Name = input.Name,
                 Description = input.Description,
-                ImageUrl = input.ImageUrl,
+                ImageUrl = imageUrl,
                 Price = input.Price,
                 InStock = input.InStock,
                 CategoryId = category.Id
             });
 
-            return View("Areas/Admin/Views/Dashboard/Index.cshtml");
+            return Redirect("/Admin/Dashboard/Index");
         }
 
         public async Task<IActionResult> Data()
@@ -65,14 +74,16 @@
         [HttpPost]
         public async Task<IActionResult> Edit(ProductInputModel input)
         {
+            //TODO: Move everything to a service
             var category = this.categoryService.GetCategoryByName(input.CategoryName);
+            var imageUrl = await this.cloudinaryService.UploadImage(input.Image, input.Name + "-image");
 
             var product = new Product()
             {
                 Id = input.Id,
                 Name = input.Name,
                 Description = input.Description,
-                ImageUrl = input.ImageUrl,
+                ImageUrl = imageUrl,
                 Price = input.Price,
                 InStock = input.InStock,
                 CategoryId = category.Id

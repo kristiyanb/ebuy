@@ -1,11 +1,21 @@
-﻿<div class="container col-4 text-center">
-    <form asp-area="Admin" asp-controller="Categories" asp-action="Add" method="post">
+﻿@using EBuy.Web.Areas.Admin.Models.Categories
+@model CategoryInputModel
+
+<div class="container col-4 text-center">
+    <form asp-area="Admin" asp-controller="Categories" asp-action="Add" method="post" enctype="multipart/form-data">
         <h4>Add New Category</h4>
         <hr />
-        <div asp-validation-summary="All" class="text-danger"></div>
         <div class="form-group">
             <label>Name</label>
-            <input class="form-control" type="text" id="name" name="name" />
+            <input asp-for="Name" class="form-control" type="text" id="name" name="name" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <labal>Image</labal>
+            <div class="custom-file mt-2">
+                <input asp-for="Image" type="file" class="custom-file-input" id="image">
+                <label class="custom-file-label" for="image">Choose file</label>
+            </div>
         </div>
         <button class="btn btn-danger mt-4" type="submit">Create</button>
     </form>

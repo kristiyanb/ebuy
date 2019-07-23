@@ -17,6 +17,7 @@
     using EBuy.Web.Models;
     using Microsoft.AspNetCore.Identity.UI.Services;
     using EBuy.Services.EmailSender;
+    using CloudinaryDotNet;
 
     public class Startup
     {
@@ -70,6 +71,15 @@
 
             services.AddSession();
 
+            var cloudinaryCredentials = new Account(
+                this.Configuration["Cloudinary:CloudName"],
+                this.Configuration["Cloudinary:ApiKey"],
+                this.Configuration["Cloudinary:ApiSecret"]);
+
+            var cloudinaryUtility = new Cloudinary(cloudinaryCredentials);
+
+            services.AddSingleton(cloudinaryUtility);
+
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<ICommentService, CommentService>();
@@ -77,6 +87,7 @@
             services.AddTransient<IShoppingCartService, ShoppingCartService>();
             services.AddTransient<ICheckoutService, CheckoutService>();
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<ICloudinaryService, CloudinaryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
