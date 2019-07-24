@@ -9,23 +9,62 @@
     <div class="container">
         <h1>@Model.Name</h1>
         <p class="font-weight-light">Currently in stock: @Model.InStock</p><br />
-        <div class="rating">
+        @if (User.Identity.Name == null)
+        {
+            <div class="rating">
+                @for (int i = 1; i <= 5; i++)
+                {
+                    if (Model.Rating >= i)
+                    {
+                        <span class="fa fa-star checked" id="star@(i)"></span>
+                    }
+                    else if (i - Model.Rating <= 0.5)
+                    {
+                        <span class="fa fa-star checked" id="star@(i)"></span>
+                    }
+                    else
+                    {
+                        <span class="fa fa-star" id="star@(i)"></span>
+                    }
+                }
+            </div>
+        }
+        else
+        {
             @for (int i = 1; i <= 5; i++)
             {
                 if (Model.Rating >= i)
                 {
-                    <span class="fa fa-star checked" id="star@(i)"></span>
+                    <form asp-area="" asp-controller="Products" asp-action="Vote" class="rating">
+                        <input name="id" value="@Model.Id" hidden />
+                        <input name="rating" value=@i hidden />
+                        <button type="submit" class="invisible-button">
+                            <span class="fa fa-star vote checked" id="rating-@i"></span>
+                        </button>
+                    </form>
                 }
                 else if (i - Model.Rating <= 0.5)
                 {
-                    <span class="fa fa-star checked" id="star@(i)"></span>
+                    <form asp-area="" asp-controller="Products" asp-action="Vote" class="rating">
+                        <input name="id" value="@Model.Id" hidden />
+                        <input name="rating" value=@i hidden />
+                        <button type="submit" class="invisible-button">
+                            <span class="fa fa-star vote checked" id="rating-@i"></span>
+                        </button>
+                    </form>
                 }
                 else
                 {
-                    <span class="fa fa-star" id="star@(i)"></span>
+                    <form asp-area="" asp-controller="Products" asp-action="Vote" class="rating">
+                        <input name="id" value="@Model.Id" hidden />
+                        <input name="rating" value=@i hidden />
+                        <button type="submit" class="invisible-button">
+                            <span class="fa fa-star vote" id="rating-@i"></span>
+                        </button>
+                    </form>
                 }
             }
-        </div>
+        }
         <br />
         <span>$@Model.Price</span><br /><br />
         <hr />

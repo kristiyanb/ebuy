@@ -103,3 +103,13 @@ input[type=number]::-webkit-outer-spin-button {
     color: #fff;
     background-color: #d9534f;
 }
+
+.invisible-button {
+    border: none;
+    background-color: #fff;
+    padding: 0;
+}
+
+.invisible-button:focus {
+    outline: none;
+}

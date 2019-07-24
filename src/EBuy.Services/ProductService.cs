@@ -8,6 +8,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Contracts;
+    using System;
 
     public class ProductService : IProductService
     {
@@ -99,6 +100,43 @@
             product.IsDeleted = false;
 
             this.context.Update(product);
+            await this.context.SaveChangesAsync();
+        }
+
+        public async Task UpdateRating(string username, string productId, string rating)
+        {
+            var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
+            var product = await this.context.Products.FirstOrDefaultAsync(x => x.Id == productId);
+            var vote = await this.context.Votes.FirstOrDefaultAsync(x => x.UserId == user.Id && x.ProductId == productId);
+            var validRating = int.TryParse(rating, out int newRating);
+
+            if (user == null || product == null || validRating == false)
+            {
+                return;
+            }
+
+            if (vote == null)
+            {
+                product.Score += newRating;
+                product.VotesCount++;
+
+                await this.context.Votes.AddAsync(new Vote { UserId = user.Id, ProductId = productId, Score = newRating });
+            }
+            else
+            {
+                if (newRating == vote.Score)
+                {
+                    return;
+                }
+
+                product.Score -= vote.Score;
+                product.Score += newRating;
+                vote.Score = newRating;
+
+                this.context.Votes.Update(vote);
+            }
+
+            this.context.Products.Update(product);
             await this.context.SaveChangesAsync();
         }
     }

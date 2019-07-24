@@ -23,5 +23,7 @@
         Task Remove(string id);
 
         Task Restore(string id);
+
+        Task UpdateRating(string username, string productId, string rating);
     }
 }

@@ -20,5 +20,12 @@
 
             return View(product);
         }
+
+        public async Task<IActionResult> Vote(string rating, string id)
+        {
+            await this.productService.UpdateRating(this.User.Identity.Name, id, rating);
+
+            return Redirect("/Products/Details/" + id);
+        }
     }
 }
