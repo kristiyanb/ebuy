@@ -88,6 +88,7 @@
             services.AddTransient<ICheckoutService, CheckoutService>();
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
+            services.AddTransient<IPurchaseService, PurchaseService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

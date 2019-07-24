@@ -1,0 +1,44 @@
+﻿@using EBuy.Web.Areas.Admin.Models.Purchases
+@model PurchaseListModel
+
+@{
+    ViewData["Title"] = "Purchases";
+    var counter = 1;
+}
+
+<h4 class="text-center">@ViewData["Title"]</h4>
+<hr />
+
+<div class="accordion container" id="purchaseHistoryAccordion">
+    @foreach (var purchase in Model.Purchases)
+    {
+        var collapseId = "collapse" + counter;
+        var headingId = "heading" + counter;
+
+        <div class="card">
+            <div class="card-header" id=@headingId>
+                <h2 class="mb-0 text-center">
+                    <button class="btn btn-link text-dark" type="button" data-toggle="collapse" data-target="#@collapseId" aria-expanded="true" aria-controls="@collapseId">
+                        @purchase.DateOfOrder
+                    </button>
+                </h2>
+            </div>
+
+            <div id=@collapseId class="collapse" aria-labelledby=@headingId data-parent="#purchaseHistoryAccordion">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var product in purchase.Products)
+                        {
+                            <li class="list-group-item">@product.Name, Price: $@product.Price, Quantity @product.Quantity</li>
+                        }
+                        <li class="list-group-item">Amount: $@purchase.Amount</li>
+                        <li class="list-group-item">Address: @purchase.Address</li>
+                        <li class="list-group-item">Date: @purchase.DateOfOrder</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        counter++;
+    }
+</div>

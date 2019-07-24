@@ -5,8 +5,6 @@
     using System.Threading.Tasks;
     using Models.Users;
     using System.Linq;
-    using EBuy.Models;
-    using Microsoft.AspNetCore.Identity;
 
     public class UsersController : AdminController
     {
