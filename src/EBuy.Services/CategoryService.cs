@@ -38,7 +38,7 @@
                 switch (orderBy)
                 {
                     case "Name": products = products.OrderBy(x => x.Name); break;
-                    case "Rating": products = products.OrderByDescending(x => (x.Score / x.VotesCount)); break;
+                    case "Rating": products = products.OrderByDescending(x => (x.Score / (x.VotesCount == 0 ? 1 : x.VotesCount))); break;
                     case "Price": products = products.OrderBy(x => x.Price); break;
                     case "PriceDescending": products = products.OrderByDescending(x => x.Price); break;
                     default: break;
