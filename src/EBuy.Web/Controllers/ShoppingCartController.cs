@@ -55,8 +55,6 @@
 
             if (this.User.Identity.Name == null)
             {
-                //HttpContext.Response.Cookies.Append("", "", new CookieOptions() { Expires = D})
-
                 var cart = HttpContext.Session.GetString("cart");
                 var updatedCart = await this.shoppingCartService.AddProductToGuestCart(cart, input.Id, input.Quantity);
 

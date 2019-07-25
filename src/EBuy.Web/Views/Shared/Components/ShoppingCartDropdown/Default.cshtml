@@ -8,11 +8,12 @@
         <div class="dropdown-item">
             @foreach (var product in Model.Products)
             {
-                <div id="shoppingCart-item" class="d-flex justify-content-between mt-1">
-                    <img class="w-25" src="@product.ImageUrl" />
-                    <div class="w-50">
-                        <h6>@product.Name</h6>
-                        <p>$@product.Price</p>
+                var productName = product.Name.Length > 12 ? product.Name.Substring(0, 25) + "..." : product.Name; 
+                <div id="shoppingCart-item" class="d-flex justify-content-between mt-1 text-center">
+                    <img class="col-4" src="@product.ImageUrl" />
+                    <div class="col-8">
+                        <h6>@productName</h6>
+                        <p>$@product.Price <span class="ml-3"> x</span> @product.Quantity</p>
                     </div>
                 </div>
             }
