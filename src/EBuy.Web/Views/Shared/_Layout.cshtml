@@ -31,14 +31,14 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
-                    @await Component.InvokeAsync("ShoppingCartDropdown")
+                    <vc:shopping-cart-dropdown></vc:shopping-cart-dropdown>
                     <form asp-area="" asp-controller="Home" asp-action="Search" class="form-inline mr-5 border">
                         <input class="form-control border-0" type="text" placeholder="Search" aria-label="Search" id="searchParam" name="searchParam" />
                         <button class="btn bg-white" type="submit">&#128269;</button>
                     </form>
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            @await Component.InvokeAsync("CategoriesDropdown")
+                            <vc:categories-dropdown></vc:categories-dropdown>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link btn btn-link text-dark" asp-area="" asp-controller="Home" asp-action="Contacts">Contacts</a>
