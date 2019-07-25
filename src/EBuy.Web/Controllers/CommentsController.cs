@@ -1,10 +1,12 @@
 ﻿namespace EBuy.Web.Controllers
 {
-    using EBuy.Services.Contracts;
-    using EBuy.Web.Models.Comments;
-    using Microsoft.AspNetCore.Mvc;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Mvc;
+
+    using EBuy.Services.Contracts;
+    using Models.Comments;
 
     [Route("api/[controller]")]
     [ApiController]

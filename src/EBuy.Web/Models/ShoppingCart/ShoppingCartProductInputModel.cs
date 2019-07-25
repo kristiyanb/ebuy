@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace EBuy.Web.Models.ShoppingCart
+﻿namespace EBuy.Web.Models.ShoppingCart
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class ShoppingCartProductInputModel
     {
         public string Id { get; set; }

@@ -2,8 +2,10 @@
 {
     using System.Linq;
     using System.Threading.Tasks;
-    using EBuy.Services.Contracts;
+
     using Microsoft.AspNetCore.Mvc;
+
+    using EBuy.Services.Contracts;
     using Models.Purchases;
 
     public class PurchasesController : AdminController
@@ -19,7 +21,7 @@
         {
             var purchases = await this.purchaseService.GetAll<PurchaseViewModel>();
 
-            return View(new PurchaseListModel { Purchases = purchases.ToList() });
+            return this.View(new PurchaseListModel { Purchases = purchases.ToList() });
         }
     }
 }

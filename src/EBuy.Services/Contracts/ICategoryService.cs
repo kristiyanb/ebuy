@@ -1,8 +1,9 @@
 ﻿namespace EBuy.Services.Contracts
 {
-    using EBuy.Services.Models;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
+    using Models;
 
     public interface ICategoryService
     {

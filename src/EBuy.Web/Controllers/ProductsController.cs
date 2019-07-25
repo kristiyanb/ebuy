@@ -1,9 +1,11 @@
 ﻿namespace EBuy.Web.Controllers
 {
-    using EBuy.Services.Contracts;
-    using EBuy.Web.Models.Products;
-    using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Mvc;
+
+    using EBuy.Services.Contracts;
+    using Models.Products;
 
     public class ProductsController : Controller
     {
@@ -18,14 +20,14 @@
         {
             var product = await this.productService.GetProductById<ProductDetailsModel>(id);
 
-            return View(product);
+            return this.View(product);
         }
 
         public async Task<IActionResult> Vote(string rating, string id)
         {
             await this.productService.UpdateRating(this.User.Identity.Name, id, rating);
 
-            return Redirect("/Products/Details/" + id);
+            return this.Redirect("/Products/Details/" + id);
         }
     }
 }

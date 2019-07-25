@@ -1,15 +1,17 @@
 ﻿namespace EBuy.Services
 {
-    using System.Linq;
     using System.Collections.Generic;
-    using Microsoft.EntityFrameworkCore;
-    using EBuy.Data;
-    using EBuy.Services.Mapping;
+    using System.Linq;
     using System.Threading.Tasks;
-    using Contracts;
-    using EBuy.Services.Models;
+
     using AutoMapper;
+    using Microsoft.EntityFrameworkCore;
+
+    using Contracts;
+    using EBuy.Data;
     using EBuy.Models;
+    using Mapping;
+    using Models;
 
     public class CategoryService : ICategoryService
     {
@@ -31,7 +33,7 @@
 
         public async Task<IEnumerable<TViewModel>> GetProductsByCategoryName<TViewModel>(string categoryName, string orderBy)
         {
-            var products = this.context.Products
+            var productsFromDb = this.context.Products
                 .Where(x => x.IsDeleted == false)
                 .Where(x => x.Category.Name == categoryName);
 
@@ -39,15 +41,24 @@
             {
                 switch (orderBy)
                 {
-                    case "Name": products = products.OrderBy(x => x.Name); break;
-                    case "Rating": products = products.OrderByDescending(x => (x.Score / (x.VotesCount == 0 ? 1 : x.VotesCount))); break;
-                    case "Price": products = products.OrderBy(x => x.Price); break;
-                    case "PriceDescending": products = products.OrderByDescending(x => x.Price); break;
-                    default: break;
+                    case "Name": productsFromDb = productsFromDb.OrderBy(x => x.Name);
+                        break;
+                    case "Rating": productsFromDb = productsFromDb.OrderByDescending(x => x.Score / (x.VotesCount == 0 ? 1 : x.VotesCount));
+                        break;
+                    case "Price": productsFromDb = productsFromDb.OrderBy(x => x.Price);
+                        break;
+                    case "PriceDescending": productsFromDb = productsFromDb.OrderByDescending(x => x.Price);
+                        break;
+                    default:
+                        break;
                 }
             }
 
-            return await products.To<TViewModel>().ToListAsync();
+            var products = await productsFromDb
+                .To<TViewModel>()
+                .ToListAsync();
+
+            return products;
         }
 
         public async Task<IEnumerable<TViewModel>> GetCategories<TViewModel>()
@@ -58,7 +69,7 @@
         public async Task Add(CategoryDto input)
         {
             var category = this.mapper.Map<Category>(input);
-            var imageUrl = await this.cloudinaryService.UploadImage(input.Image, input.Name + "-image");
+            var imageUrl = await this.cloudinaryService.UploadImage(input.Image, input.Name);
 
             category.ImageUrl = imageUrl;
 

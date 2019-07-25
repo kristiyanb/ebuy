@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace EBuy.Data.Migrations
+﻿namespace EBuy.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+    using System;
+
     public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

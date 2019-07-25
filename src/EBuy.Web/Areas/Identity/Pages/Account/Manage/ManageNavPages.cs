@@ -1,8 +1,9 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc.Rendering;
-
-namespace EBuy.Web.Areas.Identity.Pages.Account.Manage
+﻿namespace EBuy.Web.Areas.Identity.Pages.Account.Manage
 {
+    using System;
+
+    using Microsoft.AspNetCore.Mvc.Rendering;
+
     public static class ManageNavPages
     {
         public static string Index => "Index";
@@ -33,6 +34,7 @@ namespace EBuy.Web.Areas.Identity.Pages.Account.Manage
         {
             var activePage = viewContext.ViewData["ActivePage"] as string
                 ?? System.IO.Path.GetFileNameWithoutExtension(viewContext.ActionDescriptor.DisplayName);
+
             return string.Equals(activePage, page, StringComparison.OrdinalIgnoreCase) ? "active" : null;
         }
     }

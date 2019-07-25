@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace EBuy.Data.Migrations
+﻿namespace EBuy.Data.Migrations
 {
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class removedunnecessarypurchaseproperties : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)

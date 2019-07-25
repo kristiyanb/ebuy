@@ -1,25 +1,25 @@
 ﻿namespace EBuy.Services
 {
-    using EBuy.Data;
-    using EBuy.Models;
-    using EBuy.Services.Mapping;
-    using Microsoft.EntityFrameworkCore;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Contracts;
+
+    using Microsoft.EntityFrameworkCore;
     using Newtonsoft.Json;
-    using System;
+
+    using Contracts;
+    using EBuy.Data;
+    using EBuy.Models;
+    using Mapping;
 
     public class ShoppingCartService : IShoppingCartService
     {
         private readonly EBuyDbContext context;
-        private readonly IUserService userService;
 
-        public ShoppingCartService(EBuyDbContext context, IUserService userService)
+        public ShoppingCartService(EBuyDbContext context)
         {
             this.context = context;
-            this.userService = userService;
         }
 
         public async Task AddProduct(string username, string id, int quantity)
@@ -117,7 +117,9 @@
             await this.context.ShoppingCarts.AddAsync(new ShoppingCart { UserId = user.Id });
             await this.context.SaveChangesAsync();
 
-            return await this.context.ShoppingCarts.FirstOrDefaultAsync(x => x.User.UserName == username);
+            var newCart = await this.context.ShoppingCarts.FirstOrDefaultAsync(x => x.User.UserName == username);
+
+            return newCart;
         }
     }
 }

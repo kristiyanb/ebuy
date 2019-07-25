@@ -1,7 +1,4 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-$('input:file').change(
+﻿$('input:file').change(
     function (e) {
         $('input:file').next().text(e.target.files[0].name);
     }
@@ -16,7 +13,7 @@ $('.vote').toArray().forEach(x => {
 
         for (let i = 1; i <= 5; i++) {
             if (rating >= i) {
-                $(`#rating-${i}`).css('color', 'darkorange'); //addClass('checked');
+                $(`#rating-${i}`).css('color', 'darkorange');
             } else {
                 $(`#rating-${i}`).css('color', 'black');
             }

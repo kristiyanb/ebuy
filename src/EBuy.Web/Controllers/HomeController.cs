@@ -1,16 +1,20 @@
 ﻿namespace EBuy.Web.Controllers
 {
-    using System.Diagnostics;
-    using Microsoft.AspNetCore.Mvc;
-    using EBuy.Web.Models;
-    using EBuy.Web.Models.Search;
-    using EBuy.Web.Models.Products;
-    using EBuy.Services.Contracts;
-    using System.Threading.Tasks;
-    using System.Linq;
-    using System.Collections.Generic;
-    using Microsoft.Extensions.Caching.Memory;
     using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Caching.Memory;
+
+    using EBuy.Common;
+    using EBuy.Services.Contracts;
+    using Models;
+    using Models.Products;
+    using Models.Search;
+
 
     public class HomeController : Controller
     {
@@ -27,29 +31,29 @@
         {
             var products = await this.productService.GetLastFiveProducts<ProductGridModel>();
 
-            return View(new ProductsCarouselModel { Products = products.ToList() });
+            return this.View(new ProductsCarouselModel { Products = products.ToList() });
         }
 
         public async Task<IActionResult> Contacts()
         {
-            return View();
+            return this.View();
         }
 
         public async Task<IActionResult> ConfirmEmail()
         {
-            return View();
+            return this.View();
         }
 
         public async Task<IActionResult> SearchResult()
         {
-            if (!this.cache.TryGetValue("searchParam", out string searchParam))
+            if (!this.cache.TryGetValue(GlobalConstants.SearchParamKey, out string searchParam))
             {
-                return View(new SearchViewModel { Name = "", Products = new List<ProductGridModel>() });
+                return this.View(new SearchViewModel { Name = "", Products = new List<ProductGridModel>() });
             }
 
             var products = await this.productService.GetProductsByNameOrCategoryMatch<ProductGridModel>(searchParam);
 
-            return View(new SearchViewModel { Name = searchParam, Products = products.ToList() });
+            return this.View(new SearchViewModel { Name = searchParam, Products = products.ToList() });
         }
 
         public async Task<IActionResult> Search(string searchParam)
@@ -57,7 +61,7 @@
             var cacheEntryOptions = new MemoryCacheEntryOptions()
                 .SetSlidingExpiration(TimeSpan.FromMinutes(10));
 
-            this.cache.Set("searchParam", searchParam, cacheEntryOptions);
+            this.cache.Set(GlobalConstants.SearchParamKey, searchParam, cacheEntryOptions);
 
             return Redirect("/Home/SearchResult");
         }
@@ -65,7 +69,7 @@
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return this.View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

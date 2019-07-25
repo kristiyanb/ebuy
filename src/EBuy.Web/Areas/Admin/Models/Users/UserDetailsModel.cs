@@ -1,6 +1,7 @@
 ﻿namespace EBuy.Web.Areas.Admin.Models.Users
 {
     using AutoMapper;
+
     using EBuy.Models;
     using EBuy.Services.Mapping;
 

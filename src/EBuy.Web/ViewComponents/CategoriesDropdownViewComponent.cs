@@ -1,10 +1,13 @@
 ﻿namespace EBuy.Web.ViewComponents
 {
-    using EBuy.Services.Contracts;
-    using EBuy.Web.Models.Categories;
-    using Microsoft.AspNetCore.Mvc;
     using System.Linq;
     using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Mvc;
+
+    using EBuy.Services.Contracts;
+    using Models.Categories;
+
 
     public class CategoriesDropdownViewComponent : ViewComponent
     {
@@ -19,7 +22,7 @@
         {
             var categories = await this.categoryService.GetCategoryNames();
 
-            return View(new CategoriesDropdownViewModel { Categories = categories.ToList() });
+            return this.View(new CategoriesDropdownViewModel { Categories = categories.ToList() });
         }
     }
 }

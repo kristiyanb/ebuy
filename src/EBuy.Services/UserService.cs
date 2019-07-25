@@ -1,15 +1,17 @@
 ﻿namespace EBuy.Services
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
+
+    using Contracts;
+    using Mapping;
     using EBuy.Data;
     using EBuy.Models;
-    using System.Collections.Generic;
-    using EBuy.Services.Mapping;
-    using Contracts;
-    using System.Linq;
-    using Microsoft.AspNetCore.Identity;
-    using System;
 
     public class UserService : IUserService
     {
@@ -82,40 +84,39 @@
         {
             var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
 
-            if (user == null)
+            if (user != null)
             {
-                return;
+                user.LastOnline = DateTime.UtcNow;
+
+                this.context.Update(user);
+                await this.context.SaveChangesAsync();
             }
-
-            user.LastOnline = DateTime.UtcNow;
-
-            this.context.Update(user);
-            await this.context.SaveChangesAsync();
         }
 
         public async Task<IDictionary<string, List<string>>> GetUserRoleList()
         {
             var roles = new Dictionary<string, List<string>>();
+            var userRoles = await this.context.UserRoles.ToListAsync();
 
-            foreach (var userRolePair in this.context.UserRoles.ToList())
+            foreach (var userRolePair in userRoles)
             {
-                var roleName = this.context.Roles.FirstOrDefault(x => x.Id == userRolePair.RoleId).Name;
+                var role = await this.context.Roles.FirstOrDefaultAsync(x => x.Id == userRolePair.RoleId);
 
-                if (roleName.ToLower() == "administrator" || roleName.ToLower() == "user")
+                if (role.Name.ToLower() == "administrator" || role.Name.ToLower() == "user")
                 {
                     continue;
                 }
 
-                var user = this.context.Users.FirstOrDefault(x => x.Id == userRolePair.UserId);
+                var user = await this.context.Users.FirstOrDefaultAsync(x => x.Id == userRolePair.UserId);
 
-                if (!roles.ContainsKey(roleName))
+                if (!roles.ContainsKey(role.Name))
                 {
-                    roles[roleName] = new List<string>();
+                    roles[role.Name] = new List<string>();
                 }
 
                 var userInfo = $"{user.FirstName} {user.LastName} ({user.Email})";
 
-                roles[roleName].Add(userInfo);
+                roles[role.Name].Add(userInfo);
             }
 
             return roles;

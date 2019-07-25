@@ -2,10 +2,12 @@
 {
     using System.IO;
     using System.Threading.Tasks;
+
     using CloudinaryDotNet;
     using CloudinaryDotNet.Actions;
-    using Contracts;
     using Microsoft.AspNetCore.Http;
+
+    using Contracts;
 
     public class CloudinaryService : ICloudinaryService
     {
@@ -23,6 +25,7 @@
             using (var stream = new MemoryStream())
             {
                 await pictureFile.CopyToAsync(stream);
+
                 destination = stream.ToArray();
             }
 

@@ -3,10 +3,12 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using System.Linq;
+
+    using Microsoft.EntityFrameworkCore;
+
     using Contracts;
     using EBuy.Data;
-    using EBuy.Services.Mapping;
-    using Microsoft.EntityFrameworkCore;
+    using Mapping;
 
     public class PurchaseService : IPurchaseService
     {

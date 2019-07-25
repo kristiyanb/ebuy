@@ -1,14 +1,16 @@
 namespace EBuy.Web.Areas.Identity.Pages.Account.Manage
 {
-    using AutoMapper;
-    using EBuy.Models;
-    using EBuy.Services.Contracts;
-    using EBuy.Services.Mapping;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.RazorPages;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
+    using AutoMapper;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.RazorPages;
+
+    using EBuy.Models;
+    using EBuy.Services.Contracts;
+    using EBuy.Services.Mapping;
 
     public class PurchaseHistoryModel : PageModel
     {

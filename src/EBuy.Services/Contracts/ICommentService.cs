@@ -1,6 +1,5 @@
 ﻿namespace EBuy.Services.Contracts
 {
-    using EBuy.Models;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 

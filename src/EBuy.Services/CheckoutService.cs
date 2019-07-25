@@ -1,14 +1,16 @@
 ﻿namespace EBuy.Services
 {
-    using Contracts;
-    using EBuy.Data;
-    using EBuy.Models;
-    using Microsoft.EntityFrameworkCore;
-    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
+    using Microsoft.EntityFrameworkCore;
+    using Newtonsoft.Json;
+
+    using Contracts;
+    using EBuy.Data;
+    using EBuy.Models;
 
     public class CheckoutService : ICheckoutService
     {
@@ -21,7 +23,9 @@
 
         public async Task<bool> Checkout(string username, string address)
         {
-            var shoppingCartProducts = this.context.ShoppingCartProducts.Where(x => x.ShoppingCart.User.UserName == username).ToList();
+            var shoppingCartProducts = this.context.ShoppingCartProducts
+                .Where(x => x.ShoppingCart.User.UserName == username)
+                .ToList();
 
             if (shoppingCartProducts.Count == 0)
             {

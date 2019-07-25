@@ -1,12 +1,14 @@
 ﻿namespace EBuy.Web.Areas.Admin.Controllers
 {
-    using EBuy.Services.Contracts;
-    using Microsoft.AspNetCore.Mvc;
-    using System.Threading.Tasks;
-    using Models.Categories;
     using System.Linq;
+    using System.Threading.Tasks;
+
     using AutoMapper;
+    using Microsoft.AspNetCore.Mvc;
+
+    using EBuy.Services.Contracts;
     using EBuy.Services.Models;
+    using Models.Categories;
 
     public class CategoriesController : AdminController
     {
@@ -21,23 +23,24 @@
 
         public async Task<IActionResult> Add()
         {
-            return View();
+            return this.View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Add(CategoryInputModel input)
         {
             var categoryDto = this.mapper.Map<CategoryDto>(input);
+
             await this.categoryService.Add(categoryDto);
 
-            return Redirect("/Admin/Dashboard/Index");
+            return this.Redirect("/Admin/Dashboard/Index");
         }
 
         public async Task<IActionResult> Data()
         {
             var categories = await this.categoryService.GetCategories<CategoryDetailsModel>();
 
-            return View(new CategoryListModel { Categories = categories.ToList() });
+            return this.View(new CategoryListModel { Categories = categories.ToList() });
         }
     }
 }

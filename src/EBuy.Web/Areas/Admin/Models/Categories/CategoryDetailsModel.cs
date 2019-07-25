@@ -1,9 +1,11 @@
 ﻿namespace EBuy.Web.Areas.Admin.Models.Categories
 {
+    using System.Linq;
+
     using AutoMapper;
+
     using EBuy.Models;
     using EBuy.Services.Mapping;
-    using System.Linq;
 
     public class CategoryDetailsModel : IMapFrom<Category>, IHaveCustomMappings
     {

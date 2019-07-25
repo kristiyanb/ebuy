@@ -1,14 +1,16 @@
 ﻿namespace EBuy.Services
 {
     using System;
-    using EBuy.Data;
-    using EBuy.Models;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Contracts;
-    using System.Collections.Generic;
+
     using Microsoft.EntityFrameworkCore;
-    using EBuy.Services.Mapping;
+
+    using Contracts;
+    using EBuy.Data;
+    using EBuy.Models;
+    using Mapping;
 
     public class CommentService : ICommentService
     {

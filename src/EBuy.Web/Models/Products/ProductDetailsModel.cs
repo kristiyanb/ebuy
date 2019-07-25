@@ -1,9 +1,9 @@
 ﻿namespace EBuy.Web.Models.Products
 {
     using AutoMapper;
+
     using EBuy.Models;
     using EBuy.Services.Mapping;
-    using System.Collections.Generic;
 
     public class ProductDetailsModel : IMapFrom<Product>, IHaveCustomMappings
     {

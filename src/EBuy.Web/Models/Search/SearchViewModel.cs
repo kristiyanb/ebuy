@@ -1,7 +1,8 @@
 ﻿namespace EBuy.Web.Models.Search
 {
-    using EBuy.Web.Models.Products;
     using System.Collections.Generic;
+
+    using Models.Products;
 
     public class SearchViewModel
     {

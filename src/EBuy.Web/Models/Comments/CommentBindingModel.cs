@@ -1,6 +1,7 @@
 ﻿namespace EBuy.Web.Models.Comments
 {
     using AutoMapper;
+
     using EBuy.Models;
     using EBuy.Services.Mapping;
 

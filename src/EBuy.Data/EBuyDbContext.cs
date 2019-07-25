@@ -1,8 +1,9 @@
 ﻿namespace EBuy.Data
 {
-    using EBuy.Models;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
+
+    using EBuy.Models;
 
     public class EBuyDbContext : IdentityDbContext<User, Role, string>
     {

@@ -1,10 +1,11 @@
 ﻿namespace EBuy.Web.Infrastructure.Mappings
 {
     using AutoMapper;
-    using EBuy.Models;
-    using EBuy.Services.Models;
+
     using Areas.Admin.Models.Categories;
     using Areas.Admin.Models.Products;
+    using EBuy.Models;
+    using EBuy.Services.Models;
 
     public class MappingProfiles : Profile
     {

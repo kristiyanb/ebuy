@@ -1,16 +1,17 @@
 ﻿namespace EBuy.Services
 {
-    using EBuy.Data;
-    using EBuy.Models;
-    using EBuy.Services.Mapping;
-    using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Contracts;
-    using Microsoft.AspNetCore.Http;
-    using EBuy.Services.Models;
+
     using AutoMapper;
+    using Microsoft.EntityFrameworkCore;
+
+    using Contracts;
+    using EBuy.Data;
+    using EBuy.Models;
+    using Mapping;
+    using Models;
 
     public class ProductService : IProductService
     {
@@ -53,7 +54,7 @@
                 .ToListAsync();
 
         public async Task<IEnumerable<TViewModel>> GetDeleted<TViewModel>()
-           => await this.context.Products
+            => await this.context.Products
                .Where(x => x.IsDeleted == true)
                .To<TViewModel>()
                .ToListAsync();
@@ -62,7 +63,7 @@
         {
             var product = this.mapper.Map<Product>(input);
 
-            var imageUrl = await this.cloudinaryService.UploadImage(input.Image, input.Name + "-image");
+            var imageUrl = await this.cloudinaryService.UploadImage(input.Image, input.Name);
             var category = await this.context.Categories.FirstOrDefaultAsync(x => x.Name == input.CategoryName);
 
             product.ImageUrl = imageUrl;
@@ -77,12 +78,14 @@
             var product = await this.context.Products.FirstOrDefaultAsync(x => x.Id == input.Id);
             var category = await this.context.Categories.FirstOrDefaultAsync(x => x.Name == input.CategoryName);
 
-            mapper.Map(input, product, typeof(ProductDto), typeof(Product));
+            this.mapper.Map(input, product, typeof(ProductDto), typeof(Product));
+
             product.CategoryId = category.Id;
 
             if (input.Image != null)
             {
-                var imageUrl = await this.cloudinaryService.UploadImage(input.Image, input.Name + "-image");
+                var imageUrl = await this.cloudinaryService.UploadImage(input.Image, input.Name);
+
                 product.ImageUrl = imageUrl;
             }
 
@@ -109,15 +112,13 @@
         {
             var product = await this.context.Products.FirstOrDefaultAsync(x => x.Id == id);
 
-            if (product == null)
+            if (product != null)
             {
-                return;
+                product.IsDeleted = false;
+
+                this.context.Update(product);
+                await this.context.SaveChangesAsync();
             }
-
-            product.IsDeleted = false;
-
-            this.context.Update(product);
-            await this.context.SaveChangesAsync();
         }
 
         public async Task UpdateRating(string username, string productId, string rating)

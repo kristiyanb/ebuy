@@ -1,11 +1,13 @@
 ﻿namespace EBuy.Web.Controllers
 {
-    using EBuy.Services.Contracts;
-    using EBuy.Web.Models.Categories;
-    using EBuy.Web.Models.Products;
-    using Microsoft.AspNetCore.Mvc;
     using System.Linq;
     using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Mvc;
+
+    using EBuy.Services.Contracts;
+    using Models.Categories;
+    using Models.Products;
 
     public class CategoriesController : Controller
     {
@@ -20,7 +22,7 @@
         {
             var categories = await this.categoryService.GetCategories<CategoryGridModel>();
 
-            return View(new CategoriesIndexViewModel { Categories = categories.ToList() });
+            return this.View(new CategoriesIndexViewModel { Categories = categories.ToList() });
         }
 
         [Route("/Products/{name}")]
@@ -29,7 +31,7 @@
             var products = await this.categoryService
                 .GetProductsByCategoryName<ProductGridModel>(name, orderBy);
 
-            return View(new CategoryViewModel { Name = name, Products = products.ToList() });
+            return this.View(new CategoryViewModel { Name = name, Products = products.ToList() });
         }
     }
 }

@@ -1,10 +1,12 @@
 ﻿namespace EBuy.Web.Areas.Admin.Controllers
 {
-    using EBuy.Services.Contracts;
-    using Microsoft.AspNetCore.Mvc;
-    using System.Threading.Tasks;
-    using Models.Users;
     using System.Linq;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Mvc;
+
+    using EBuy.Services.Contracts;
+    using Models.Users;
 
     public class UsersController : AdminController
     {
@@ -19,19 +21,19 @@
         {
             var users = await this.userService.GetAll<UserDetailsModel>();
 
-            return View(new UserListModel { Users = users.ToList() });
+            return this.View(new UserListModel { Users = users.ToList() });
         }
 
         public async Task<IActionResult> ManageRoles()
         {
-            return View();
+            return this.View();
         }
 
         public async Task<IActionResult> RolesList()
         {
             var roles = await this.userService.GetUserRoleList();
 
-            return View(roles);
+            return this.View(roles);
         }
 
         [HttpPost]
@@ -39,7 +41,7 @@
         {
             await this.userService.AddUserToRole(username, roleName);
 
-            return Redirect("/Admin/Users");
+            return this.Redirect("/Admin/Users");
         }
 
         [HttpPost]
@@ -47,7 +49,7 @@
         {
             await this.userService.RemoveUserFromRole(username, roleName);
 
-            return Redirect("/Admin/Users");
+            return this.Redirect("/Admin/Users");
         }
     }
 }
