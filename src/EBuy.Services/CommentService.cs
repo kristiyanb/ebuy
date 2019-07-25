@@ -13,12 +13,10 @@
     public class CommentService : ICommentService
     {
         private readonly EBuyDbContext context;
-        private readonly IUserService userService;
 
-        public CommentService(EBuyDbContext context, IUserService userService)
+        public CommentService(EBuyDbContext context)
         {
             this.context = context;
-            this.userService = userService;
         }
 
         public async Task<IEnumerable<TViewModel>> GetCommentsByProductId<TViewModel>(string id)
@@ -29,7 +27,7 @@
 
         public async Task Add(string username, string productId, string content)
         {
-            var user = await this.userService.GetUserByUserName(username);
+            var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
 
             var comment = new Comment()
             {
@@ -43,14 +41,12 @@
             await this.context.SaveChangesAsync();
         }
 
-        public Comment Delete(string commentId)
+        public async Task Delete(string commentId)
         {
-            var comment = this.context.Comments.FirstOrDefault(x => x.Id == commentId);
+            var comment = await this.context.Comments.FirstOrDefaultAsync(x => x.Id == commentId);
 
             this.context.Remove(comment);
-            this.context.SaveChanges();
-
-            return comment;
+            await this.context.SaveChangesAsync();
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿namespace EBuy.Web.Controllers
 {
+    using AutoMapper;
     using EBuy.Models;
     using EBuy.Services.Contracts;
+    using EBuy.Web.Models.Users;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Newtonsoft.Json;
@@ -11,15 +13,21 @@
     public class CheckoutController : Controller
     {
         private readonly ICheckoutService checkoutService;
+        private readonly IUserService userService;
+        private readonly IMapper mapper;
 
-        public CheckoutController(ICheckoutService checkoutService)
+        public CheckoutController(ICheckoutService checkoutService, IUserService userService, IMapper mapper)
         {
             this.checkoutService = checkoutService;
+            this.userService = userService;
+            this.mapper = mapper;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View();
+            var user = await this.userService.GetUserByUserName<UserViewModel>(this.User.Identity.Name);
+
+            return View(user);
         }
 
         public async Task<IActionResult> Order(string address)

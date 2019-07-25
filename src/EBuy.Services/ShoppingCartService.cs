@@ -112,7 +112,7 @@
                 return shoppingCart;
             }
 
-            var user = await this.userService.GetUserByUserName(username);
+            var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
 
             await this.context.ShoppingCarts.AddAsync(new ShoppingCart { UserId = user.Id });
             await this.context.SaveChangesAsync();

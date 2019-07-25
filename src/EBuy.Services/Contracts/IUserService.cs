@@ -6,7 +6,7 @@
 
     public interface IUserService
     {
-        Task<User> GetUserByUserName(string username);
+        Task<TViewModel> GetUserByUserName<TViewModel>(string username);
 
         Task<IEnumerable<TViewModel>> GetAll<TViewModel>();
 

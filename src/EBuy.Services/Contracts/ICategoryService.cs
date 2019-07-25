@@ -12,6 +12,6 @@
 
         Task<IEnumerable<TViewModel>> GetCategories<TViewModel>();
 
-        Task Add(CategoryDto category);
+        Task Add(CategoryDto input);
     }
 }

@@ -13,12 +13,10 @@
     public class CheckoutService : ICheckoutService
     {
         private readonly EBuyDbContext context;
-        private readonly IUserService userService;
 
-        public CheckoutService(EBuyDbContext context, IUserService userService)
+        public CheckoutService(EBuyDbContext context)
         {
             this.context = context;
-            this.userService = userService;
         }
 
         public async Task<bool> Checkout(string username, string address)
@@ -30,7 +28,7 @@
                 return false;
             }
 
-            var user = await this.userService.GetUserByUserName(username);
+            var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
 
             var purchase = new Purchase
             {

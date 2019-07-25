@@ -22,9 +22,11 @@
             this.userManager = userManager;
         }
 
-        public async Task<User> GetUserByUserName(string username)
+        public async Task<TViewModel> GetUserByUserName<TViewModel>(string username)
             => await this.context.Users
-                .FirstOrDefaultAsync(x => x.UserName == username);
+                .Where(x => x.UserName == username)
+                .To<TViewModel>()
+                .FirstOrDefaultAsync();
 
         public async Task<IEnumerable<TViewModel>> GetAll<TViewModel>()
             => await this.context.Users
@@ -58,7 +60,7 @@
 
         public async Task AddUserToRole(string username, string roleName)
         {
-            var user = await this.GetUserByUserName(username);
+            var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
 
             if (username != "admin" && user != null)
             {
@@ -68,7 +70,7 @@
 
         public async Task RemoveUserFromRole(string username, string roleName)
         {
-            var user = await this.GetUserByUserName(username);
+            var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
 
             if (username != "admin" && user != null)
             {
