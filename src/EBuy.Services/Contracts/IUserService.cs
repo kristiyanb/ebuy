@@ -21,5 +21,7 @@
         Task RemoveUserFromRole(string username, string roleName);
 
         Task SetLastOnlineNow(string username);
+
+        Task<IDictionary<string, List<string>>> GetUserRoleList();
     }
 }

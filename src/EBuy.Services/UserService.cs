@@ -92,5 +92,33 @@
             this.context.Update(user);
             await this.context.SaveChangesAsync();
         }
+
+        public async Task<IDictionary<string, List<string>>> GetUserRoleList()
+        {
+            var roles = new Dictionary<string, List<string>>();
+
+            foreach (var userRolePair in this.context.UserRoles.ToList())
+            {
+                var roleName = this.context.Roles.FirstOrDefault(x => x.Id == userRolePair.RoleId).Name;
+
+                if (roleName.ToLower() == "administrator" || roleName.ToLower() == "user")
+                {
+                    continue;
+                }
+
+                var user = this.context.Users.FirstOrDefault(x => x.Id == userRolePair.UserId);
+
+                if (!roles.ContainsKey(roleName))
+                {
+                    roles[roleName] = new List<string>();
+                }
+
+                var userInfo = $"{user.FirstName} {user.LastName} ({user.Email})";
+
+                roles[roleName].Add(userInfo);
+            }
+
+            return roles;
+        }
     }
 }

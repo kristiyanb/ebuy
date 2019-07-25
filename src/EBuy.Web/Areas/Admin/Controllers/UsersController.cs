@@ -29,7 +29,9 @@
 
         public async Task<IActionResult> RolesList()
         {
-            return View();
+            var roles = await this.userService.GetUserRoleList();
+
+            return View(roles);
         }
 
         [HttpPost]

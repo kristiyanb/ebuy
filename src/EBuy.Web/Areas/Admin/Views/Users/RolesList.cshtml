@@ -1,1 +1,16 @@
-﻿role list
+﻿@model Dictionary<string, List<string>>
+
+<div class="container d-flex justify-content-between">
+    @foreach (var role in Model)
+    {
+        <div class="container col-4">
+            <h4 class="mb-4 text-center">@(role.Key)s:</h4>
+            <hr />
+
+            @foreach (var user in role.Value)
+            {
+                <div class="text-center mb-3">@user</div>
+            }
+        </div>
+    }
+</div>
