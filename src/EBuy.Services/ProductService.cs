@@ -8,15 +8,21 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Contracts;
-    using System;
+    using Microsoft.AspNetCore.Http;
+    using EBuy.Services.Models;
+    using AutoMapper;
 
     public class ProductService : IProductService
     {
         private readonly EBuyDbContext context;
+        private readonly ICloudinaryService cloudinaryService;
+        private readonly IMapper mapper;
 
-        public ProductService(EBuyDbContext context)
+        public ProductService(EBuyDbContext context, ICloudinaryService cloudinaryService, IMapper mapper)
         {
             this.context = context;
+            this.cloudinaryService = cloudinaryService;
+            this.mapper = mapper;
         }
 
         public async Task<TViewModel> GetProductById<TViewModel>(string id)
@@ -52,22 +58,33 @@
                .To<TViewModel>()
                .ToListAsync();
 
-        public async Task Add(Product product)
+        public async Task Add(ProductDto input)
         {
+            var product = this.mapper.Map<Product>(input);
+
+            var imageUrl = await this.cloudinaryService.UploadImage(input.Image, input.Name + "-image");
+            var category = await this.context.Categories.FirstOrDefaultAsync(x => x.Name == input.CategoryName);
+
+            product.ImageUrl = imageUrl;
+            product.Category = category;
+
             await this.context.Products.AddAsync(product);
             await this.context.SaveChangesAsync();
         }
 
-        public async Task Edit(Product updatedProduct)
+        public async Task Edit(ProductDto input)
         {
-            var product = await this.context.Products.FirstOrDefaultAsync(x => x.Id == updatedProduct.Id);
+            var product = await this.context.Products.FirstOrDefaultAsync(x => x.Id == input.Id);
+            var category = await this.context.Categories.FirstOrDefaultAsync(x => x.Name == input.CategoryName);
 
-            product.ImageUrl = updatedProduct.ImageUrl;
-            product.Name = updatedProduct.Name;
-            product.CategoryId = updatedProduct.CategoryId;
-            product.Description = updatedProduct.Description;
-            product.Price = updatedProduct.Price;
-            product.InStock = updatedProduct.InStock;
+            mapper.Map(input, product, typeof(ProductDto), typeof(Product));
+            product.CategoryId = category.Id;
+
+            if (input.Image != null)
+            {
+                var imageUrl = await this.cloudinaryService.UploadImage(input.Image, input.Name + "-image");
+                product.ImageUrl = imageUrl;
+            }
 
             this.context.Products.Update(product);
             await this.context.SaveChangesAsync();

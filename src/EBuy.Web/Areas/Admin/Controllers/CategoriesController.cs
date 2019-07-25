@@ -1,22 +1,22 @@
 ﻿namespace EBuy.Web.Areas.Admin.Controllers
 {
-    using EBuy.Models;
     using EBuy.Services.Contracts;
-    using EBuy.Web.Areas.Admin.Models;
     using Microsoft.AspNetCore.Mvc;
     using System.Threading.Tasks;
     using Models.Categories;
     using System.Linq;
+    using AutoMapper;
+    using EBuy.Services.Models;
 
     public class CategoriesController : AdminController
     {
         private readonly ICategoryService categoryService;
-        private readonly ICloudinaryService cloudinaryService;
+        private readonly IMapper mapper;
 
-        public CategoriesController(ICategoryService categoryService, ICloudinaryService cloudinaryService)
+        public CategoriesController(ICategoryService categoryService, IMapper mapper)
         {
             this.categoryService = categoryService;
-            this.cloudinaryService = cloudinaryService;
+            this.mapper = mapper;
         }
 
         public async Task<IActionResult> Add()
@@ -27,13 +27,8 @@
         [HttpPost]
         public async Task<IActionResult> Add(CategoryInputModel input)
         {
-            var imageUrl = await this.cloudinaryService.UploadImage(input.Image, input.Name + "-image");
-
-            await this.categoryService.Add(new Category()
-            {
-                Name = input.Name,
-                ImageUrl = imageUrl
-            });
+            var categoryDto = this.mapper.Map<CategoryDto>(input);
+            await this.categoryService.Add(categoryDto);
 
             return Redirect("/Admin/Dashboard/Index");
         }

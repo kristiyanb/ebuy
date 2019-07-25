@@ -18,6 +18,7 @@
     using Microsoft.AspNetCore.Identity.UI.Services;
     using EBuy.Services.EmailSender;
     using CloudinaryDotNet;
+    using AutoMapper;
 
     public class Startup
     {
@@ -31,7 +32,7 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).Assembly);
+            AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).Assembly, typeof(AutoMapperConfig).Assembly);
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -79,6 +80,8 @@
             var cloudinaryUtility = new Cloudinary(cloudinaryCredentials);
 
             services.AddSingleton(cloudinaryUtility);
+
+            services.AddAutoMapper(typeof(Startup), typeof(AutoMapperConfig));
 
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IProductService, ProductService>();

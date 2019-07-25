@@ -46,6 +46,7 @@
                         map.CreateMappings(configuration);
                     }
                 });
+
             Mapper.Initialize(config);
         }
 

@@ -1,13 +1,11 @@
-﻿namespace EBuy.Web.Areas.Admin.Models.Products
+﻿namespace EBuy.Services.Models
 {
     using Microsoft.AspNetCore.Http;
-    using System.ComponentModel.DataAnnotations;
 
-    public class ProductInputModel
+    public class ProductDto
     {
         public string Id { get; set; }
 
-        [Required(ErrorMessage = "Please enter a valid product name.")]
         public string Name { get; set; }
 
         public decimal Price { get; set; }

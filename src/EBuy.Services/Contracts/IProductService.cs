@@ -1,6 +1,7 @@
 ﻿namespace EBuy.Services.Contracts
 {
     using EBuy.Models;
+    using EBuy.Services.Models;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -16,9 +17,9 @@
 
         Task<IEnumerable<TViewModel>> GetDeleted<TViewModel>();
 
-        Task Add(Product product);
+        Task Add(ProductDto input);
 
-        Task Edit(Product product);
+        Task Edit(ProductDto input);
 
         Task Remove(string id);
 

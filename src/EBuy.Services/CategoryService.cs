@@ -4,23 +4,25 @@
     using System.Collections.Generic;
     using Microsoft.EntityFrameworkCore;
     using EBuy.Data;
-    using EBuy.Models;
     using EBuy.Services.Mapping;
     using System.Threading.Tasks;
     using Contracts;
+    using EBuy.Services.Models;
+    using AutoMapper;
+    using EBuy.Models;
 
     public class CategoryService : ICategoryService
     {
         private readonly EBuyDbContext context;
+        private readonly ICloudinaryService cloudinaryService;
+        private readonly IMapper mapper;
 
-        public CategoryService(EBuyDbContext context)
+        public CategoryService(EBuyDbContext context, ICloudinaryService cloudinaryService, IMapper mapper)
         {
             this.context = context;
+            this.cloudinaryService = cloudinaryService;
+            this.mapper = mapper;
         }
-
-        public Category GetCategoryByName(string categoryName)
-            => this.context.Categories
-                .FirstOrDefault(x => x.Name == categoryName);
 
         public async Task<IEnumerable<string>> GetCategoryNames()
             => await this.context.Categories
@@ -53,8 +55,13 @@
                 .To<TViewModel>()
                 .ToListAsync();
 
-        public async Task Add(Category category)
+        public async Task Add(CategoryDto input)
         {
+            var category = this.mapper.Map<Category>(input);
+            var imageUrl = await this.cloudinaryService.UploadImage(input.Image, input.Name + "-image");
+
+            category.ImageUrl = imageUrl;
+
             await this.context.Categories.AddAsync(category);
             await this.context.SaveChangesAsync();
         }

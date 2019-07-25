@@ -1,6 +1,6 @@
 ﻿namespace EBuy.Services.Contracts
 {
-    using EBuy.Models;
+    using EBuy.Services.Models;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -8,12 +8,10 @@
     {
         Task<IEnumerable<string>> GetCategoryNames();
 
-        Category GetCategoryByName(string categoryName);
-
         Task<IEnumerable<TViewModel>> GetProductsByCategoryName<TViewModel>(string categoryName, string orderBy);
 
         Task<IEnumerable<TViewModel>> GetCategories<TViewModel>();
 
-        Task Add(Category category);
+        Task Add(CategoryDto category);
     }
 }
