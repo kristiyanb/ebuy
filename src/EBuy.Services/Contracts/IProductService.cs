@@ -13,7 +13,7 @@
 
         Task<IEnumerable<TViewModel>> GetLastFiveProducts<TViewModel>();
 
-        Task<IEnumerable<TViewModel>> GetAll<TViewModel>();
+        Task<IEnumerable<TViewModel>> GetAll<TViewModel>(string category);
 
         Task<IEnumerable<TViewModel>> GetDeleted<TViewModel>();
 

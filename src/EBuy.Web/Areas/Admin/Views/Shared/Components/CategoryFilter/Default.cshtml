@@ -1,0 +1,14 @@
+﻿@using EBuy.Web.Areas.Admin.Models.Categories
+@model CategoriesDropdownViewModel
+
+<div class="dropdown">
+    <a class="btn nav-link text-dark dropdown-toggle text-left" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        All Products
+    </a>
+    <div class="dropdown-menu w-100" aria-labelledby="dropdownMenuButton">
+        @foreach (var category in Model.Categories)
+        {
+            <a class="dropdown-item" asp-area="Admin" asp-controller="Products" asp-action="Data" asp-route-category="@category">@category</a>
+        }
+    </div>
+</div>

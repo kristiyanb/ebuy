@@ -41,9 +41,9 @@
             return this.Redirect("/Admin/Dashboard/Index");
         }
 
-        public async Task<IActionResult> Data()
+        public async Task<IActionResult> Data(string category)
         {
-            var products = await this.productService.GetAll<ProductDetailsModel>();
+            var products = await this.productService.GetAll<ProductDetailsModel>(category);
 
             return this.View(new ProductsListModel { Products = products.ToList() });
         }

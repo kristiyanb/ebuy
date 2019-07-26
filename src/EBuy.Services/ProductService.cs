@@ -47,11 +47,20 @@
                 .To<TViewModel>()
                 .ToListAsync();
 
-        public async Task<IEnumerable<TViewModel>> GetAll<TViewModel>()
-            => await this.context.Products
-                .Where(x => x.IsDeleted == false)
+        public async Task<IEnumerable<TViewModel>> GetAll<TViewModel>(string category)
+        {
+            var products = this.context.Products
+                .Where(x => x.IsDeleted == false);
+
+            if (category != null)
+            {
+                products = products.Where(x => x.Category.Name == category);
+            }
+
+            return await products
                 .To<TViewModel>()
                 .ToListAsync();
+        }
 
         public async Task<IEnumerable<TViewModel>> GetDeleted<TViewModel>()
             => await this.context.Products
