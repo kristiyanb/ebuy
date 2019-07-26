@@ -32,8 +32,8 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
                     <vc:shopping-cart-dropdown></vc:shopping-cart-dropdown>
-                    <form asp-area="" asp-controller="Home" asp-action="Search" class="form-inline mr-5 border">
-                        <input class="form-control border-0" type="text" placeholder="Search" aria-label="Search" id="searchParam" name="searchParam" />
+                    <form asp-area="" asp-controller="Home" asp-action="Result" class="form-inline mr-5 border" method="get">
+                        <input class="form-control border-0" type="text" placeholder="Search" aria-label="Search" id="query" name="query" />
                         <button class="btn bg-white" type="submit">&#128269;</button>
                     </form>
                     <ul class="navbar-nav flex-grow-1">

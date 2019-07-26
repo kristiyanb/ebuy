@@ -44,26 +44,11 @@
             return this.View();
         }
 
-        public async Task<IActionResult> SearchResult()
+        public async Task<IActionResult> Result(string query)
         {
-            if (!this.cache.TryGetValue(GlobalConstants.SearchParamKey, out string searchParam))
-            {
-                return this.View(new SearchViewModel { Name = "", Products = new List<ProductGridModel>() });
-            }
+            var products = await this.productService.GetProductsByNameOrCategoryMatch<ProductGridModel>(query);
 
-            var products = await this.productService.GetProductsByNameOrCategoryMatch<ProductGridModel>(searchParam);
-
-            return this.View(new SearchViewModel { Name = searchParam, Products = products.ToList() });
-        }
-
-        public async Task<IActionResult> Search(string searchParam)
-        {
-            var cacheEntryOptions = new MemoryCacheEntryOptions()
-                .SetSlidingExpiration(TimeSpan.FromMinutes(10));
-
-            this.cache.Set(GlobalConstants.SearchParamKey, searchParam, cacheEntryOptions);
-
-            return Redirect("/Home/SearchResult");
+            return this.View(new SearchViewModel { Name = query, Products = products.ToList() });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
