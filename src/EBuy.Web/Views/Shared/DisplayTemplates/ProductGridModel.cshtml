@@ -1,0 +1,29 @@
+﻿@model EBuy.Web.Models.Products.ProductGridModel
+
+<div class="col-md-3 mb-3 mt-3">
+    <a asp-controller="Products" asp-action="Details" asp-route-id="@Model.Id">
+        <img src="@Model.ImageUrl" class="w-100 h-75" />
+
+    </a>
+    <div class="rating">
+        @for (int i = 1; i <= 5; i++)
+        {
+            var checkedClass = string.Empty;
+
+            if (Model.Rating >= i || i - Model.Rating <= 0.5)
+            {
+                checkedClass = "checked";
+            }
+
+            <span class="fa fa-star @checkedClass" id="star@(i)"></span>
+        }
+    </div>
+    <div>
+        <a asp-controller="Products" asp-action="Details" asp-route-id="@Model.Id" class="text-black-50">
+            <br />
+            <span class="mt-1">@Model.Name</span>
+            <br />
+            <span class="mt-1">$@Model.Price</span>
+        </a>
+    </div>
+</div>

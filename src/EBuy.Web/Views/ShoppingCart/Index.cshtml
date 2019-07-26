@@ -25,9 +25,9 @@
             <div id="shoppingCart-item" class="d-flex justify-content-between mt-1 p-3">
                 <img width="200" height="150" src="@product.ImageUrl" />
                 <div class="w-25">
-                    <h6>@product.Name</h6>
-                    <p>$@product.Price</p>
-                    <p>x @product.Quantity</p>
+                    <h6 class="mb-3">@product.Name</h6>
+                    <p>Price: $@product.Price</p>
+                    <p>Quantity: @product.Quantity</p>
                     <a class="btn-link text-danger mt-5" asp-area="" asp-controller="ShoppingCart" asp-action="Remove" asp-route-id="@product.Id">Remove</a>
                 </div>
             </div>

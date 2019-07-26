@@ -12,34 +12,5 @@
 }
 
 <div class="d-flex flex-md-wrap">
-    @foreach (var product in Model.Products)
-    {
-        <div class="col-md-3 mb-3 mt-3">
-            <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id">
-                <img src="@product.ImageUrl" class="w-100 h-75" />
-
-            </a>
-            <div class="rating">
-                @for (int i = 1; i <= 5; i++)
-                {
-                    var checkedClass = string.Empty;
-
-                    if (product.Rating >= i || i - product.Rating <= 0.5)
-                    {
-                        checkedClass = "checked";
-                    }
-
-                    <span class="fa fa-star @checkedClass" id="star@(i)"></span>
-                }
-            </div>
-            <div>
-                <a asp-controller="Products" asp-action="Details" asp-route-id="@product.Id" class="text-black-50">
-                    <br />
-                    <span class="mt-1">@product.Name</span>
-                    <br />
-                    <span class="mt-1">$@product.Price</span>
-                </a>
-            </div>
-        </div>
-    }
+    @Html.DisplayFor(x => x.Products)
 </div>
