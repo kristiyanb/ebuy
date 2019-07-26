@@ -47,12 +47,15 @@
                 <li>
                     <a asp-area="Admin" asp-controller="Users" asp-action="Index">Users List</a>
                 </li>
-                <li>
-                    <a asp-area="Admin" asp-controller="Users" asp-action="RolesList">Roles List</a>
-                </li>
-                <li>
-                    <a asp-area="Admin" asp-controller="Users" asp-action="ManageRoles">Manage Roles</a>
-                </li>
+                @if (User.IsInRole("Manager") || User.IsInRole("Administrator"))
+                {
+                    <li>
+                        <a asp-area="Admin" asp-controller="Users" asp-action="RolesList">Roles List</a>
+                    </li>
+                    <li>
+                        <a asp-area="Admin" asp-controller="Users" asp-action="ManageRoles">Manage Roles</a>
+                    </li>
+                }
             </ul>
         </li>
         <li>

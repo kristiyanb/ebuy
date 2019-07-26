@@ -7,6 +7,7 @@
 
     using EBuy.Services.Contracts;
     using Models.Comments;
+    using Microsoft.AspNetCore.Authorization;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -27,6 +28,7 @@
 
         [HttpPost(Name = "Create")]
         [Route("create")]
+        [Authorize(Roles = "User")]
         public async Task<ActionResult> Create(CommentInputModel input)
         {
             await this.commentService.Add(input.Username, input.ProductId, input.Content);

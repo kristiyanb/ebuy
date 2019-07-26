@@ -7,6 +7,7 @@
 
     using EBuy.Services.Contracts;
     using Models.Users;
+    using Microsoft.AspNetCore.Authorization;
 
     public class UsersController : AdminController
     {
@@ -24,11 +25,13 @@
             return this.View(new UserListModel { Users = users.ToList() });
         }
 
+        [Authorize(Roles = "Administrator, Manager")]
         public async Task<IActionResult> ManageRoles()
         {
             return this.View();
         }
 
+        [Authorize(Roles = "Administrator, Manager")]
         public async Task<IActionResult> RolesList()
         {
             var roles = await this.userService.GetUserRoleList();
@@ -37,6 +40,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator, Manager")]
         public async Task<IActionResult> AddRole(string username, string roleName)
         {
             await this.userService.AddUserToRole(username, roleName);
@@ -45,6 +49,7 @@
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator, Manager")]
         public async Task<IActionResult> RemoveRole(string username, string roleName)
         {
             await this.userService.RemoveUserFromRole(username, roleName);

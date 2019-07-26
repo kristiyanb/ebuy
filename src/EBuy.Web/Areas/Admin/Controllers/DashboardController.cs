@@ -7,7 +7,6 @@
 
     public class DashboardController : AdminController
     {
-        [Authorize(Roles = "Administrator, Employee")]
         public async Task<IActionResult> Index()
         {
             return this.View();
