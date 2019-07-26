@@ -4,14 +4,16 @@ using EBuy.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EBuy.Data.Migrations
 {
     [DbContext(typeof(EBuyDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190726185626_added-messages")]
+    partial class addedmessages
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,25 +89,15 @@ namespace EBuy.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(500);
+                    b.Property<string>("Content");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(40);
+                    b.Property<string>("Email");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(30);
+                    b.Property<string>("Name");
 
-                    b.Property<string>("Subject")
-                        .IsRequired()
-                        .HasMaxLength(20);
+                    b.Property<string>("Subject");
 
                     b.Property<string>("UserId");
-
-                    b.Property<bool>("isActive");
 
                     b.HasKey("Id");
 

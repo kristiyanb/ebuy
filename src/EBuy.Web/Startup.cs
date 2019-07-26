@@ -92,6 +92,7 @@
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
             services.AddTransient<IPurchaseService, PurchaseService>();
+            services.AddTransient<IMessageService, MessageService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -118,7 +119,7 @@
             {
                 routes.MapRoute(
                     name: "areaRoute",
-                    template: "{area:exists}/{controller=Dashboard}/{action=Index}");
+                    template: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}");
 
                 routes.MapRoute(
                     name: "sortedProducts",

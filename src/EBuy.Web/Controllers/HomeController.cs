@@ -1,30 +1,37 @@
 ﻿namespace EBuy.Web.Controllers
 {
-    using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
     using System.Linq;
     using System.Threading.Tasks;
 
+    using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Caching.Memory;
 
-    using EBuy.Common;
     using EBuy.Services.Contracts;
+    using EBuy.Services.Models;
     using Models;
+    using Models.Contacts;
     using Models.Products;
     using Models.Search;
-
+    using Models.Users;
 
     public class HomeController : Controller
     {
         private readonly IProductService productService;
-        private readonly IMemoryCache cache;
+        private readonly IUserService userService;
+        private readonly IMessageService messageService;
+        private readonly IMapper mapper;
 
-        public HomeController(IProductService productService, IMemoryCache cache)
+        public HomeController(IProductService productService,
+            IUserService userService, 
+            IMessageService messageService, 
+            IMapper mapper)
         {
             this.productService = productService;
-            this.cache = cache;
+            this.userService = userService;
+            this.messageService = messageService;
+            this.mapper = mapper;
         }
 
         public async Task<IActionResult> Index()
@@ -36,7 +43,29 @@
 
         public async Task<IActionResult> Contacts()
         {
+            if (this.User.Identity.Name != null)
+            {
+                var user = await this.userService.GetUserByUserName<UserViewModel>(this.User.Identity.Name);
+                this.ViewData["Name"] = $"{user.FirstName} {user.LastName}";
+                this.ViewData["Email"] = user.Email;
+            }
+
             return this.View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Contacts(MessageInputModel input)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return await this.Contacts();
+            }
+
+            var messageDto = this.mapper.Map<MessageDto>(input);
+
+            await this.messageService.Add(messageDto, this.User.Identity.Name);
+
+            return this.View("/Views/Home/MessageReceived.cshtml");
         }
 
         public async Task<IActionResult> ConfirmEmail()

@@ -1,0 +1,79 @@
+﻿namespace EBuy.Services
+{
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using AutoMapper;
+    using Microsoft.AspNetCore.Identity.UI.Services;
+    using Microsoft.EntityFrameworkCore;
+
+    using Contracts;
+    using EBuy.Data;
+    using EBuy.Models;
+    using EBuy.Services.Models;
+    using Mapping;
+
+    public class MessageService : IMessageService
+    {
+        private readonly EBuyDbContext context;
+        private readonly IMapper mapper;
+        private readonly IUserService userService;
+        private readonly IEmailSender emailSender;
+
+        public MessageService(EBuyDbContext context, 
+            IMapper mapper, 
+            IUserService userService, 
+            IEmailSender emailSender)
+        {
+            this.context = context;
+            this.mapper = mapper;
+            this.userService = userService;
+            this.emailSender = emailSender;
+        }
+
+        public async Task Add(MessageDto input, string username)
+        {
+            var message = this.mapper.Map<Message>(input);
+            message.isActive = true;
+
+            if (username != null)
+            {
+                var user = await this.userService.GetUserByUserName(username);
+                message.UserId = user.Id;
+            }
+
+            await this.context.Messages.AddAsync(message);
+            await this.context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<TViewModel>> GetArchivedMessages<TViewModel>() 
+            => await this.context.Messages
+                .Where(x => x.isActive == false)
+                .To<TViewModel>()
+                .ToListAsync();
+
+        public async  Task<IEnumerable<TViewModel>> GetPendingMessages<TViewModel>()
+            => await this.context.Messages
+                .Where(x => x.isActive == true)
+                .To<TViewModel>()
+                .ToListAsync();
+
+        public async Task SendResponse(string messageId, string email, string subject, string response)
+        {
+            await this.emailSender.SendEmailAsync(email, subject, response);
+
+            var message = await this.context.Messages.FirstOrDefaultAsync(x => x.Id == messageId);
+            message.isActive = false;
+
+            this.context.Messages.Update(message);
+            await this.context.SaveChangesAsync();
+        }
+
+        public async Task<TViewModel> GetMessageById<TViewModel>(string id) 
+            => await this.context.Messages
+                .Where(x => x.Id == id)
+                .To<TViewModel>()
+                .FirstOrDefaultAsync();
+    }
+}

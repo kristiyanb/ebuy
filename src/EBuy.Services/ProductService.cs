@@ -18,13 +18,25 @@
         private readonly EBuyDbContext context;
         private readonly ICloudinaryService cloudinaryService;
         private readonly IMapper mapper;
+        private readonly ICategoryService categoryService;
+        private readonly IUserService userService;
 
-        public ProductService(EBuyDbContext context, ICloudinaryService cloudinaryService, IMapper mapper)
+        public ProductService(EBuyDbContext context, 
+            ICloudinaryService cloudinaryService, 
+            IMapper mapper, 
+            ICategoryService categoryService, 
+            IUserService userService)
         {
             this.context = context;
             this.cloudinaryService = cloudinaryService;
             this.mapper = mapper;
+            this.categoryService = categoryService;
+            this.userService = userService;
         }
+
+        public async Task<Product> GetProductById(string id)
+            => await this.context.Products
+                .FirstOrDefaultAsync(x => x.Id == id);
 
         public async Task<TViewModel> GetProductById<TViewModel>(string id)
             => await this.context.Products
@@ -49,17 +61,16 @@
 
         public async Task<IEnumerable<TViewModel>> GetAll<TViewModel>(string category)
         {
-            var products = this.context.Products
-                .Where(x => x.IsDeleted == false);
+            var products = this.context.Products.Where(x => x.IsDeleted == false);
 
             if (category != null)
             {
                 products = products.Where(x => x.Category.Name == category);
             }
 
-            return await products
-                .To<TViewModel>()
-                .ToListAsync();
+            var finalProducts = await products.To<TViewModel>().ToListAsync();
+
+            return finalProducts;
         }
 
         public async Task<IEnumerable<TViewModel>> GetDeleted<TViewModel>()
@@ -73,7 +84,7 @@
             var product = this.mapper.Map<Product>(input);
 
             var imageUrl = await this.cloudinaryService.UploadImage(input.Image, input.Name);
-            var category = await this.context.Categories.FirstOrDefaultAsync(x => x.Name == input.CategoryName);
+            var category = await this.categoryService.GetCategoryByName(input.CategoryName);
 
             product.ImageUrl = imageUrl;
             product.Category = category;
@@ -85,7 +96,7 @@
         public async Task Edit(ProductDto input)
         {
             var product = await this.context.Products.FirstOrDefaultAsync(x => x.Id == input.Id);
-            var category = await this.context.Categories.FirstOrDefaultAsync(x => x.Name == input.CategoryName);
+            var category = await this.categoryService.GetCategoryByName(input.CategoryName);
 
             if (product == null || category == null)
             {
@@ -135,7 +146,7 @@
 
         public async Task UpdateRating(string username, string productId, string rating)
         {
-            var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
+            var user = await this.userService.GetUserByUserName(username);
             var product = await this.context.Products.FirstOrDefaultAsync(x => x.Id == productId);
             var vote = await this.context.Votes.FirstOrDefaultAsync(x => x.UserId == user.Id && x.ProductId == productId);
             var validRating = int.TryParse(rating, out int newRating);
@@ -168,6 +179,21 @@
 
             this.context.Products.Update(product);
             await this.context.SaveChangesAsync();
+        }
+
+        public async Task UpdateProductQuantityAndSales(string name, string imageUrl, decimal price, int quantity)
+        {
+            var product = await this.context.Products
+                .FirstOrDefaultAsync(x => x.Name == name && x.Price == price && x.ImageUrl == imageUrl);
+
+            if (product != null)
+            {
+                product.InStock -= quantity;
+                product.PurchasesCount += quantity;
+
+                this.context.Products.Update(product);
+                await this.context.SaveChangesAsync();
+            }
         }
     }
 }

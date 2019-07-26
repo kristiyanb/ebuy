@@ -6,6 +6,7 @@
     using Areas.Admin.Models.Products;
     using EBuy.Models;
     using EBuy.Services.Models;
+    using Models.Contacts;
 
     public class MappingProfiles : Profile
     {
@@ -16,6 +17,8 @@
             CreateMap<ProductDto, Product>();
             CreateMap<CategoryInputModel, CategoryDto>();
             CreateMap<CategoryDto, Category>();
+            CreateMap<MessageInputModel, MessageDto>();
+            CreateMap<MessageDto, Message>();
         }
     }
 }

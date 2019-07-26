@@ -61,6 +61,17 @@
         <li>
             <a asp-area="Admin" asp-controller="Purchases" asp-action="Index">Purchases</a>
         </li>
+        <li>
+            <a href="#messagesMenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Messages</a>
+            <ul class="collapse list-unstyled" id="messagesMenu">
+                <li>
+                    <a asp-area="Admin" asp-controller="Messages" asp-action="Index" asp-route-status="Pending">Pending</a>
+                </li>
+                <li>
+                    <a asp-area="Admin" asp-controller="Messages" asp-action="Index" asp-route-status="Archived">Archived</a>
+                </li>
+            </ul>
+        </li>
     </ul>
 
     <a asp-area="" asp-controller="Home" asp-action="Index" class="btn btn-info col-1 fixed-bottom">Back to website</a>

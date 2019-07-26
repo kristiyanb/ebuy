@@ -15,99 +15,52 @@
     public class CheckoutService : ICheckoutService
     {
         private readonly EBuyDbContext context;
+        private readonly IShoppingCartService shoppingCartService;
+        private readonly IProductService productService;
+        private readonly IPurchaseService purchaseService;
 
-        public CheckoutService(EBuyDbContext context)
+        public CheckoutService(EBuyDbContext context,
+            IShoppingCartService shoppingCartService, 
+            IProductService productService, 
+            IPurchaseService purchaseService)
         {
             this.context = context;
+            this.shoppingCartService = shoppingCartService;
+            this.productService = productService;
+            this.purchaseService = purchaseService;
         }
 
-        public async Task<bool> Checkout(string username, string address)
+        public async Task Checkout(string username, string address)
         {
-            var shoppingCartProducts = this.context.ShoppingCartProducts
-                .Where(x => x.ShoppingCart.User.UserName == username)
-                .ToList();
+            var shoppingCartProducts = await this.shoppingCartService.GetShoppingCartProductsByUsername(username);
 
-            if (shoppingCartProducts.Count == 0)
+            if (shoppingCartProducts.Count() == 0)
             {
-                return false;
+                return;
             }
 
-            var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
-
-            var purchase = new Purchase
-            {
-                Address = address,
-                DateOfOrder = DateTime.UtcNow,
-                UserId = user.Id,
-            };
-
-            await this.context.AddAsync(purchase);
+            var purchase = await this.purchaseService.Add(address, username);
 
             foreach (var product in shoppingCartProducts)
             {
-                var purchasedProduct = new PurchasedProduct
-                {
-                    Name = product.Name,
-                    Price = product.Price,
-                    ImageUrl = product.ImageUrl,
-                    Quantity = product.Quantity,
-                    Purchase = purchase
-                };
-
-                var catelogProduct = await this.context.Products.FirstOrDefaultAsync(x => x.Name == purchasedProduct.Name && 
-                                                                          x.Price == purchasedProduct.Price && 
-                                                                          x.ImageUrl == purchasedProduct.ImageUrl);
-
-                catelogProduct.InStock -= purchasedProduct.Quantity;
-                catelogProduct.PurchasesCount += purchasedProduct.Quantity;
-
-                await this.context.PurchasedProducts.AddAsync(purchasedProduct);
-                this.context.Products.Update(catelogProduct);
-                this.context.ShoppingCartProducts.Remove(product);
+                await this.purchaseService.AddPurchasedProduct(product, purchase);
+                await this.shoppingCartService.RemoveProduct(product.Id);
             }
 
             await this.context.SaveChangesAsync();
-
-            return true;
         }
 
-        public async Task<bool> CheckoutAsGuest(string cart, string address)
+        public async Task CheckoutAsGuest(string cart, string address)
         {
-            var purchase = new Purchase
-            {
-                Address = address, 
-                DateOfOrder = DateTime.UtcNow,
-            };
-
-            await this.context.AddAsync(purchase);
-
+            var purchase = await this.purchaseService.Add(address, string.Empty);
             var products = JsonConvert.DeserializeObject<List<ShoppingCartProduct>>(cart);
 
             foreach (var product in products)
             {
-                var purchasedProduct = new PurchasedProduct
-                {
-                    Name = product.Name,
-                    Price = product.Price,
-                    ImageUrl = product.ImageUrl,
-                    Quantity = product.Quantity,
-                    Purchase = purchase
-                };
-
-                var catelogProduct = await this.context.Products.FirstOrDefaultAsync(x => x.Name == purchasedProduct.Name &&
-                                                                          x.Price == purchasedProduct.Price &&
-                                                                          x.ImageUrl == purchasedProduct.ImageUrl);
-
-                catelogProduct.InStock -= purchasedProduct.Quantity;
-                catelogProduct.PurchasesCount += purchasedProduct.Quantity;
-
-                await this.context.PurchasedProducts.AddAsync(purchasedProduct);
-                this.context.Products.Update(catelogProduct);
+                await this.purchaseService.AddPurchasedProduct(product, purchase);
             }
 
             await this.context.SaveChangesAsync();
-
-            return true;
         }
     }
 }

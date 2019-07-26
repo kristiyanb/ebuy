@@ -4,8 +4,8 @@
 
     public interface ICheckoutService
     {
-        Task<bool> Checkout(string username, string address);
+        Task Checkout(string username, string address);
 
-        Task<bool> CheckoutAsGuest(string cart, string address);
+        Task CheckoutAsGuest(string cart, string address);
     }
 }

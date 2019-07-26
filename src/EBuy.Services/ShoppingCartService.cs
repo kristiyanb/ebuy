@@ -16,15 +16,19 @@
     public class ShoppingCartService : IShoppingCartService
     {
         private readonly EBuyDbContext context;
+        private readonly IProductService productService;
+        private readonly IUserService userService;
 
-        public ShoppingCartService(EBuyDbContext context)
+        public ShoppingCartService(EBuyDbContext context, IProductService productService, IUserService userService)
         {
             this.context = context;
+            this.productService = productService;
+            this.userService = userService;
         }
 
         public async Task AddProduct(string username, string id, int quantity)
         {
-            var product = await this.context.Products.FirstOrDefaultAsync(x => x.Id == id);
+            var product = await this.productService.GetProductById(id);
 
             if (product == null)
             {
@@ -68,6 +72,11 @@
             }
         }
 
+        public async Task<IEnumerable<ShoppingCartProduct>> GetShoppingCartProductsByUsername(string username) 
+            => await this.context.ShoppingCartProducts
+                .Where(x => x.ShoppingCart.User.UserName == username)
+                .ToListAsync();
+
         public async Task<IEnumerable<TViewModel>> GetShoppingCartProductsByUsername<TViewModel>(string username)
             => await this.context.ShoppingCartProducts
                 .Where(x => x.ShoppingCart.User.UserName == username)
@@ -76,7 +85,7 @@
 
         public async Task<string> AddProductToGuestCart(string cart, string id, int quantity)
         {
-            var productFromDb = await this.context.Products.FirstOrDefaultAsync(x => x.Id == id);
+            var productFromDb = await this.productService.GetProductById(id);
 
             if (productFromDb == null)
             {
@@ -126,7 +135,7 @@
                 return shoppingCart;
             }
 
-            var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
+            var user = await this.userService.GetUserByUserName(username);
 
             await this.context.ShoppingCarts.AddAsync(new ShoppingCart { UserId = user.Id });
             await this.context.SaveChangesAsync();

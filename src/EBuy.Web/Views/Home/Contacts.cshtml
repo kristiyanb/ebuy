@@ -1,4 +1,5 @@
-﻿@{
+﻿@model  EBuy.Web.Models.Contacts.MessageInputModel
+@{
     ViewData["Title"] = "Contacts";
 }
 
@@ -10,38 +11,39 @@
     </p>
     <div class="row">
         <div class="col-md-9 mb-md-0 mb-5">
-            <form id="contact-form" name="contact-form" method="POST">
+            <form asp-area="" asp-controller="Home" asp-action="Contacts" method="POST">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="md-form mb-0">
                             <label for="name" class="">Your name</label>
-                            <input type="text" id="name" name="name" class="form-control">
+                            <input asp-for="Name" type="text" id="name" name="name" class="form-control" value="@ViewData["Name"]">
+                            <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="md-form mb-0">
                             <label for="email" class="">Your email</label>
-                            <input type="text" id="email" name="email" class="form-control">
+                            <input asp-for="Email" type="text" id="email" name="email" class="form-control" value="@ViewData["Email"]">
+                            <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                     </div>
-
                 </div>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="md-form mb-0">
                             <label for="subject" class="">Subject</label>
-                            <input type="text" id="subject" name="subject" class="form-control">
+                            <input asp-for="Subject" type="text" id="subject" name="subject" class="form-control">
+                            <span asp-validation-for="Subject" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-
                         <div class="md-form">
                             <label for="message">Your message</label>
-                            <textarea type="text" id="message" name="message" rows="2" class="form-control md-textarea"></textarea>
+                            <textarea asp-for="Content" type="text" id="content" name="content" rows="2" class="form-control md-textarea"></textarea>
+                            <span asp-validation-for="Content" class="text-danger"></span>
                         </div>
-
                     </div>
                 </div>
                 <div class="text-center">

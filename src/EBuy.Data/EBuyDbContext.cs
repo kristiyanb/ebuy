@@ -23,6 +23,8 @@
 
         public DbSet<PurchasedProduct> PurchasedProducts { get; set; }
 
+        public DbSet<Message> Messages { get; set; }
+
         public DbSet<Vote> Votes { get; set; }
 
         public EBuyDbContext(DbContextOptions<EBuyDbContext> options)

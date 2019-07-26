@@ -4,9 +4,12 @@
     using System.Threading.Tasks;
     
     using Models;
+    using EBuy.Models;
 
     public interface IProductService
     {
+        Task<Product> GetProductById(string id);
+
         Task<TViewModel> GetProductById<TViewModel>(string id);
 
         Task<IEnumerable<TViewModel>> GetProductsByNameOrCategoryMatch<TViewModel>(string searchParam);
@@ -26,5 +29,7 @@
         Task Restore(string id);
 
         Task UpdateRating(string username, string productId, string rating);
+
+        Task UpdateProductQuantityAndSales(string name, string imageUrl, decimal price, int quantity);
     }
 }

@@ -76,5 +76,9 @@
             await this.context.Categories.AddAsync(category);
             await this.context.SaveChangesAsync();
         }
+
+        public async Task<Category> GetCategoryByName(string name)
+            => await this.context.Categories
+                .FirstOrDefaultAsync(x => x.Name == name);
     }
 }
