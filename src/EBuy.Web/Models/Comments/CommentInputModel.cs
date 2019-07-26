@@ -1,15 +1,19 @@
 ﻿namespace EBuy.Web.Models.Comments
 {
     using System;
+    using System.ComponentModel.DataAnnotations;
 
     public class CommentInputModel
     {
-        public DateTime LastModified { get; set; }
-
+        [Required]
+        [MinLength(2)]
+        [MaxLength(150)]
         public string Content { get; set; }
 
+        [Required]
         public string ProductId { get; set; }
 
+        [Required]
         public string Username { get; set; }
     }
 }

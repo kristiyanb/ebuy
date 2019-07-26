@@ -25,9 +25,14 @@
         public async Task AddProduct(string username, string id, int quantity)
         {
             var product = await this.context.Products.FirstOrDefaultAsync(x => x.Id == id);
-            var shoppingCart = await this.GetShoppingCart(username);
 
-            var cartProduct = this.context.ShoppingCartProducts.FirstOrDefault(x => x.Name == product.Name);
+            if (product == null)
+            {
+                return;
+            }
+
+            var shoppingCart = await this.GetShoppingCart(username);
+            var cartProduct = await this.context.ShoppingCartProducts.FirstOrDefaultAsync(x => x.Name == product.Name);
 
             if (cartProduct != null)
             {
@@ -56,8 +61,11 @@
         {
             var product = await this.context.ShoppingCartProducts.FirstOrDefaultAsync(x => x.Id == id);
 
-            this.context.ShoppingCartProducts.Remove(product);
-            await this.context.SaveChangesAsync();
+            if (product != null)
+            {
+                this.context.ShoppingCartProducts.Remove(product);
+                await this.context.SaveChangesAsync();
+            }
         }
 
         public async Task<IEnumerable<TViewModel>> GetShoppingCartProductsByUsername<TViewModel>(string username)
@@ -69,6 +77,12 @@
         public async Task<string> AddProductToGuestCart(string cart, string id, int quantity)
         {
             var productFromDb = await this.context.Products.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (productFromDb == null)
+            {
+                return cart;
+            }
+
             List<GuestCartProduct> products;
 
             if (cart == null)

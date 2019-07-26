@@ -50,7 +50,7 @@
         [HttpPost]
         public async Task<IActionResult> Add(ShoppingCartProductInputModel input)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
                 return this.Redirect("/Products/Details/" + input.Id);
             }
@@ -78,8 +78,12 @@
                 var products = JsonConvert.DeserializeObject<List<ShoppingCartProductViewModel>>(cart);
                 var removedProduct = products.FirstOrDefault(x => x.Id == id);
 
-                products.Remove(removedProduct);
-                this.HttpContext.Session.SetString(GlobalConstants.GuestCartKey, JsonConvert.SerializeObject(products));
+                if (removedProduct != null)
+                {
+                    products.Remove(removedProduct);
+
+                    this.HttpContext.Session.SetString(GlobalConstants.GuestCartKey, JsonConvert.SerializeObject(products));
+                }
             }
             else
             {

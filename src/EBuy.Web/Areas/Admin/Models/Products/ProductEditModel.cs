@@ -4,7 +4,10 @@
 
     using Microsoft.AspNetCore.Http;
 
-    public class ProductInputModel
+    using EBuy.Models;
+    using EBuy.Services.Mapping;
+
+    public class ProductEditModel : IMapFrom<Product>
     {
         [Required]
         public string Id { get; set; }
@@ -16,7 +19,6 @@
         [Range(typeof(decimal), "0.01", "100000", ErrorMessage = "Please enter a valid price.")]
         public decimal Price { get; set; }
 
-        [Required(ErrorMessage = "Please select an image.")]
         public IFormFile Image { get; set; }
 
         [Required(ErrorMessage = "Product description cannot be empty.")]

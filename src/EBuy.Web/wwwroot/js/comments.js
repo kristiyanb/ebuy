@@ -24,6 +24,22 @@ async function loadComments() {
 
 async function addComment() {
     let content = document.getElementById('content').value;
+
+    const commentMinLength = 2;
+    const commentMaxLength = 150;
+
+    if (content.length < commentMinLength || content.length > commentMaxLength) {
+        let notificationSpan = document.getElementById('invalid-comment-notification');
+        notificationSpan.style.display = '';
+        notificationSpan.textContent = `Comment length must be between ${commentMinLength} and ${commentMaxLength} characters.`;
+
+        setTimeout(() => {
+            notificationSpan.style.display = 'none';
+        }, 3000);
+
+        return;
+    }
+
     let productId = document.getElementById('productId').value;
     let username = document.getElementById('username').value;
 

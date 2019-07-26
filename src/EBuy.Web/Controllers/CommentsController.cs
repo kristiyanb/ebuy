@@ -31,9 +31,14 @@
         [Authorize(Roles = "User")]
         public async Task<ActionResult> Create(CommentInputModel input)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.StatusCode(304);
+            }
+
             await this.commentService.Add(input.Username, input.ProductId, input.Content);
 
-            return this.Ok();
+            return this.StatusCode(201);
         }
     }
 }

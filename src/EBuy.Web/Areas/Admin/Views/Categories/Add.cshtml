@@ -16,6 +16,7 @@
                 <input asp-for="Image" type="file" class="custom-file-input" id="image">
                 <label class="custom-file-label" for="image">Choose file</label>
             </div>
+            <span asp-validation-for="Image" class="text-danger"></span>
         </div>
         <button class="btn btn-danger mt-4" type="submit">Create</button>
     </form>

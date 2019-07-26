@@ -12,6 +12,7 @@
         public MappingProfiles()
         {
             CreateMap<ProductInputModel, ProductDto>();
+            CreateMap<ProductEditModel, ProductDto>();
             CreateMap<ProductDto, Product>();
             CreateMap<CategoryInputModel, CategoryDto>();
             CreateMap<CategoryDto, Category>();

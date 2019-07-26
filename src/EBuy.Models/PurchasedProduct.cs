@@ -1,9 +1,13 @@
 ﻿namespace EBuy.Models
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class PurchasedProduct
     {
         public string Id { get; set; }
 
+        [Required]
+        [MaxLength(30)]
         public string Name { get; set; }
 
         public decimal Price { get; set; }

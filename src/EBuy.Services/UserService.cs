@@ -64,7 +64,7 @@
         {
             var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
 
-            if (username != "admin" && user != null)
+            if (username != "admin" && user != null && this.RoleExists(roleName))
             {
                 await this.userManager.AddToRoleAsync(user, roleName);
             }
@@ -74,7 +74,7 @@
         {
             var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
 
-            if (username != "admin" && user != null)
+            if (username != "admin" && user != null && this.RoleExists(roleName))
             {
                 await this.userManager.RemoveFromRoleAsync(user, roleName);
             }
@@ -120,6 +120,13 @@
             }
 
             return roles;
+        }
+
+        private bool RoleExists(string roleName)
+        {
+            var role = this.context.Roles.FirstOrDefault(x => x.Name == roleName);
+
+            return role != null;
         }
     }
 }

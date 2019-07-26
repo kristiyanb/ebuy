@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     public class Purchase
     {
@@ -12,6 +13,7 @@
 
         public string Id { get; set; }
 
+        [Required]
         public string Address { get; set; }
 
         public string UserId { get; set; }

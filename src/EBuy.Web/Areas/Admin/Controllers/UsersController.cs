@@ -45,7 +45,7 @@
         {
             await this.userService.AddUserToRole(username, roleName);
 
-            return this.Redirect("/Admin/Users");
+            return this.Redirect("/Admin/Users/RolesList");
         }
 
         [HttpPost]
@@ -54,7 +54,7 @@
         {
             await this.userService.RemoveUserFromRole(username, roleName);
 
-            return this.Redirect("/Admin/Users");
+            return this.Redirect("/Admin/Users/RolesList");
         }
     }
 }

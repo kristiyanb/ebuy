@@ -29,6 +29,11 @@
         [HttpPost]
         public async Task<IActionResult> Add(CategoryInputModel input)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return await this.Add();
+            }
+
             var categoryDto = this.mapper.Map<CategoryDto>(input);
 
             await this.categoryService.Add(categoryDto);

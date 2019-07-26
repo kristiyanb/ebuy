@@ -78,6 +78,11 @@
             var product = await this.context.Products.FirstOrDefaultAsync(x => x.Id == input.Id);
             var category = await this.context.Categories.FirstOrDefaultAsync(x => x.Name == input.CategoryName);
 
+            if (product == null || category == null)
+            {
+                return;
+            }
+
             this.mapper.Map(input, product, typeof(ProductDto), typeof(Product));
 
             product.CategoryId = category.Id;
@@ -97,15 +102,13 @@
         {
             var product = await this.context.Products.FirstOrDefaultAsync(x => x.Id == id);
 
-            if (product == null)
+            if (product != null)
             {
-                return;
+                product.IsDeleted = true;
+
+                this.context.Update(product);
+                await this.context.SaveChangesAsync();
             }
-
-            product.IsDeleted = true;
-
-            this.context.Update(product);
-            await this.context.SaveChangesAsync();
         }
 
         public async Task Restore(string id)
@@ -128,7 +131,7 @@
             var vote = await this.context.Votes.FirstOrDefaultAsync(x => x.UserId == user.Id && x.ProductId == productId);
             var validRating = int.TryParse(rating, out int newRating);
 
-            if (user == null || product == null || validRating == false)
+            if (user == null || product == null || validRating == false || (newRating < 1 && newRating > 5))
             {
                 return;
             }

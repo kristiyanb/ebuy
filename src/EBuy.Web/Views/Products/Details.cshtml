@@ -70,6 +70,7 @@
             </div>
             @if (User.Identity.IsAuthenticated)
             {
+                <span id="invalid-comment-notification" class="text-danger mb-2" display="none"></span>
                 <input id="username" type="hidden" name="username" value="@User.Identity.Name" />
                 <input id="productId" type="hidden" name="productId" value="@Model.Id" />
                 <textarea id="content" class="float-xl-none form-control mb-2" name="content"></textarea>

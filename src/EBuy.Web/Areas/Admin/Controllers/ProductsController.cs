@@ -29,7 +29,7 @@
         [HttpPost]
         public async Task<IActionResult> Add(ProductInputModel input)
         {
-            if (!ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
                 return await this.Add();
             }
@@ -57,14 +57,19 @@
 
         public async Task<IActionResult> Edit(string id)
         {
-            var product = await this.productService.GetProductById<ProductDetailsModel>(id);
+            var product = await this.productService.GetProductById<ProductEditModel>(id);
 
             return this.View(product);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(ProductInputModel input)
+        public async Task<IActionResult> Edit(ProductEditModel input)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return await this.Edit(input.Id);
+            }
+
             var productDto = this.mapper.Map<ProductDto>(input);
 
             await this.productService.Edit(productDto);

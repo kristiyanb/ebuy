@@ -4,9 +4,11 @@
 
     public class ShoppingCartProductInputModel
     {
+        [Required]
         public string Id { get; set; }
 
-        [Range(1, 50000)]
+        [Required]
+        [Range(1, 5000)]
         public int Quantity { get; set; }
     }
 }
