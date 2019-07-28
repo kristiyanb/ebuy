@@ -1,9 +1,11 @@
 ﻿namespace EBuy.Web.Areas.Admin.Models.Products
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using Microsoft.AspNetCore.Http;
 
+    using Comments;
     using EBuy.Models;
     using EBuy.Services.Mapping;
 
@@ -19,6 +21,8 @@
         [Range(typeof(decimal), "0.01", "100000", ErrorMessage = "Please enter a valid price.")]
         public decimal Price { get; set; }
 
+        public string ImageUrl { get; set; }
+
         public IFormFile Image { get; set; }
 
         [Required(ErrorMessage = "Product description cannot be empty.")]
@@ -30,5 +34,7 @@
 
         [Required]
         public string CategoryName { get; set; }
+
+        public List<CommentViewModel> Comments { get; set; }
     }
 }

@@ -161,3 +161,7 @@ a.article:hover {
         display: none;
     }
 }
+
+.word-wrap {
+    word-wrap: break-word;
+}

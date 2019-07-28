@@ -14,11 +14,13 @@
     {
         private readonly IProductService productService;
         private readonly IMapper mapper;
+        private readonly ICommentService commentService;
 
-        public ProductsController(IProductService productService, IMapper mapper)
+        public ProductsController(IProductService productService, IMapper mapper, ICommentService commentService)
         {
             this.productService = productService;
             this.mapper = mapper;
+            this.commentService = commentService;
         }
 
         public async Task<IActionResult> Add()
@@ -87,6 +89,13 @@
         public async Task<IActionResult> Restore(string id)
         {
             await this.productService.Restore(id);
+
+            return this.Redirect("/Admin/Products/Data");
+        }
+
+        public async Task<IActionResult> RemoveComment(string commentId)
+        {
+            await this.commentService.Delete(commentId);
 
             return this.Redirect("/Admin/Products/Data");
         }
