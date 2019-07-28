@@ -1,0 +1,29 @@
+﻿@using EBuy.Web.Areas.Admin.Models.Messages
+@model MessageListModel
+
+@{
+    ViewData["Title"] = "Messages";
+}
+
+<h3 class="text-center">Pending messages:</h3>
+<hr />
+
+@if (Model.Messages.Count == 0)
+{
+    <p class="text-center">No messages.</p>
+}
+
+
+@foreach (var message in Model.Messages)
+{
+    <div class="container p-2">
+        <a asp-area="Admin" asp-controller="Messages" asp-action="Details" asp-route-id="@message.Id">
+            <div class="border p-2 d-flex justify-content-between bg-white">
+                <div class="col-3"><h6 class="mt-2">Subject:</h6> @message.Subject</div>
+                <div class="col-3"><h6 class="mt-2">Date: </h6> @message.SubmissionDate</div>
+                <div class="col-3"><h6 class="mt-2">Client:</h6> @message.Name</div>
+                <div class="col-3"><h6 class="mt-2">Email: </h6> @message.Email</div>
+            </div>
+        </a>
+    </div>
+}

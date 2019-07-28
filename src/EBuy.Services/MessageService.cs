@@ -1,5 +1,6 @@
 ﻿namespace EBuy.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -36,6 +37,7 @@
         {
             var message = this.mapper.Map<Message>(input);
             message.isActive = true;
+            message.SubmissionDate = DateTime.UtcNow;
 
             if (username != null)
             {
@@ -59,12 +61,16 @@
                 .To<TViewModel>()
                 .ToListAsync();
 
-        public async Task SendResponse(string messageId, string email, string subject, string response)
+        public async Task SendResponse(string adminUsername, string messageId, string response)
         {
-            await this.emailSender.SendEmailAsync(email, subject, response);
-
             var message = await this.context.Messages.FirstOrDefaultAsync(x => x.Id == messageId);
+            var admin = await this.userService.GetUserByUserName(adminUsername);
+
+            await this.emailSender.SendEmailAsync(message.Email, "Re: "+ message.Subject, response);
+
             message.isActive = false;
+            message.ReplyDate = DateTime.UtcNow;
+            message.ReplierId = admin.Id;
 
             this.context.Messages.Update(message);
             await this.context.SaveChangesAsync();

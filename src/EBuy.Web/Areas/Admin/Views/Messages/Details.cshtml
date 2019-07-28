@@ -5,4 +5,39 @@
     ViewData["Title"] = "Message";
 }
 
-message details
+<h3 class="text-center">Send Response: </h3>
+<hr />
+
+<div class="container border p-2 bg-white">
+    <div>
+        <h6>Subject: </h6>
+        @Model.Subject
+        <hr />
+    </div>
+    <div>
+        <h6>Description: </h6>
+        @Model.Content
+        <hr />
+    </div>
+    <div>
+        <h6>Client: </h6>
+        @Model.Name,
+    </div>
+    <div>
+        @Model.Email,
+    </div>
+    <div>
+        @Model.SubmissionDate
+    </div>
+    <hr />
+    <form asp-area="Admin" asp-controller="Messages" asp-action="SendResponse" method="post">
+        <input name="messageId" value="@Model.Id" hidden/>
+        <div class="md-form">
+            <label for="message">Your Reply</label>
+            <textarea type="text" id="response" name="response" rows="6" class="form-control"></textarea>
+        </div>
+        <div class="text-center mt-2">
+            <button type="submit" class="btn btn-danger w-25 mt-4">Send</button>
+        </div>
+    </form>
+</div>

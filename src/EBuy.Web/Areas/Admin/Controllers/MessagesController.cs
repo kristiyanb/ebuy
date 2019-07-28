@@ -18,22 +18,16 @@
             this.messageService = messageService;
         }
 
-        public async Task<IActionResult> Index(string status)
+        public async Task<IActionResult> Pending()
         {
-            IEnumerable<MessageViewModel> messages;
+            var messages = await this.messageService.GetPendingMessages<MessageViewModel>();
 
-            if (status == "Pending")
-            {
-                messages = await this.messageService.GetPendingMessages<MessageViewModel>();
-            }
-            else if (status == "Archived")
-            {
-                messages = await this.messageService.GetArchivedMessages<MessageViewModel>();
-            }
-            else
-            {
-                messages = new List<MessageViewModel>();
-            }
+            return this.View(new MessageListModel { Messages = messages.ToList() });
+        }
+
+        public async Task<IActionResult> Archived()
+        {
+            var messages = await this.messageService.GetArchivedMessages<MessageViewModel>();
 
             return this.View(new MessageListModel { Messages = messages.ToList() });
         }
@@ -43,6 +37,13 @@
             var message = await this.messageService.GetMessageById<MessageViewModel>(id);
 
             return this.View(message);
+        }
+
+        public async Task<IActionResult> SendResponse(string messageId, string response)
+        {
+            await this.messageService.SendResponse(this.User.Identity.Name, messageId, response);
+
+            return this.Redirect("/Admin/Messages/Pending");
         }
     }
 }

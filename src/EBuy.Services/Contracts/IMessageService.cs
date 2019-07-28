@@ -13,7 +13,7 @@
 
         Task<IEnumerable<TViewModel>> GetArchivedMessages<TViewModel>();
 
-        Task SendResponse(string messageId, string email, string subject, string response);
+        Task SendResponse(string adminUsername, string messageId, string response);
 
         Task<TViewModel> GetMessageById<TViewModel>(string id);
     }

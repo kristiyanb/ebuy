@@ -4,14 +4,16 @@ using EBuy.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EBuy.Data.Migrations
 {
     [DbContext(typeof(EBuyDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190728170707_added-date-to-message")]
+    partial class addeddatetomessage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,23 +101,17 @@ namespace EBuy.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(30);
 
-                    b.Property<string>("ReplierId");
-
-                    b.Property<DateTime?>("ReplyDate");
+                    b.Property<DateTime>("SentOn");
 
                     b.Property<string>("Subject")
                         .IsRequired()
                         .HasMaxLength(20);
-
-                    b.Property<DateTime>("SubmissionDate");
 
                     b.Property<string>("UserId");
 
                     b.Property<bool>("isActive");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ReplierId");
 
                     b.HasIndex("UserId");
 
@@ -444,10 +440,6 @@ namespace EBuy.Data.Migrations
 
             modelBuilder.Entity("EBuy.Models.Message", b =>
                 {
-                    b.HasOne("EBuy.Models.User", "Replier")
-                        .WithMany()
-                        .HasForeignKey("ReplierId");
-
                     b.HasOne("EBuy.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
