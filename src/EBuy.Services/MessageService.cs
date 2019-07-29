@@ -39,7 +39,7 @@
             message.isActive = true;
             message.SubmissionDate = DateTime.UtcNow;
 
-            if (string.IsNullOrEmpty(username))
+            if (!string.IsNullOrEmpty(username))
             {
                 var user = await this.userService.GetUserByUserName(username);
 
@@ -74,14 +74,17 @@
             var message = await this.context.Messages.FirstOrDefaultAsync(x => x.Id == messageId);
             var admin = await this.userService.GetUserByUserName(adminUsername);
 
-            await this.emailSender.SendEmailAsync(message.Email, "Re: " + message.Subject, response);
+            if (message != null && admin != null)
+            {
+                await this.emailSender.SendEmailAsync(message.Email, "Re: " + message.Subject, response);
 
-            message.isActive = false;
-            message.ReplyDate = DateTime.UtcNow;
-            message.ReplierId = admin.Id;
+                message.isActive = false;
+                message.ReplyDate = DateTime.UtcNow;
+                message.ReplierId = admin.Id;
 
-            this.context.Messages.Update(message);
-            await this.context.SaveChangesAsync();
+                this.context.Messages.Update(message);
+                await this.context.SaveChangesAsync();
+            }
         }
 
         public async Task<TViewModel> GetMessageById<TViewModel>(string id)

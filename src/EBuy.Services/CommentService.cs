@@ -27,8 +27,9 @@
 
         public async Task<List<TViewModel>> GetCommentsByProductId<TViewModel>(string id)
         {
-            var comments =  await this.context.Comments
+            var comments = await this.context.Comments
                 .Where(x => x.ProductId == id)
+                .Include(x => x.User)
                 .ToListAsync();
 
             return this.mapper.Map<List<TViewModel>>(comments);
