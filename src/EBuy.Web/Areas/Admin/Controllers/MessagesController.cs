@@ -1,7 +1,5 @@
 ﻿namespace EBuy.Web.Areas.Admin.Controllers
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
@@ -22,14 +20,14 @@
         {
             var messages = await this.messageService.GetPendingMessages<MessageViewModel>();
 
-            return this.View(new MessageListModel { Messages = messages.ToList() });
+            return this.View(new MessageListModel { Messages = messages });
         }
 
         public async Task<IActionResult> Archived()
         {
             var messages = await this.messageService.GetArchivedMessages<MessageViewModel>();
 
-            return this.View(new MessageListModel { Messages = messages.ToList() });
+            return this.View(new MessageListModel { Messages = messages });
         }
 
         public async Task<IActionResult> Details(string id)

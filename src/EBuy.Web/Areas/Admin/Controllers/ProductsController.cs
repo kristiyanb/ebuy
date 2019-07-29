@@ -1,6 +1,5 @@
 ﻿namespace EBuy.Web.Areas.Admin.Controllers
 {
-    using System.Linq;
     using System.Threading.Tasks;
 
     using AutoMapper;
@@ -40,21 +39,21 @@
 
             await this.productService.Add(productDto);
 
-            return this.Redirect("/Admin/Dashboard/Index");
+            return this.Redirect("/Admin/Products/Data");
         }
 
         public async Task<IActionResult> Data(string category)
         {
-            var products = await this.productService.GetAll<ProductDetailsModel>(category);
+            var products = await this.productService.GetAll<ProductDataModel>(category);
 
-            return this.View(new ProductsListModel { Products = products.ToList() });
+            return this.View(new ProductsListModel { Products = products });
         }
 
         public async Task<IActionResult> Deleted()
         {
-            var products = await this.productService.GetDeleted<ProductDetailsModel>();
+            var products = await this.productService.GetDeleted<ProductDataModel>();
 
-            return this.View(new ProductsListModel { Products = products.ToList() });
+            return this.View(new ProductsListModel { Products = products });
         }
 
         public async Task<IActionResult> Edit(string id)

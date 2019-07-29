@@ -1,9 +1,6 @@
 ﻿namespace EBuy.Web.Models.Users
-{
-    using EBuy.Models;
-    using EBuy.Services.Mapping;
-
-    public class UserViewModel : IMapFrom<User>
+{ 
+    public class UserViewModel
     {
         public string FirstName { get; set; }
 

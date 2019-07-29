@@ -38,7 +38,7 @@
         {
             var products = await this.productService.GetLastFiveProducts<ProductGridModel>();
 
-            return this.View(new ProductsCarouselModel { Products = products.ToList() });
+            return this.View(new ProductsCarouselModel { Products = products });
         }
 
         public async Task<IActionResult> Contacts()
@@ -65,7 +65,12 @@
 
             await this.messageService.Add(messageDto, this.User.Identity.Name);
 
-            return this.View("/Views/Home/MessageReceived.cshtml");
+            return this.Redirect("/Home/MessageReceived");
+        }
+
+        public async Task<IActionResult> MessageReceived()
+        {
+            return this.View();
         }
 
         public async Task<IActionResult> ConfirmEmail()
@@ -77,7 +82,7 @@
         {
             var products = await this.productService.GetProductsByNameOrCategoryMatch<ProductGridModel>(query);
 
-            return this.View(new SearchViewModel { Name = query, Products = products.ToList() });
+            return this.View(new SearchViewModel { Name = query, Products = products });
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

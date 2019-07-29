@@ -7,9 +7,8 @@
 
     using Comments;
     using EBuy.Models;
-    using EBuy.Services.Mapping;
 
-    public class ProductEditModel : IMapFrom<Product>
+    public class ProductEditModel
     {
         [Required]
         public string Id { get; set; }

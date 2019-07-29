@@ -13,7 +13,6 @@
     using EBuy.Data;
     using EBuy.Models;
     using EBuy.Services.Models;
-    using Mapping;
 
     public class MessageService : IMessageService
     {
@@ -22,9 +21,9 @@
         private readonly IUserService userService;
         private readonly IEmailSender emailSender;
 
-        public MessageService(EBuyDbContext context, 
-            IMapper mapper, 
-            IUserService userService, 
+        public MessageService(EBuyDbContext context,
+            IMapper mapper,
+            IUserService userService,
             IEmailSender emailSender)
         {
             this.context = context;
@@ -36,37 +35,46 @@
         public async Task Add(MessageDto input, string username)
         {
             var message = this.mapper.Map<Message>(input);
+
             message.isActive = true;
             message.SubmissionDate = DateTime.UtcNow;
 
-            if (username != null)
+            if (string.IsNullOrEmpty(username))
             {
                 var user = await this.userService.GetUserByUserName(username);
-                message.UserId = user.Id;
+
+                message.UserId = user?.Id;
             }
 
             await this.context.Messages.AddAsync(message);
             await this.context.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<TViewModel>> GetArchivedMessages<TViewModel>() 
-            => await this.context.Messages
+        public async Task<List<TViewModel>> GetArchivedMessages<TViewModel>()
+        {
+            var messages = await this.context.Messages
                 .Where(x => x.isActive == false)
-                .To<TViewModel>()
+                .Include(x => x.Replier)
                 .ToListAsync();
 
-        public async  Task<IEnumerable<TViewModel>> GetPendingMessages<TViewModel>()
-            => await this.context.Messages
+            return this.mapper.Map<List<TViewModel>>(messages);
+        }
+
+        public async Task<List<TViewModel>> GetPendingMessages<TViewModel>()
+        {
+            var messages = await this.context.Messages
                 .Where(x => x.isActive == true)
-                .To<TViewModel>()
                 .ToListAsync();
+
+            return this.mapper.Map<List<TViewModel>>(messages);
+        }
 
         public async Task SendResponse(string adminUsername, string messageId, string response)
         {
             var message = await this.context.Messages.FirstOrDefaultAsync(x => x.Id == messageId);
             var admin = await this.userService.GetUserByUserName(adminUsername);
 
-            await this.emailSender.SendEmailAsync(message.Email, "Re: "+ message.Subject, response);
+            await this.emailSender.SendEmailAsync(message.Email, "Re: " + message.Subject, response);
 
             message.isActive = false;
             message.ReplyDate = DateTime.UtcNow;
@@ -76,10 +84,11 @@
             await this.context.SaveChangesAsync();
         }
 
-        public async Task<TViewModel> GetMessageById<TViewModel>(string id) 
-            => await this.context.Messages
-                .Where(x => x.Id == id)
-                .To<TViewModel>()
-                .FirstOrDefaultAsync();
+        public async Task<TViewModel> GetMessageById<TViewModel>(string id)
+        {
+            var message = await this.context.Messages.FirstOrDefaultAsync(x => x.Id == id);
+
+            return this.mapper.Map<TViewModel>(message);
+        }
     }
 }

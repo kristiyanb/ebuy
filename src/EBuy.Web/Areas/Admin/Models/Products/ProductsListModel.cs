@@ -4,6 +4,6 @@
 
     public class ProductsListModel
     {
-        public List<ProductDetailsModel> Products { get; set; }
+        public List<ProductDataModel> Products { get; set; }
     }
 }

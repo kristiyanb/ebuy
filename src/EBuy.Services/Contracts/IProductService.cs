@@ -12,13 +12,13 @@
 
         Task<TViewModel> GetProductById<TViewModel>(string id);
 
-        Task<IEnumerable<TViewModel>> GetProductsByNameOrCategoryMatch<TViewModel>(string searchParam);
+        Task<List<TViewModel>> GetProductsByNameOrCategoryMatch<TViewModel>(string searchParam);
 
-        Task<IEnumerable<TViewModel>> GetLastFiveProducts<TViewModel>();
+        Task<List<TViewModel>> GetLastFiveProducts<TViewModel>();
 
-        Task<IEnumerable<TViewModel>> GetAll<TViewModel>(string category);
+        Task<List<TViewModel>> GetAll<TViewModel>(string category);
 
-        Task<IEnumerable<TViewModel>> GetDeleted<TViewModel>();
+        Task<List<TViewModel>> GetDeleted<TViewModel>();
 
         Task Add(ProductDto input);
 

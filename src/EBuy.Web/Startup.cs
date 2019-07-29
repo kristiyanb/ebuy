@@ -18,8 +18,6 @@
     using EBuy.Services;
     using EBuy.Services.Contracts;
     using EBuy.Services.EmailSender;
-    using EBuy.Services.Mapping;
-    using Models;
 
     public class Startup
     {
@@ -32,8 +30,6 @@
 
         public void ConfigureServices(IServiceCollection services)
         {
-            AutoMapperConfig.RegisterMappings(typeof(ErrorViewModel).Assembly, typeof(AutoMapperConfig).Assembly);
-
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
@@ -81,7 +77,7 @@
 
             services.AddSingleton(cloudinaryUtility);
 
-            services.AddAutoMapper(typeof(Startup), typeof(AutoMapperConfig));
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IProductService, ProductService>();

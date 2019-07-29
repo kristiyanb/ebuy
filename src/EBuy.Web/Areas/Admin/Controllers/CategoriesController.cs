@@ -1,6 +1,5 @@
 ﻿namespace EBuy.Web.Areas.Admin.Controllers
 {
-    using System.Linq;
     using System.Threading.Tasks;
 
     using AutoMapper;
@@ -38,14 +37,14 @@
 
             await this.categoryService.Add(categoryDto);
 
-            return this.Redirect("/Admin/Dashboard/Index");
+            return this.Redirect("/Admin/Categories/Data");
         }
 
         public async Task<IActionResult> Data()
         {
             var categories = await this.categoryService.GetCategories<CategoryDetailsModel>();
 
-            return this.View(new CategoryListModel { Categories = categories.ToList() });
+            return this.View(new CategoryListModel { Categories = categories });
         }
     }
 }

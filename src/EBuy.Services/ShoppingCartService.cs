@@ -5,25 +5,30 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using AutoMapper;
     using Microsoft.EntityFrameworkCore;
     using Newtonsoft.Json;
 
     using Contracts;
     using EBuy.Data;
     using EBuy.Models;
-    using Mapping;
 
     public class ShoppingCartService : IShoppingCartService
     {
         private readonly EBuyDbContext context;
         private readonly IProductService productService;
         private readonly IUserService userService;
+        private readonly IMapper mapper;
 
-        public ShoppingCartService(EBuyDbContext context, IProductService productService, IUserService userService)
+        public ShoppingCartService(EBuyDbContext context, 
+            IProductService productService, 
+            IUserService userService,
+            IMapper mapper)
         {
             this.context = context;
             this.productService = productService;
             this.userService = userService;
+            this.mapper = mapper;
         }
 
         public async Task AddProduct(string username, string id, int quantity)
@@ -72,16 +77,19 @@
             }
         }
 
-        public async Task<IEnumerable<ShoppingCartProduct>> GetShoppingCartProductsByUsername(string username) 
+        public async Task<List<ShoppingCartProduct>> GetShoppingCartProductsByUsername(string username) 
             => await this.context.ShoppingCartProducts
                 .Where(x => x.ShoppingCart.User.UserName == username)
                 .ToListAsync();
 
-        public async Task<IEnumerable<TViewModel>> GetShoppingCartProductsByUsername<TViewModel>(string username)
-            => await this.context.ShoppingCartProducts
+        public async Task<List<TViewModel>> GetShoppingCartProductsByUsername<TViewModel>(string username)
+        {
+            var shoppingCartProducts = await this.context.ShoppingCartProducts
                 .Where(x => x.ShoppingCart.User.UserName == username)
-                .To<TViewModel>()
                 .ToListAsync();
+
+            return this.mapper.Map<List<TViewModel>>(shoppingCartProducts);
+        }
 
         public async Task<string> AddProductToGuestCart(string cart, string id, int quantity)
         {

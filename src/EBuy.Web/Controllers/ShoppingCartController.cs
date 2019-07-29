@@ -23,7 +23,7 @@
 
         public async Task<IActionResult> Index()
         {
-            IEnumerable<ShoppingCartProductViewModel> products;
+            List<ShoppingCartProductViewModel> products;
 
             if (this.User.Identity.Name == null)
             {
@@ -44,7 +44,7 @@
                     .GetShoppingCartProductsByUsername<ShoppingCartProductViewModel>(this.User.Identity.Name);
             }
 
-            return this.View(new ShoppingCartViewModel { Products = products.ToList() });
+            return this.View(new ShoppingCartViewModel { Products = products });
         }
 
         [HttpPost]

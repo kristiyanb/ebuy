@@ -1,6 +1,5 @@
 ﻿namespace EBuy.Web.Areas.Admin.Controllers
 {
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
@@ -22,7 +21,7 @@
         {
             var users = await this.userService.GetAll<UserDetailsModel>();
 
-            return this.View(new UserListModel { Users = users.ToList() });
+            return this.View(new UserListModel { Users = users });
         }
 
         [Authorize(Roles = "Administrator, Manager")]

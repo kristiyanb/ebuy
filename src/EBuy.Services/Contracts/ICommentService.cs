@@ -9,6 +9,6 @@
 
         Task Delete(string commentId);
 
-        Task<IEnumerable<TViewModel>> GetCommentsByProductId<TViewModel>(string id);
+        Task<List<TViewModel>> GetCommentsByProductId<TViewModel>(string id);
     }
 }

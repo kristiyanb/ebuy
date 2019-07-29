@@ -5,11 +5,11 @@
     using System.Threading.Tasks;
     using System.Linq;
 
+    using AutoMapper;
     using Microsoft.EntityFrameworkCore;
 
     using Contracts;
     using EBuy.Data;
-    using Mapping;
     using EBuy.Models;
 
     public class PurchaseService : IPurchaseService
@@ -17,12 +17,17 @@
         private readonly EBuyDbContext context;
         private readonly IUserService userService;
         private readonly IProductService productService;
+        private readonly IMapper mapper;
 
-        public PurchaseService(EBuyDbContext context, IUserService userService, IProductService productService)
+        public PurchaseService(EBuyDbContext context,
+            IUserService userService,
+            IProductService productService,
+            IMapper mapper)
         {
             this.context = context;
             this.userService = userService;
             this.productService = productService;
+            this.mapper = mapper;
         }
 
         public async Task<Purchase> Add(string address, string username)
@@ -62,10 +67,24 @@
             await this.context.PurchasedProducts.AddAsync(purchasedProduct);
         }
 
-        public async Task<IEnumerable<TViewModel>> GetAll<TViewModel>()
-            => await this.context.Purchases
+        public async Task<List<TViewModel>> GetAll<TViewModel>()
+        {
+            var purchases = await this.context.Purchases
+                .Include(x => x.Products)
                 .OrderByDescending(x => x.DateOfOrder)
-                .To<TViewModel>()
                 .ToListAsync();
+
+            return this.mapper.Map<List<TViewModel>>(purchases);
+        }
+
+        public async Task<List<TViewModel>> GetUserPurchaseHistory<TViewModel>(string username)
+        {
+            var purchases = await this.context.Purchases
+                .Include(x => x.Products)
+                .Where(x => x.User.UserName == username)
+                .ToListAsync();
+
+            return this.mapper.Map<List<TViewModel>>(purchases);
+        }
     }
 }

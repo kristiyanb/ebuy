@@ -22,7 +22,7 @@
         {
             var categories = await this.categoryService.GetCategories<CategoryGridModel>();
 
-            return this.View(new CategoriesIndexViewModel { Categories = categories.ToList() });
+            return this.View(new CategoriesIndexViewModel { Categories = categories });
         }
 
         [Route("/Products/{name}")]
@@ -31,7 +31,7 @@
             var products = await this.categoryService
                 .GetProductsByCategoryName<ProductGridModel>(name, orderBy);
 
-            return this.View(new CategoryViewModel { Name = name, Products = products.ToList() });
+            return this.View(new CategoryViewModel { Name = name, Products = products });
         }
     }
 }

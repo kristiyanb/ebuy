@@ -1,6 +1,5 @@
 ﻿namespace EBuy.Web.Areas.Admin.Controllers
 {
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
@@ -21,7 +20,7 @@
         {
             var purchases = await this.purchaseService.GetAll<PurchaseViewModel>();
 
-            return this.View(new PurchaseListModel { Purchases = purchases.ToList() });
+            return this.View(new PurchaseListModel { Purchases = purchases });
         }
     }
 }

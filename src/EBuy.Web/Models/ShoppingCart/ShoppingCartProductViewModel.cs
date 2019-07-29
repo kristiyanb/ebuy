@@ -1,9 +1,6 @@
 ﻿namespace EBuy.Web.Models.ShoppingCart
 {
-    using EBuy.Models;
-    using EBuy.Services.Mapping;
-
-    public class ShoppingCartProductViewModel : IMapFrom<ShoppingCartProduct>
+    public class ShoppingCartProductViewModel
     {
         public string Id { get; set; }
 

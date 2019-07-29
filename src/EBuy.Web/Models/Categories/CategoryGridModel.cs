@@ -1,9 +1,8 @@
 ﻿namespace EBuy.Web.Models.Categories
 {
     using EBuy.Models;
-    using EBuy.Services.Mapping;
 
-    public class CategoryGridModel : IMapFrom<Category>
+    public class CategoryGridModel
     {
         public string Name { get; set; }
 

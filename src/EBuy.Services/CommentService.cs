@@ -5,29 +5,34 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using AutoMapper;
     using Microsoft.EntityFrameworkCore;
 
     using Contracts;
     using EBuy.Data;
     using EBuy.Models;
-    using Mapping;
 
     public class CommentService : ICommentService
     {
         private readonly EBuyDbContext context;
         private readonly IUserService userService;
+        private readonly IMapper mapper;
 
-        public CommentService(EBuyDbContext context, IUserService userService)
+        public CommentService(EBuyDbContext context, IUserService userService, IMapper mapper)
         {
             this.context = context;
             this.userService = userService;
+            this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<TViewModel>> GetCommentsByProductId<TViewModel>(string id)
-            => await this.context.Comments
+        public async Task<List<TViewModel>> GetCommentsByProductId<TViewModel>(string id)
+        {
+            var comments =  await this.context.Comments
                 .Where(x => x.ProductId == id)
-                .To<TViewModel>()
                 .ToListAsync();
+
+            return this.mapper.Map<List<TViewModel>>(comments);
+        }
 
         public async Task Add(string username, string productId, string content)
         {

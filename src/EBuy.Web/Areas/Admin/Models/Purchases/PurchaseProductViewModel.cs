@@ -1,9 +1,6 @@
 ﻿namespace EBuy.Web.Areas.Admin.Models.Purchases
 {
-    using EBuy.Models;
-    using EBuy.Services.Mapping;
-
-    public class PurchaseProductViewModel : IMapFrom<PurchasedProduct>
+    public class PurchaseProductViewModel 
     {
         public string Name { get; set; }
 

@@ -8,11 +8,11 @@
 
     public interface ICategoryService
     {
-        Task<IEnumerable<string>> GetCategoryNames();
+        Task<List<string>> GetCategoryNames();
 
-        Task<IEnumerable<TViewModel>> GetProductsByCategoryName<TViewModel>(string categoryName, string orderBy);
+        Task<List<TViewModel>> GetProductsByCategoryName<TViewModel>(string categoryName, string orderBy);
 
-        Task<IEnumerable<TViewModel>> GetCategories<TViewModel>();
+        Task<List<TViewModel>> GetCategories<TViewModel>();
 
         Task Add(CategoryDto input);
 

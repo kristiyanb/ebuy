@@ -1,11 +1,8 @@
 ﻿namespace EBuy.Services
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
-    using Microsoft.EntityFrameworkCore;
     using Newtonsoft.Json;
 
     using Contracts;
@@ -16,17 +13,14 @@
     {
         private readonly EBuyDbContext context;
         private readonly IShoppingCartService shoppingCartService;
-        private readonly IProductService productService;
         private readonly IPurchaseService purchaseService;
 
         public CheckoutService(EBuyDbContext context,
             IShoppingCartService shoppingCartService, 
-            IProductService productService, 
             IPurchaseService purchaseService)
         {
             this.context = context;
             this.shoppingCartService = shoppingCartService;
-            this.productService = productService;
             this.purchaseService = purchaseService;
         }
 
@@ -34,7 +28,7 @@
         {
             var shoppingCartProducts = await this.shoppingCartService.GetShoppingCartProductsByUsername(username);
 
-            if (shoppingCartProducts.Count() == 0)
+            if (shoppingCartProducts.Count == 0)
             {
                 return;
             }

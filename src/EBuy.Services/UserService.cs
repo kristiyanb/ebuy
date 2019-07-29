@@ -5,11 +5,11 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using AutoMapper;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
 
     using Contracts;
-    using Mapping;
     using EBuy.Data;
     using EBuy.Models;
 
@@ -17,38 +17,39 @@
     {
         private readonly EBuyDbContext context;
         private readonly UserManager<User> userManager;
+        private readonly IMapper mapper;
 
-        public UserService(EBuyDbContext context, UserManager<User> userManager)
+        public UserService(EBuyDbContext context, UserManager<User> userManager, IMapper mapper)
         {
             this.context = context;
             this.userManager = userManager;
+            this.mapper = mapper;
         }
 
         public async Task<User> GetUserByUserName(string username)
-            => await this.context.Users
-                .FirstOrDefaultAsync(x => x.UserName == username);
+            => await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
 
         public async Task<TViewModel> GetUserByUserName<TViewModel>(string username)
-            => await this.context.Users
-                .Where(x => x.UserName == username)
-                .To<TViewModel>()
-                .FirstOrDefaultAsync();
+        {
+            var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
 
-        public async Task<IEnumerable<TViewModel>> GetAll<TViewModel>()
-            => await this.context.Users
+            return this.mapper.Map<TViewModel>(user);
+        }
+
+        public async Task<List<TViewModel>> GetAll<TViewModel>()
+        {
+            var users = await this.context.Users
                 .Where(x => x.UserName != "admin")
-                .To<TViewModel>()
+                .Include(x => x.PurchaseHistory)
                 .ToListAsync();
 
-        public async Task<IEnumerable<TViewModel>> GetPurchaseHistory<TViewModel>(string username)
-            => await this.context.Purchases
-                .Where(x => x.User.UserName == username)
-                .To<TViewModel>()
-                .ToListAsync();
+            return this.mapper.Map<List<TViewModel>>(users);
+        }
 
         public async Task SetFirstName(string username, string firstName)
         {
             var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
+
             user.FirstName = firstName;
 
             this.context.Update(user);

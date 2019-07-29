@@ -9,9 +9,9 @@
     {
         Task Add(MessageDto input, string username);
 
-        Task<IEnumerable<TViewModel>> GetPendingMessages<TViewModel>();
+        Task<List<TViewModel>> GetPendingMessages<TViewModel>();
 
-        Task<IEnumerable<TViewModel>> GetArchivedMessages<TViewModel>();
+        Task<List<TViewModel>> GetArchivedMessages<TViewModel>();
 
         Task SendResponse(string adminUsername, string messageId, string response);
 

@@ -10,7 +10,6 @@
     using Contracts;
     using EBuy.Data;
     using EBuy.Models;
-    using Mapping;
     using Models;
 
     public class ProductService : IProductService
@@ -39,27 +38,36 @@
                 .FirstOrDefaultAsync(x => x.Id == id);
 
         public async Task<TViewModel> GetProductById<TViewModel>(string id)
-            => await this.context.Products
-                .Where(x => x.Id == id)
-                .To<TViewModel>()
-                .FirstOrDefaultAsync();
+        {
+            var product = await this.context.Products
+                .Include(x => x.Comments)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
-        public async Task<IEnumerable<TViewModel>> GetProductsByNameOrCategoryMatch<TViewModel>(string searchParam)
-            => await this.context.Products
+            return this.mapper.Map<TViewModel>(product);
+        }
+
+        public async Task<List<TViewModel>> GetProductsByNameOrCategoryMatch<TViewModel>(string searchParam)
+        {
+            var products = await this.context.Products
                 .Where(x => x.IsDeleted == false)
                 .Where(x => x.Name.ToLower().Contains(searchParam.ToLower()) ||
                             x.Category.Name.ToLower().Contains(searchParam.ToLower()))
-                .To<TViewModel>()
                 .ToListAsync();
 
-        public async Task<IEnumerable<TViewModel>> GetLastFiveProducts<TViewModel>()
-            => await this.context.Products
+            return this.mapper.Map<List<TViewModel>>(products);
+        }
+
+        public async Task<List<TViewModel>> GetLastFiveProducts<TViewModel>()
+        {
+            var products = await this.context.Products
                 .Where(x => x.IsDeleted == false)
                 .Take(5)
-                .To<TViewModel>()
                 .ToListAsync();
 
-        public async Task<IEnumerable<TViewModel>> GetAll<TViewModel>(string category)
+            return this.mapper.Map<List<TViewModel>>(products);
+        }
+
+        public async Task<List<TViewModel>> GetAll<TViewModel>(string category)
         {
             var products = this.context.Products.Where(x => x.IsDeleted == false);
 
@@ -68,16 +76,19 @@
                 products = products.Where(x => x.Category.Name == category);
             }
 
-            var finalProducts = await products.To<TViewModel>().ToListAsync();
+            var finalProducts = await products.ToListAsync();
 
-            return finalProducts;
+            return this.mapper.Map<List<TViewModel>>(finalProducts);
         }
 
-        public async Task<IEnumerable<TViewModel>> GetDeleted<TViewModel>()
-            => await this.context.Products
-               .Where(x => x.IsDeleted == true)
-               .To<TViewModel>()
-               .ToListAsync();
+        public async Task<List<TViewModel>> GetDeleted<TViewModel>()
+        {
+            var products = await this.context.Products
+                .Where(x => x.IsDeleted == true)
+                .ToListAsync();
+
+            return this.mapper.Map<List<TViewModel>>(products);
+        }
 
         public async Task Add(ProductDto input)
         {
@@ -161,7 +172,12 @@
                 product.Score += newRating;
                 product.VotesCount++;
 
-                await this.context.Votes.AddAsync(new Vote { UserId = user.Id, ProductId = productId, Score = newRating });
+                await this.context.Votes.AddAsync(new Vote
+                {
+                    UserId = user.Id,
+                    ProductId = productId,
+                    Score = newRating
+                });
             }
             else
             {
@@ -183,8 +199,9 @@
 
         public async Task UpdateProductQuantityAndSales(string name, string imageUrl, decimal price, int quantity)
         {
-            var product = await this.context.Products
-                .FirstOrDefaultAsync(x => x.Name == name && x.Price == price && x.ImageUrl == imageUrl);
+            var product = await this.context.Products.FirstOrDefaultAsync(x => x.Name == name && 
+                                                                               x.Price == price && 
+                                                                               x.ImageUrl == imageUrl);
 
             if (product != null)
             {
