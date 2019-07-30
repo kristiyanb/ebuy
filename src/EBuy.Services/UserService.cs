@@ -19,7 +19,9 @@
         private readonly UserManager<User> userManager;
         private readonly IMapper mapper;
 
-        public UserService(EBuyDbContext context, UserManager<User> userManager, IMapper mapper)
+        public UserService(EBuyDbContext context, 
+            UserManager<User> userManager, 
+            IMapper mapper)
         {
             this.context = context;
             this.userManager = userManager;

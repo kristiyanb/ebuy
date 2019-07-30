@@ -1,5 +1,7 @@
 ﻿namespace EBuy.Tests.Services
 {
+    using System;
+    using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -29,11 +31,10 @@
         {
             //Arrange
 
-            var product = new Product() { Id = "1" };
             var firstComment = new Comment() { ProductId = "1", Content = "First comment." };
             var secondComment = new Comment() { ProductId = "2", Content = "Second comment." };
 
-            this.context.AddRange(product, firstComment, secondComment);
+            this.context.AddRange(firstComment, secondComment);
             await this.context.SaveChangesAsync();
 
             var userService = new Mock<IUserService>();
@@ -53,15 +54,14 @@
         }
 
         [Fact]
-        public async Task GetCommentsByProductIdWithInvalidId()
+        public async Task GetCommentsByProductIdUserNameMapping()
         {
             //Arrange
 
-            var product = new Product() { Id = "1" };
-            var firstComment = new Comment() { ProductId = "1", Content = "First comment." };
-            var secondComment = new Comment() { ProductId = "2", Content = "Second comment." };
+            var user = new User() { Id = "user-id", UserName = "chris" };
+            var firstComment = new Comment() { ProductId = "1", Content = "First comment.", UserId = "user-id" };
 
-            this.context.AddRange(product, firstComment, secondComment);
+            this.context.AddRange(user, firstComment);
             await this.context.SaveChangesAsync();
 
             var userService = new Mock<IUserService>();
@@ -72,7 +72,57 @@
 
             //Act
 
-            var comments = await commentService.GetCommentsByProductId<CommentBindingModel>("3");
+            var comments = await commentService.GetCommentsByProductId<CommentBindingModel>("1");
+
+            //Assert
+
+            Assert.Equal("chris", comments.First().Username);
+        }
+
+        [Fact]
+        public async Task GetCommentsByProductIdLastModifiedMapping()
+        {
+            //Arrange
+            var lastModified = DateTime.ParseExact("01/02/2019", "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            var firstComment = new Comment() { ProductId = "1", Content = "First comment.", LastModified = lastModified };
+
+            await this.context.AddAsync(firstComment);
+            await this.context.SaveChangesAsync();
+
+            var userService = new Mock<IUserService>();
+            var mapperConfig = new MapperConfiguration(x => x.AddProfile(new MappingProfile()));
+            var mapper = mapperConfig.CreateMapper();
+
+            var commentService = new CommentService(this.context, userService.Object, mapper);
+
+            //Act
+
+            var comments = await commentService.GetCommentsByProductId<CommentBindingModel>("1");
+
+            //Assert
+
+            Assert.Equal("01/02/2019", comments.First().LastModified);
+        }
+
+        [Fact]
+        public async Task GetCommentsByProductIdWithInvalidId()
+        {
+            //Arrange
+
+            var firstComment = new Comment() { ProductId = "1", Content = "First comment." };
+
+            await this.context.AddAsync(firstComment);
+            await this.context.SaveChangesAsync();
+
+            var userService = new Mock<IUserService>();
+            var mapperConfig = new MapperConfiguration(x => x.AddProfile(new MappingProfile()));
+            var mapper = mapperConfig.CreateMapper();
+
+            var commentService = new CommentService(this.context, userService.Object, mapper);
+
+            //Act
+
+            var comments = await commentService.GetCommentsByProductId<CommentBindingModel>("2");
 
             //Assert
 

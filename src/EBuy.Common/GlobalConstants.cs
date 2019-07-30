@@ -5,5 +5,7 @@
         public static string GuestCartKey => "guest-cart-key";
 
         public static string SearchParamKey => "search-param-key";
+
+        public static string DateFormat => "dd/MM/yyyy";
     }
 }

@@ -20,10 +20,10 @@
         private readonly ICategoryService categoryService;
         private readonly IUserService userService;
 
-        public ProductService(EBuyDbContext context, 
-            ICloudinaryService cloudinaryService, 
-            IMapper mapper, 
-            ICategoryService categoryService, 
+        public ProductService(EBuyDbContext context,
+            ICloudinaryService cloudinaryService,
+            IMapper mapper,
+            ICategoryService categoryService,
             IUserService userService)
         {
             this.context = context;
@@ -71,7 +71,7 @@
         {
             var products = this.context.Products.Where(x => x.IsDeleted == false);
 
-            if (category != null)
+            if (!string.IsNullOrEmpty(category))
             {
                 products = products.Where(x => x.Category.Name == category);
             }
@@ -90,28 +90,35 @@
             return this.mapper.Map<List<TViewModel>>(products);
         }
 
-        public async Task Add(ProductDto input)
+        public async Task<bool> Add(ProductDto input)
         {
             var product = this.mapper.Map<Product>(input);
-
-            var imageUrl = await this.cloudinaryService.UploadImage(input.Image, input.Name);
             var category = await this.categoryService.GetCategoryByName(input.CategoryName);
 
-            product.ImageUrl = imageUrl;
+            if (category == null)
+            {
+                return false;
+            }
+
+            var imageUrl = await this.cloudinaryService.UploadImage(input.Image, input.Name);
+
             product.Category = category;
+            product.ImageUrl = imageUrl;
 
             await this.context.Products.AddAsync(product);
             await this.context.SaveChangesAsync();
+
+            return true;
         }
 
-        public async Task Edit(ProductDto input)
+        public async Task<bool> Edit(ProductDto input)
         {
             var product = await this.context.Products.FirstOrDefaultAsync(x => x.Id == input.Id);
             var category = await this.categoryService.GetCategoryByName(input.CategoryName);
 
             if (product == null || category == null)
             {
-                return;
+                return false;
             }
 
             this.mapper.Map(input, product, typeof(ProductDto), typeof(Product));
@@ -127,45 +134,57 @@
 
             this.context.Products.Update(product);
             await this.context.SaveChangesAsync();
+
+            return true;
         }
 
-        public async Task Remove(string id)
+        public async Task<bool> Remove(string id)
         {
             var product = await this.context.Products.FirstOrDefaultAsync(x => x.Id == id);
 
-            if (product != null)
+            if (product == null)
             {
-                product.IsDeleted = true;
-
-                this.context.Update(product);
-                await this.context.SaveChangesAsync();
+                return false;
             }
+
+            product.IsDeleted = true;
+
+            this.context.Update(product);
+            await this.context.SaveChangesAsync();
+
+            return true;
         }
 
-        public async Task Restore(string id)
+        public async Task<bool> Restore(string id)
         {
             var product = await this.context.Products.FirstOrDefaultAsync(x => x.Id == id);
 
-            if (product != null)
+            if (product == null)
             {
-                product.IsDeleted = false;
-
-                this.context.Update(product);
-                await this.context.SaveChangesAsync();
+                return false;
             }
+
+            product.IsDeleted = false;
+
+            this.context.Update(product);
+            await this.context.SaveChangesAsync();
+
+            return true;
         }
 
-        public async Task UpdateRating(string username, string productId, string rating)
+        public async Task<bool> UpdateRating(string username, string productId, string rating)
         {
             var user = await this.userService.GetUserByUserName(username);
             var product = await this.context.Products.FirstOrDefaultAsync(x => x.Id == productId);
-            var vote = await this.context.Votes.FirstOrDefaultAsync(x => x.UserId == user.Id && x.ProductId == productId);
             var validRating = int.TryParse(rating, out int newRating);
 
             if (user == null || product == null || validRating == false || (newRating < 1 && newRating > 5))
             {
-                return;
+                return false;
             }
+
+            var vote = await this.context.Votes
+                .FirstOrDefaultAsync(x => x.UserId == user.Id && x.ProductId == productId);
 
             if (vote == null)
             {
@@ -183,7 +202,7 @@
             {
                 if (newRating == vote.Score)
                 {
-                    return;
+                    return false;
                 }
 
                 product.Score -= vote.Score;
@@ -195,22 +214,32 @@
 
             this.context.Products.Update(product);
             await this.context.SaveChangesAsync();
+
+            return true;
         }
 
-        public async Task UpdateProductQuantityAndSales(string name, string imageUrl, decimal price, int quantity)
+        public async Task<bool> UpdateProductQuantityAndSales(string name, string imageUrl, decimal price, int quantity)
         {
-            var product = await this.context.Products.FirstOrDefaultAsync(x => x.Name == name && 
-                                                                               x.Price == price && 
-                                                                               x.ImageUrl == imageUrl);
-
-            if (product != null)
+            if (quantity == 0)
             {
-                product.InStock -= quantity;
-                product.PurchasesCount += quantity;
-
-                this.context.Products.Update(product);
-                await this.context.SaveChangesAsync();
+                return false;
             }
+
+            var product = await this.context.Products
+                .FirstOrDefaultAsync(x => x.Name == name && x.Price == price && x.ImageUrl == imageUrl);
+
+            if (product == null)
+            {
+                return false;
+            }
+
+            product.InStock -= quantity;
+            product.PurchasesCount += quantity;
+
+            this.context.Products.Update(product);
+            await this.context.SaveChangesAsync();
+
+            return true;
         }
     }
 }

@@ -18,7 +18,9 @@
         private readonly IUserService userService;
         private readonly IMapper mapper;
 
-        public CommentService(EBuyDbContext context, IUserService userService, IMapper mapper)
+        public CommentService(EBuyDbContext context, 
+            IUserService userService, 
+            IMapper mapper)
         {
             this.context = context;
             this.userService = userService;

@@ -20,16 +20,16 @@
 
         Task<List<TViewModel>> GetDeleted<TViewModel>();
 
-        Task Add(ProductDto input);
+        Task<bool> Add(ProductDto input);
 
-        Task Edit(ProductDto input);
+        Task<bool> Edit(ProductDto input);
 
-        Task Remove(string id);
+        Task<bool> Remove(string id);
 
-        Task Restore(string id);
+        Task<bool> Restore(string id);
 
-        Task UpdateRating(string username, string productId, string rating);
+        Task<bool> UpdateRating(string username, string productId, string rating);
 
-        Task UpdateProductQuantityAndSales(string name, string imageUrl, decimal price, int quantity);
+        Task<bool> UpdateProductQuantityAndSales(string name, string imageUrl, decimal price, int quantity);
     }
 }
