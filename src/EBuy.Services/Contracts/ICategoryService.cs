@@ -10,8 +10,6 @@
     {
         Task<List<string>> GetCategoryNames();
 
-        Task<List<TViewModel>> GetProductsByCategoryName<TViewModel>(string categoryName, string orderBy);
-
         Task<List<TViewModel>> GetCategories<TViewModel>();
 
         Task Add(CategoryDto input);

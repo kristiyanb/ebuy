@@ -24,14 +24,5 @@
 
             return this.View(new CategoriesIndexViewModel { Categories = categories });
         }
-
-        [Route("/Products/{name}")]
-        public async Task<IActionResult> Products(string name, string orderBy)
-        {
-            var products = await this.categoryService
-                .GetProductsByCategoryName<ProductGridModel>(name, orderBy);
-
-            return this.View(new CategoryViewModel { Name = name, Products = products });
-        }
     }
 }

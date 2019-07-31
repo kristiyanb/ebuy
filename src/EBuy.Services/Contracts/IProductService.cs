@@ -12,6 +12,8 @@
 
         Task<TViewModel> GetProductById<TViewModel>(string id);
 
+        Task<List<TViewModel>> GetProductsByCategoryName<TViewModel>(string categoryName, string orderBy);
+
         Task<List<TViewModel>> GetProductsByNameOrCategoryMatch<TViewModel>(string searchParam);
 
         Task<List<TViewModel>> GetLastFiveProducts<TViewModel>();

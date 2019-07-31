@@ -84,6 +84,218 @@
         }
 
         [Fact]
+        public async Task GetProductsByCategoryNameWithZeroRating()
+        {
+            //Arrange
+
+            var category = new Category() { Id = "category-id", Name = "Category" };
+            var firstProduct = new Product() { Id = "first-product-id", CategoryId = "category-id" };
+            var secondProduct = new Product() { Id = "second-product-id", IsDeleted = true };
+            var thirdProduct = new Product() { Id = "third-product-id" };
+
+            await this.context.AddRangeAsync(category, firstProduct, secondProduct, thirdProduct);
+            await this.context.SaveChangesAsync();
+
+            var cloudinaryService = new Mock<ICloudinaryService>().Object;
+            var mapperConfig = new MapperConfiguration(x => x.AddProfile(new MappingProfile()));
+            var mapper = mapperConfig.CreateMapper();
+            var categoryService = new Mock<ICategoryService>().Object;
+            var userService = new Mock<IUserService>().Object;
+
+            var productService = new ProductService(this.context, cloudinaryService, mapper, categoryService, userService);
+
+            //Act
+
+            var products = await productService.GetProductsByCategoryName<ProductGridModel>("Category", "");
+            var product = products[0];
+
+            //Assert
+
+            Assert.Single(products);
+            Assert.Equal("first-product-id", product.Id);
+            Assert.Equal(0.0, product.Rating);
+        }
+
+        [Fact]
+        public async Task GetProductsByCategoryNameWithRating()
+        {
+            //Arrange
+
+            var category = new Category() { Id = "category-id", Name = "Category" };
+            var firstProduct = new Product()
+            {
+                Id = "first-product-id",
+                CategoryId = "category-id",
+                Score = 7,
+                VotesCount = 2
+            };
+            var secondProduct = new Product() { Id = "second-product-id", IsDeleted = true };
+            var thirdProduct = new Product() { Id = "third-product-id" };
+
+            await this.context.AddRangeAsync(category, firstProduct, secondProduct, thirdProduct);
+            await this.context.SaveChangesAsync();
+
+            var cloudinaryService = new Mock<ICloudinaryService>().Object;
+            var mapperConfig = new MapperConfiguration(x => x.AddProfile(new MappingProfile()));
+            var mapper = mapperConfig.CreateMapper();
+            var categoryService = new Mock<ICategoryService>().Object;
+            var userService = new Mock<IUserService>().Object;
+
+            var productService = new ProductService(this.context, cloudinaryService, mapper, categoryService, userService);
+
+            //Act
+
+            var products = await productService.GetProductsByCategoryName<ProductGridModel>("Category", "");
+            var product = products[0];
+
+            //Assert
+
+            Assert.Single(products);
+            Assert.Equal("first-product-id", product.Id);
+            Assert.Equal(3.5, product.Rating);
+        }
+
+        [Fact]
+        public async Task GetProductsByCategoryNameOrderByName()
+        {
+            //Arrange
+
+            var category = new Category() { Id = "category-id", Name = "Category" };
+            var firstProduct = new Product() { Id = "first-product-id", CategoryId = "category-id", Name = "B Product" };
+            var secondProduct = new Product() { Id = "second-product-id", IsDeleted = true };
+            var thirdProduct = new Product() { Id = "third-product-id" };
+            var fourthProduct = new Product() { Id = "fourth-product-id", CategoryId = "category-id", Name = "A Product" };
+
+            await this.context.AddRangeAsync(category, firstProduct, secondProduct, thirdProduct, fourthProduct);
+            await this.context.SaveChangesAsync();
+
+            var cloudinaryService = new Mock<ICloudinaryService>().Object;
+            var mapperConfig = new MapperConfiguration(x => x.AddProfile(new MappingProfile()));
+            var mapper = mapperConfig.CreateMapper();
+            var categoryService = new Mock<ICategoryService>().Object;
+            var userService = new Mock<IUserService>().Object;
+
+            var productService = new ProductService(this.context, cloudinaryService, mapper, categoryService, userService);
+
+            //Act
+
+            var products = await productService.GetProductsByCategoryName<ProductGridModel>("Category", "Name");
+            var aProduct = products.FirstOrDefault(x => x.Id == "fourth-product-id");
+            var bProduct = products.FirstOrDefault(x => x.Id == "first-product-id");
+
+            //Assert
+
+            Assert.Equal(2, products.Count);
+            Assert.Equal(aProduct, products[0]);
+            Assert.Equal(bProduct, products[1]);
+        }
+
+        [Fact]
+        public async Task GetProductsByCategoryNameOrderByRating()
+        {
+            //Arrange
+
+            var category = new Category() { Id = "category-id", Name = "Category" };
+            var firstProduct = new Product() { Id = "first-product-id", CategoryId = "category-id", Score = 3, VotesCount = 1 };
+            var secondProduct = new Product() { Id = "second-product-id", IsDeleted = true };
+            var thirdProduct = new Product() { Id = "third-product-id" };
+            var fourthProduct = new Product() { Id = "fourth-product-id", CategoryId = "category-id", Score = 10, VotesCount = 2 };
+
+            await this.context.AddRangeAsync(category, firstProduct, secondProduct, thirdProduct, fourthProduct);
+            await this.context.SaveChangesAsync();
+
+            var cloudinaryService = new Mock<ICloudinaryService>().Object;
+            var mapperConfig = new MapperConfiguration(x => x.AddProfile(new MappingProfile()));
+            var mapper = mapperConfig.CreateMapper();
+            var categoryService = new Mock<ICategoryService>().Object;
+            var userService = new Mock<IUserService>().Object;
+
+            var productService = new ProductService(this.context, cloudinaryService, mapper, categoryService, userService);
+
+            //Act
+
+            var products = await productService.GetProductsByCategoryName<ProductGridModel>("Category", "Rating");
+            var aProduct = products.FirstOrDefault(x => x.Id == "fourth-product-id");
+            var bProduct = products.FirstOrDefault(x => x.Id == "first-product-id");
+
+            //Assert
+
+            Assert.Equal(2, products.Count);
+            Assert.Equal(aProduct, products[0]);
+            Assert.Equal(bProduct, products[1]);
+        }
+
+        [Fact]
+        public async Task GetProductsByCategoryNameOrderByPriceAscending()
+        {
+            //Arrange
+
+            var category = new Category() { Id = "category-id", Name = "Category" };
+            var firstProduct = new Product() { Id = "first-product-id", CategoryId = "category-id", Price = 2 };
+            var secondProduct = new Product() { Id = "second-product-id", IsDeleted = true };
+            var thirdProduct = new Product() { Id = "third-product-id" };
+            var fourthProduct = new Product() { Id = "fourth-product-id", CategoryId = "category-id", Price = 1 };
+
+            await this.context.AddRangeAsync(category, firstProduct, secondProduct, thirdProduct, fourthProduct);
+            await this.context.SaveChangesAsync();
+
+            var cloudinaryService = new Mock<ICloudinaryService>().Object;
+            var mapperConfig = new MapperConfiguration(x => x.AddProfile(new MappingProfile()));
+            var mapper = mapperConfig.CreateMapper();
+            var categoryService = new Mock<ICategoryService>().Object;
+            var userService = new Mock<IUserService>().Object;
+
+            var productService = new ProductService(this.context, cloudinaryService, mapper, categoryService, userService);
+
+            //Act
+
+            var products = await productService.GetProductsByCategoryName<ProductGridModel>("Category", "Price");
+            var aProduct = products.FirstOrDefault(x => x.Id == "fourth-product-id");
+            var bProduct = products.FirstOrDefault(x => x.Id == "first-product-id");
+
+            //Assert
+
+            Assert.Equal(2, products.Count);
+            Assert.Equal(aProduct, products[0]);
+            Assert.Equal(bProduct, products[1]);
+        }
+
+        [Fact]
+        public async Task GetProductsByCategoryNameOrderByPriceDescending()
+        {
+            //Arrange
+
+            var category = new Category() { Id = "category-id", Name = "Category" };
+            var firstProduct = new Product() { Id = "first-product-id", CategoryId = "category-id", Price = 2 };
+            var secondProduct = new Product() { Id = "second-product-id", IsDeleted = true };
+            var thirdProduct = new Product() { Id = "third-product-id" };
+            var fourthProduct = new Product() { Id = "fourth-product-id", CategoryId = "category-id", Price = 1 };
+
+            await this.context.AddRangeAsync(category, firstProduct, secondProduct, thirdProduct, fourthProduct);
+            await this.context.SaveChangesAsync();
+
+            var cloudinaryService = new Mock<ICloudinaryService>().Object;
+            var mapperConfig = new MapperConfiguration(x => x.AddProfile(new MappingProfile()));
+            var mapper = mapperConfig.CreateMapper();
+            var categoryService = new Mock<ICategoryService>().Object;
+            var userService = new Mock<IUserService>().Object;
+
+            var productService = new ProductService(this.context, cloudinaryService, mapper, categoryService, userService);
+
+            //Act
+
+            var products = await productService.GetProductsByCategoryName<ProductGridModel>("Category", "PriceDescending");
+            var aProduct = products.FirstOrDefault(x => x.Id == "first-product-id");
+            var bProduct = products.FirstOrDefault(x => x.Id == "fourth-product-id");
+
+            //Assert
+
+            Assert.Equal(2, products.Count);
+            Assert.Equal(aProduct, products[0]);
+            Assert.Equal(bProduct, products[1]);
+        }
+
+        [Fact]
         public async Task GetProductByIdToGenericViewModelRatingMapping()
         {
             //Arrage

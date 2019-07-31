@@ -46,6 +46,39 @@
             return this.mapper.Map<TViewModel>(product);
         }
 
+        public async Task<List<TViewModel>> GetProductsByCategoryName<TViewModel>(string categoryName, string orderBy)
+        {
+            var productsFromDb = this.context.Products
+                .Where(x => x.IsDeleted == false)
+                .Where(x => x.Category.Name == categoryName);
+
+            if (!string.IsNullOrEmpty(orderBy.ToLower()))
+            {
+                switch (orderBy.ToLower())
+                {
+                    case "name":
+                        productsFromDb = productsFromDb.OrderBy(x => x.Name);
+                        break;
+                    case "rating":
+                        productsFromDb = productsFromDb
+                            .OrderByDescending(x => x.Score / (x.VotesCount == 0 ? 1 : x.VotesCount));
+                        break;
+                    case "price":
+                        productsFromDb = productsFromDb.OrderBy(x => x.Price);
+                        break;
+                    case "pricedescending":
+                        productsFromDb = productsFromDb.OrderByDescending(x => x.Price);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            var products = await productsFromDb.ToListAsync();
+
+            return this.mapper.Map<List<TViewModel>>(products);
+        }
+
         public async Task<List<TViewModel>> GetProductsByNameOrCategoryMatch<TViewModel>(string searchParam)
         {
             var products = await this.context.Products

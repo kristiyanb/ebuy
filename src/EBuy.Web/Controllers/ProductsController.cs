@@ -6,6 +6,7 @@
 
     using EBuy.Services.Contracts;
     using Models.Products;
+    using Models.Categories;
 
     public class ProductsController : Controller
     {
@@ -14,6 +15,15 @@
         public ProductsController(IProductService productService)
         {
             this.productService = productService;
+        }
+
+        [Route("/Products/{name}")]
+        public async Task<IActionResult> Category(string name, string orderBy)
+        {
+            var products = await this.productService
+                .GetProductsByCategoryName<ProductGridModel>(name, orderBy);
+
+            return this.View(new CategoryViewModel { Name = name, Products = products });
         }
 
         public async Task<IActionResult> Details(string id)

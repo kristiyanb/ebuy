@@ -32,40 +32,6 @@
                 .Select(x => x.Name)
                 .ToListAsync();
 
-        //TODO: Move this to product service and Action to Products Controller
-        public async Task<List<TViewModel>> GetProductsByCategoryName<TViewModel>(string categoryName, string orderBy)
-        {
-            var productsFromDb = this.context.Products
-                .Where(x => x.IsDeleted == false)
-                .Where(x => x.Category.Name == categoryName);
-
-            if (orderBy != null)
-            {
-                switch (orderBy)
-                {
-                    case "Name":
-                        productsFromDb = productsFromDb.OrderBy(x => x.Name);
-                        break;
-                    case "Rating":
-                        productsFromDb = productsFromDb
-                            .OrderByDescending(x => x.Score / (x.VotesCount == 0 ? 1 : x.VotesCount));
-                        break;
-                    case "Price":
-                        productsFromDb = productsFromDb.OrderBy(x => x.Price);
-                        break;
-                    case "PriceDescending":
-                        productsFromDb = productsFromDb.OrderByDescending(x => x.Price);
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            var products = await productsFromDb.ToListAsync();
-
-            return this.mapper.Map<List<TViewModel>>(products);
-        }
-
         public async Task<List<TViewModel>> GetCategories<TViewModel>()
         {
             var categories = await this.context.Categories

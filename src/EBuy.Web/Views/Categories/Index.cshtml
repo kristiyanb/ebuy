@@ -8,7 +8,7 @@
     @foreach (var category in Model.Categories)
     {
         <div class="col-md-3 mb-3 mt-3 text-center">
-            <a asp-controller="Categories" asp-action="Products" asp-route-name="@category.Name">
+            <a asp-controller="Products" asp-action="Category" asp-route-name="@category.Name">
                 <img src="@category.ImageUrl" class="w-100 h-75" />
                 <br />
                 <span class="mt-1 text-black-50">Products: @category.ProductsCount</span>
