@@ -19,8 +19,8 @@
         private readonly UserManager<User> userManager;
         private readonly IMapper mapper;
 
-        public UserService(EBuyDbContext context, 
-            UserManager<User> userManager, 
+        public UserService(EBuyDbContext context,
+            UserManager<User> userManager,
             IMapper mapper)
         {
             this.context = context;
@@ -48,56 +48,83 @@
             return this.mapper.Map<List<TViewModel>>(users);
         }
 
-        public async Task SetFirstName(string username, string firstName)
+        public async Task<bool> SetFirstName(string username, string firstName)
         {
             var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
+
+            if (user == null)
+            {
+                return false;
+            }
 
             user.FirstName = firstName;
 
             this.context.Update(user);
             await this.context.SaveChangesAsync();
+
+            return true;
         }
 
-        public async Task SetLastName(string username, string lastName)
+        public async Task<bool> SetLastName(string username, string lastName)
         {
             var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
+
+            if (user == null)
+            {
+                return false;
+            }
+
             user.LastName = lastName;
 
             this.context.Update(user);
             await this.context.SaveChangesAsync();
+
+            return true;
         }
 
-        public async Task AddUserToRole(string username, string roleName)
+        public async Task<bool> AddUserToRole(string username, string roleName)
         {
             var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
 
-            if (username != "admin" && user != null && this.RoleExists(roleName))
+            if (username == "admin" || user == null || !this.RoleExists(roleName))
             {
-                await this.userManager.AddToRoleAsync(user, roleName);
+                return false;
             }
+
+            await this.userManager.AddToRoleAsync(user, roleName);
+
+            return true;
         }
 
-        public async Task RemoveUserFromRole(string username, string roleName)
+        public async Task<bool> RemoveUserFromRole(string username, string roleName)
         {
             var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
 
-            if (username != "admin" && user != null && this.RoleExists(roleName))
+            if (username == "admin" || user == null || !this.RoleExists(roleName))
             {
-                await this.userManager.RemoveFromRoleAsync(user, roleName);
+                return false;
             }
+
+            await this.userManager.RemoveFromRoleAsync(user, roleName);
+
+            return true;
         }
 
-        public async Task SetLastOnlineNow(string username)
+        public async Task<bool> SetLastOnlineNow(string username)
         {
             var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
 
-            if (user != null)
+            if (user == null)
             {
-                user.LastOnline = DateTime.UtcNow;
-
-                this.context.Update(user);
-                await this.context.SaveChangesAsync();
+                return false;
             }
+
+            user.LastOnline = DateTime.UtcNow;
+
+            this.context.Update(user);
+            await this.context.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task<IDictionary<string, List<string>>> GetUserRoleList()

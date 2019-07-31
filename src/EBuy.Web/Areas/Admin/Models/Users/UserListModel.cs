@@ -4,6 +4,6 @@
 
     public class UserListModel
     {
-        public List<UserDetailsModel> Users { get; set; }
+        public List<UserDataModel> Users { get; set; }
     }
 }

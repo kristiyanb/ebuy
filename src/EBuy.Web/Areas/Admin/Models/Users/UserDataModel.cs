@@ -4,7 +4,7 @@
 
     using EBuy.Models;
 
-    public class UserDetailsModel
+    public class UserDataModel
     {
         public string FirstName { get; set; }
 

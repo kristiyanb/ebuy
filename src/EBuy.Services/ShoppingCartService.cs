@@ -31,50 +31,52 @@
             this.mapper = mapper;
         }
 
-        public async Task AddProduct(string username, string id, int quantity)
+        public async Task<bool> AddProduct(string username, string id, int quantity)
         {
             var product = await this.productService.GetProductById(id);
 
             if (product == null)
             {
-                return;
+                return false;
             }
 
             var shoppingCart = await this.GetShoppingCart(username);
             var cartProduct = await this.context.ShoppingCartProducts.FirstOrDefaultAsync(x => x.Name == product.Name);
 
-            if (cartProduct != null)
+            if (cartProduct == null)
+            {
+                var newCartProduct = this.mapper.Map<ShoppingCartProduct>(product);
+
+                newCartProduct.Quantity = quantity;
+                newCartProduct.ShoppingCartId = shoppingCart.Id;
+
+                await this.context.ShoppingCartProducts.AddAsync(newCartProduct);
+            }
+            else
             {
                 cartProduct.Quantity += quantity;
 
                 this.context.ShoppingCartProducts.Update(cartProduct);
             }
-            else
-            {
-                var newCartProduct = new ShoppingCartProduct
-                {
-                    Name = product.Name,
-                    ImageUrl = product.ImageUrl,
-                    Price = product.Price,
-                    Quantity = quantity,
-                    ShoppingCartId = shoppingCart.Id
-                };
-
-                await this.context.ShoppingCartProducts.AddAsync(newCartProduct);
-            }
 
             await this.context.SaveChangesAsync();
+
+            return true;
         }
 
-        public async Task RemoveProduct(string id)
+        public async Task<bool> RemoveProduct(string id)
         {
             var product = await this.context.ShoppingCartProducts.FirstOrDefaultAsync(x => x.Id == id);
 
-            if (product != null)
+            if (product == null)
             {
-                this.context.ShoppingCartProducts.Remove(product);
-                await this.context.SaveChangesAsync();
+                return false;
             }
+
+            this.context.ShoppingCartProducts.Remove(product);
+            await this.context.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task<List<ShoppingCartProduct>> GetShoppingCartProductsByUsername(string username) 

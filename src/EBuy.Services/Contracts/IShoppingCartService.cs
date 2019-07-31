@@ -7,9 +7,9 @@
 
     public interface IShoppingCartService
     {
-        Task AddProduct(string username, string id, int quantity);
+        Task<bool> AddProduct(string username, string id, int quantity);
 
-        Task RemoveProduct(string id);
+        Task<bool> RemoveProduct(string id);
 
         Task<List<ShoppingCartProduct>> GetShoppingCartProductsByUsername(string username);
 

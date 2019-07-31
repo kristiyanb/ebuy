@@ -13,15 +13,15 @@
 
         Task<List<TViewModel>> GetAll<TViewModel>();
 
-        Task SetFirstName(string username, string firstName);
+        Task<bool> SetFirstName(string username, string firstName);
 
-        Task SetLastName(string username, string lastName);
+        Task<bool> SetLastName(string username, string lastName);
 
-        Task AddUserToRole(string username, string roleName);
+        Task<bool> AddUserToRole(string username, string roleName);
 
-        Task RemoveUserFromRole(string username, string roleName);
+        Task<bool> RemoveUserFromRole(string username, string roleName);
 
-        Task SetLastOnlineNow(string username);
+        Task<bool> SetLastOnlineNow(string username);
 
         Task<IDictionary<string, List<string>>> GetUserRoleList();
     }

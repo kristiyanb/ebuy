@@ -44,19 +44,15 @@
             await this.context.Purchases.AddAsync(purchase);
             await this.context.SaveChangesAsync();
 
-            return purchase;
+            return await this.context.Purchases
+                .FirstOrDefaultAsync(x => x.DateOfOrder == purchase.DateOfOrder);
         }
 
         public async Task AddPurchasedProduct(ShoppingCartProduct product, Purchase purchase)
         {
-            var purchasedProduct = new PurchasedProduct
-            {
-                Name = product.Name,
-                Price = product.Price,
-                ImageUrl = product.ImageUrl,
-                Quantity = product.Quantity,
-                Purchase = purchase
-            };
+            var purchasedProduct = this.mapper.Map<PurchasedProduct>(product);
+
+            purchasedProduct.PurchaseId = purchase.Id;
 
             await this.productService.UpdateProductQuantityAndSales(
                 purchasedProduct.Name,
@@ -70,6 +66,7 @@
         public async Task<List<TViewModel>> GetAll<TViewModel>()
         {
             var purchases = await this.context.Purchases
+                .Include(x => x.User)
                 .Include(x => x.Products)
                 .OrderByDescending(x => x.DateOfOrder)
                 .ToListAsync();
@@ -82,6 +79,7 @@
             var purchases = await this.context.Purchases
                 .Include(x => x.Products)
                 .Where(x => x.User.UserName == username)
+                .OrderByDescending(x => x.DateOfOrder)
                 .ToListAsync();
 
             return this.mapper.Map<List<TViewModel>>(purchases);

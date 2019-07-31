@@ -6,7 +6,11 @@
 
     public class PurchaseViewModel
     {
-        public string Username { get; set; }
+        public string UserEmail { get; set; }
+
+        public string UserFirstName { get; set; }
+
+        public string UserLastName { get; set; }
 
         public string Address { get; set; }
 
@@ -15,5 +19,10 @@
         public List<PurchaseProductViewModel> Products { get; set; }
 
         public decimal Amount => this.Products.Sum(x => x.Quantity * x.Price);
+
+        public string ClientInfo 
+            => string.IsNullOrEmpty(this.UserEmail) ? 
+              "Guest User" 
+            : $"{this.UserFirstName} {this.UserLastName} ({this.UserEmail})";
     }
 }

@@ -19,7 +19,7 @@
 
         public async Task<IActionResult> Index()
         {
-            var users = await this.userService.GetAll<UserDetailsModel>();
+            var users = await this.userService.GetAll<UserDataModel>();
 
             return this.View(new UserListModel { Users = users });
         }
