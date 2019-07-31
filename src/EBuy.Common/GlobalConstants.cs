@@ -6,6 +6,6 @@
 
         public static string SearchParamKey => "search-param-key";
 
-        public static string DateFormat => "dd/MM/yyyy";
+        public static string DateFormat => "dd/MM/yyyy hh:mm tt";
     }
 }
