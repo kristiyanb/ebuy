@@ -7,6 +7,6 @@
     {
         public List<ShoppingCartProductViewModel> Products { get; set; }
 
-        public decimal TotalCost => this.Products.Sum(x => x.Price * x.Quantity);
+        //public decimal TotalCost => this.Products.Sum(x => x.Price * x.Quantity);
     }
 }

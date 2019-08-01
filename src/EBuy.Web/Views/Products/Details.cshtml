@@ -31,18 +31,18 @@
         <hr />
         <p>@Model.Description</p><br />
         <hr />
-        <form class="form-group w-25" method="post" asp-area="" asp-controller="ShoppingCart" asp-action="Add">
-            <label>Quantity</label>
-            <div class="d-flex justify-content-between">
-                <div class="d-flex border h-25">
-                    <button class="btn bg-white" id="quantity-decrement" type="button">-</button>
-                    <input class="quantity border-0" id="quantity" type="number" name="quantity" value="1" />
-                    <button class="btn bg-white" id="quantity-increment" type="button">+</button>
-                </div>
-                <input id="product-id" name="id" value="@Model.Id" hidden/>
-                <button id="add-to-cart" class="btn btn-danger text-light ml-5 w-100" type="submit">Add to Cart</button>
+        <div class="w-25">
+        <label>Quantity</label>
+        <div class="d-flex justify-content-between">
+            <div class="d-flex border h-25">
+                <button class="btn bg-white" id="quantity-decrement" type="button">-</button>
+                <input class="quantity border-0" id="quantity" type="number" name="quantity" value="1" />
+                <button class="btn bg-white" id="quantity-increment" type="button">+</button>
             </div>
-        </form>
+            <input id="product-id" value="@Model.Id" hidden />
+            <button id="add-to-cart" class="btn btn-danger text-light ml-5 w-100">Add to Cart</button>
+        </div>
+        </div>
     </div>
 </div>
 
@@ -75,6 +75,8 @@
                 <input id="productId" type="hidden" name="productId" value="@Model.Id" />
                 <textarea id="content" class="float-xl-none form-control mb-2" name="content"></textarea>
                 <button id="add-comment" class="btn btn-danger text-light">Comment</button>
+
+                <script src="~/js/comments.js" asp-append-version="true"></script>
             }
             else
             {
@@ -92,6 +94,5 @@
     </div>
 </div>
 
+<script src="~/js/shoppingCartDropdown.js" asp-append-version="true"></script>
 <script src="~/js/productDetails.js" asp-append-version="true"></script>
-<script src="~/js/comments.js" asp-append-version="true"></script>
-<script src="~/js/shoppingCart.js" asp-append-version="true"></script>

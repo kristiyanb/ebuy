@@ -1,96 +1,27 @@
 ﻿namespace EBuy.Web.Controllers
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
-    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
-    using Newtonsoft.Json;
 
-    using EBuy.Common;
     using EBuy.Services.Contracts;
     using Models.ShoppingCart;
 
-    public class ShoppingCartController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ShoppingCartController : ControllerBase
     {
-        private readonly IShoppingCartService shoppingCartService;
+        private readonly IProductService productService;
 
-        public ShoppingCartController(IShoppingCartService shoppingCartService)
+        public ShoppingCartController(IProductService productService)
         {
-            this.shoppingCartService = shoppingCartService;
+            this.productService = productService;
         }
 
-        public async Task<IActionResult> Index()
+        [HttpGet("{id}")]
+        public async Task<ShoppingCartProductViewModel> GetProduct(string id)
         {
-            List<ShoppingCartProductViewModel> products;
-
-            if (this.User.Identity.Name == null)
-            {
-                var cart = this.HttpContext.Session.GetString(GlobalConstants.GuestCartKey);
-
-                if (cart == null)
-                {
-                    products = new List<ShoppingCartProductViewModel>();
-                }
-                else
-                {
-                    products = JsonConvert.DeserializeObject<List<ShoppingCartProductViewModel>>(cart);
-                }
-            }
-            else
-            {
-                products = await this.shoppingCartService
-                    .GetShoppingCartProductsByUsername<ShoppingCartProductViewModel>(this.User.Identity.Name);
-            }
-
-            return this.View(new ShoppingCartViewModel { Products = products });
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Add(ShoppingCartProductInputModel input)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                return this.Redirect("/Products/Details/" + input.Id);
-            }
-
-            if (this.User.Identity.Name == null)
-            {
-                var cart = this.HttpContext.Session.GetString(GlobalConstants.GuestCartKey);
-                var updatedCart = await this.shoppingCartService.AddProductToGuestCart(cart, input.Id, input.Quantity);
-
-                this.HttpContext.Session.SetString(GlobalConstants.GuestCartKey, updatedCart);
-            }
-            else
-            {
-                await this.shoppingCartService.AddProduct(this.User.Identity.Name, input.Id, input.Quantity);
-            }
-
-            return this.Redirect("/Products/Details/" + input.Id);
-        }
-
-        public async Task<IActionResult> Remove(string id)
-        {
-            if (this.User.Identity.Name == null)
-            {
-                var cart = this.HttpContext.Session.GetString(GlobalConstants.GuestCartKey);
-                var products = JsonConvert.DeserializeObject<List<ShoppingCartProductViewModel>>(cart);
-                var removedProduct = products.FirstOrDefault(x => x.Id == id);
-
-                if (removedProduct != null)
-                {
-                    products.Remove(removedProduct);
-
-                    this.HttpContext.Session.SetString(GlobalConstants.GuestCartKey, JsonConvert.SerializeObject(products));
-                }
-            }
-            else
-            {
-                await this.shoppingCartService.RemoveProduct(id);
-            }
-
-            return this.Redirect("/ShoppingCart/Index");
+            return await this.productService.GetProductById<ShoppingCartProductViewModel>(id);
         }
     }
 }

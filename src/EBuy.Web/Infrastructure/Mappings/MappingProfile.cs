@@ -34,6 +34,7 @@
             CreateMap<ProductDto, Product>();
 
             CreateMap<Product, ProductEditModel>();
+            CreateMap<Product, ShoppingCartProductViewModel>();
             CreateMap<Product, ShoppingCartProduct>();
             CreateMap<Product, ProductDetailsModel>()
                 .ForMember(x => x.Rating, opt => opt.MapFrom(x => x.Score != 0 ? (x.Score / x.VotesCount) : 0.0));

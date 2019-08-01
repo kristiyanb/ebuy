@@ -31,7 +31,7 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
-                    <vc:shopping-cart-dropdown></vc:shopping-cart-dropdown>
+                    <partial name="_ShoppingCartDropdownPartial" />
                     <form asp-area="" asp-controller="Home" asp-action="Result" class="form-inline mr-5 border" method="get">
                         <input class="form-control border-0" type="text" placeholder="Search" aria-label="Search" id="query" name="query" />
                         <button class="btn bg-white" type="submit">&#128269;</button>
@@ -86,6 +86,7 @@
         </script>
     </environment>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/shoppingCartDropdown.js" asp-append-version="true"></script>
 
     @RenderSection("Scripts", required: false)
 </body>

@@ -85,6 +85,7 @@
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IShoppingCartService, ShoppingCartService>();
             services.AddTransient<ICheckoutService, CheckoutService>();
+            services.AddTransient<IOrderService, OrderService>();
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<ICloudinaryService, CloudinaryService>();
             services.AddTransient<IPurchaseService, PurchaseService>();
