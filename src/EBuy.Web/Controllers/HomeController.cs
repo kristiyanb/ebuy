@@ -46,6 +46,7 @@
             if (this.User.Identity.Name != null)
             {
                 var user = await this.userService.GetUserByUserName<UserViewModel>(this.User.Identity.Name);
+
                 this.ViewData["Name"] = $"{user.FirstName} {user.LastName}";
                 this.ViewData["Email"] = user.Email;
             }

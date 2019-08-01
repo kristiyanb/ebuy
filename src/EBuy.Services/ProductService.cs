@@ -52,7 +52,7 @@
                 .Where(x => x.IsDeleted == false)
                 .Where(x => x.Category.Name == categoryName);
 
-            if (!string.IsNullOrEmpty(orderBy.ToLower()))
+            if (!string.IsNullOrEmpty(orderBy))
             {
                 switch (orderBy.ToLower())
                 {

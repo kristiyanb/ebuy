@@ -39,7 +39,7 @@
                     <input class="quantity border-0" id="quantity" type="number" name="quantity" value="1" />
                     <button class="btn bg-white" id="quantity-increment" type="button">+</button>
                 </div>
-                <input hidden="hidden" name="id" value="@Model.Id" />
+                <input id="product-id" name="id" value="@Model.Id" hidden/>
                 <button id="add-to-cart" class="btn btn-danger text-light ml-5 w-100" type="submit">Add to Cart</button>
             </div>
         </form>
@@ -94,3 +94,4 @@
 
 <script src="~/js/productDetails.js" asp-append-version="true"></script>
 <script src="~/js/comments.js" asp-append-version="true"></script>
+<script src="~/js/shoppingCart.js" asp-append-version="true"></script>
