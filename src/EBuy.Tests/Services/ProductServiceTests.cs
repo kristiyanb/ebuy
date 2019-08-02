@@ -518,6 +518,27 @@
         }
 
         [Fact]
+        public async Task GetProductByNameOrCategoryMatchWithInvalidQueryString()
+        {
+            //Arrage
+            var cloudinaryService = new Mock<ICloudinaryService>().Object;
+            var mapperConfig = new MapperConfiguration(x => x.AddProfile(new MappingProfile()));
+            var mapper = mapperConfig.CreateMapper();
+            var categoryService = new Mock<ICategoryService>().Object;
+            var userService = new Mock<IUserService>().Object;
+
+            var productService = new ProductService(this.context, cloudinaryService, mapper, categoryService, userService);
+
+            //Act
+
+            var matches = await productService.GetProductsByNameOrCategoryMatch<ProductGridModel>("");
+
+            //Assert
+
+            Assert.Empty(matches);
+        }
+
+        [Fact]
         public async Task GetLastFiveProducts()
         {
             //Arrange
@@ -1098,57 +1119,6 @@
             //Assert
 
             Assert.False(result);
-        }
-
-        [Fact]
-        public async Task UpdateProductQuantityAndSalesWithInvalidArguments()
-        {
-            //Arrange
-
-            var cloudinaryService = new Mock<ICloudinaryService>().Object;
-            var mapper = new Mock<IMapper>().Object;
-            var categoryService = new Mock<ICategoryService>().Object;
-            var userService = new Mock<IUserService>().Object;
-
-            var productService = new ProductService(this.context, cloudinaryService, mapper, categoryService, userService);
-
-            //Act
-
-            var result = await productService.UpdateProductQuantityAndSales("InvalidName", "", 0, 0);
-
-            //Assert
-
-            Assert.False(result);
-        }
-
-
-        [Fact]
-        public async Task UpdateProductQuantityAndSalesWithValidArguments()
-        {
-            //Arrange
-
-            var product = new Product() { Name = "Product", ImageUrl = "ImageUrl", Price = 10, InStock = 10 };
-
-            await this.context.AddAsync(product);
-            await this.context.SaveChangesAsync();
-
-            var cloudinaryService = new Mock<ICloudinaryService>().Object;
-            var mapper = new Mock<IMapper>().Object;
-            var categoryService = new Mock<ICategoryService>().Object;
-            var userService = new Mock<IUserService>().Object;
-
-            var productService = new ProductService(this.context, cloudinaryService, mapper, categoryService, userService);
-
-            //Act
-
-            var result = await productService.UpdateProductQuantityAndSales("Product", "ImageUrl", 10, 1);
-            var updatedProduct = this.context.Products.First();
-
-            //Assert
-
-            Assert.True(result);
-            Assert.Equal(1, updatedProduct.PurchasesCount);
-            Assert.Equal(9, updatedProduct.InStock);
         }
     }
 }

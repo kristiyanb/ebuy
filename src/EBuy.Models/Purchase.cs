@@ -6,12 +6,13 @@
 
     public class Purchase
     {
-        public Purchase()
-        {
-            this.Products = new List<PurchasedProduct>();
-        }
-
         public string Id { get; set; }
+
+        public string FullName { get; set; }
+
+        public string Email { get; set; }
+
+        public string PhoneNumber { get; set; }
 
         [Required]
         public string Address { get; set; }

@@ -2,26 +2,35 @@
 {
     using System.Threading.Tasks;
 
+    using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
 
     using EBuy.Services.Contracts;
+    using EBuy.Services.Models;
+    using Models.Orders;
 
     [Route("api/[controller]")]
     [ApiController]
     public class OrdersController : ControllerBase
     {
         private readonly IOrderService orderService;
+        private readonly IMapper mapper;
 
-        public OrdersController(IOrderService orderService)
+        public OrdersController(IOrderService orderService, IMapper mapper)
         {
             this.orderService = orderService;
+            this.mapper = mapper;
         }
 
-        public async Task<ActionResult> Create()
+        [HttpPost("Send")]
+        [Route("send")]
+        public async Task<ActionResult> Send(OrderInputModel input)
         {
-            await this.orderService.Create();
+            var orderDto = this.mapper.Map<OrderDto>(input);
 
-            return this.Redirect("/Checkout/SuccessfulOrder");
+            await this.orderService.Create(orderDto, this.User.Identity.Name);
+
+            return this.StatusCode(201);
         }
     }
 }

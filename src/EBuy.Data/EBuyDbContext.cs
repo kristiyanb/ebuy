@@ -11,15 +11,9 @@
 
         public DbSet<Comment> Comments { get; set; }
 
-        public DbSet<Company> Companies { get; set; }
-
         public DbSet<Product> Products { get; set; }
 
         public DbSet<Purchase> Purchases { get; set; }
-
-        public DbSet<ShoppingCart> ShoppingCarts { get; set; }
-
-        public DbSet<ShoppingCartProduct> ShoppingCartProducts { get; set; }
 
         public DbSet<PurchasedProduct> PurchasedProducts { get; set; }
 

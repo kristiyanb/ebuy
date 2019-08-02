@@ -9,46 +9,50 @@
 
 <hr />
 <div class="container mt-5">
-    <form asp-area="" asp-controller="Checkout" asp-action="Order" class="col-8 m-auto">
-        <div class="d-flex justify-content-between">
-            <div class="form-group col-5">
-                <label>Full Name</label>
-                <input class="form-control" type="text" id="name" name="name" value="@Model?.FirstName @Model?.LastName"/>
-            </div>
-            <div class="form-group col-5">
-                <label>Email</label>
-                <input class="form-control" type="text" id="email" name="email" value="@Model?.Email"/>
-            </div>
+    <div class="d-flex justify-content-between">
+        <div class="form-group col-5">
+            <label>Full Name</label>
+            <input class="form-control" type="text" id="name" name="name" value="@Model?.FirstName @Model?.LastName" />
+            <span id="invalid-name-notification" class="text-danger mb-2" display="none"></span>
         </div>
-        <div class="d-flex justify-content-between">
-            <div class="form-group col-5">
-                <label>Phone Number</label>
-                <input class="form-control" type="text" id="phoneNumber" name="phoneNumber" value="@Model?.PhoneNumber"/>
-            </div>
-            <div class="form-group col-5">
-                <label>Address for delivery</label>
-                <input class="form-control" type="text" id="address" name="address" />
-            </div>
+        <div class="form-group col-5">
+            <label>Email</label>
+            <input class="form-control" type="email" id="email" name="email" value="@Model?.Email" />
+            <span id="invalid-email-notification" class="text-danger mb-2" display="none"></span>
         </div>
-        <div class="d-flex justify-content-between">
-            <div class="form-group col-5">
-                <label>Discount code</label>
-                <input class="form-control" type="text" id="discountCode" name="discountCode" />
-            </div>
-            <div class="form-group col-5">
-                <label>Payment Method</label>
-                <select class="form-control">
-                    <option>
-                        Cash on delivery
-                    </option>
-                    <option>
-                        Online with credit / debit card
-                    </option>
-                </select>
-            </div>
+    </div>
+    <div class="d-flex justify-content-between">
+        <div class="form-group col-5">
+            <label>Phone Number</label>
+            <input class="form-control" type="text" id="phoneNumber" name="phoneNumber" value="@Model?.PhoneNumber" />
+            <span id="invalid-phoneNumber-notification" class="text-danger mb-2" display="none"></span>
         </div>
-        <div class="text-center w-100">
-            <button type="submit" class="btn btn-danger w-25 mt-5">Order</button>
+        <div class="form-group col-5">
+            <label>Address for delivery</label>
+            <input class="form-control" type="text" id="address" name="address" />
+            <span id="invalid-address-notification" class="text-danger mb-2" display="none"></span>
         </div>
-    </form>
+    </div>
+    <div class="d-flex justify-content-between">
+        <div class="form-group col-5">
+            <label>Discount code</label>
+            <input class="form-control" type="text" id="discountCode" name="discountCode" />
+        </div>
+        <div class="form-group col-5">
+            <label>Payment Method</label>
+            <select class="form-control" id="paymentMethod">
+                <option>
+                    Cash on delivery
+                </option>
+                <option>
+                    Online with credit / debit card
+                </option>
+            </select>
+        </div>
+    </div>
+    <div class="text-center w-100">
+        <button class="btn btn-danger w-25 mt-5" id="order-btn">Order</button>
+    </div>
 </div>
+
+<script src="~/js/checkout.js" asp-append-version="true"></script>

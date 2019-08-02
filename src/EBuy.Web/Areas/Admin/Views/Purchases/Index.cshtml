@@ -32,7 +32,10 @@
                             <li class="list-group-item">@product.Name, Price: $@product.Price, Quantity @product.Quantity</li>
                         }
                         <li class="list-group-item">Amount: $@purchase.Amount</li>
-                        <li class="list-group-item">Buyer: @purchase.ClientInfo</li>
+                        <li class="list-group-item">Client: @purchase.FullName</li>
+                        <li class="list-group-item">Email: @purchase.Email</li>
+                        <li class="list-group-item">Phone Number: @purchase.PhoneNumber</li>
+                        <li class="list-group-item">Username: @(purchase.Username == null ? "Guest User" : purchase.Username)</li>
                         <li class="list-group-item">Address: @purchase.Address</li>
                         <li class="list-group-item">Date: @purchase.DateOfOrder</li>
                     </ul>

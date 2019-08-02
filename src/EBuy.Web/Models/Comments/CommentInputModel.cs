@@ -1,6 +1,5 @@
 ﻿namespace EBuy.Web.Models.Comments
 {
-    using System;
     using System.ComponentModel.DataAnnotations;
 
     public class CommentInputModel

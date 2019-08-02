@@ -81,6 +81,11 @@
 
         public async Task<List<TViewModel>> GetProductsByNameOrCategoryMatch<TViewModel>(string searchParam)
         {
+            if (string.IsNullOrEmpty(searchParam))
+            {
+                return new List<TViewModel>();
+            }
+
             var products = await this.context.Products
                 .Where(x => x.IsDeleted == false)
                 .Where(x => x.Name.ToLower().Contains(searchParam.ToLower()) ||
@@ -244,30 +249,6 @@
 
                 this.context.Votes.Update(vote);
             }
-
-            this.context.Products.Update(product);
-            await this.context.SaveChangesAsync();
-
-            return true;
-        }
-
-        public async Task<bool> UpdateProductQuantityAndSales(string name, string imageUrl, decimal price, int quantity)
-        {
-            if (quantity == 0)
-            {
-                return false;
-            }
-
-            var product = await this.context.Products
-                .FirstOrDefaultAsync(x => x.Name == name && x.Price == price && x.ImageUrl == imageUrl);
-
-            if (product == null)
-            {
-                return false;
-            }
-
-            product.InStock -= quantity;
-            product.PurchasesCount += quantity;
 
             this.context.Products.Update(product);
             await this.context.SaveChangesAsync();

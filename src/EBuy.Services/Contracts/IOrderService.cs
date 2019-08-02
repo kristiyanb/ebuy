@@ -2,8 +2,10 @@
 {
     using System.Threading.Tasks;
 
+    using Models;
+
     public interface IOrderService
     {
-        Task<bool> Create();
+        Task<bool> Create(OrderDto input, string username);
     }
 }

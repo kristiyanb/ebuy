@@ -31,7 +31,5 @@
         Task<bool> Restore(string id);
 
         Task<bool> UpdateRating(string username, string productId, string rating);
-
-        Task<bool> UpdateProductQuantityAndSales(string name, string imageUrl, decimal price, int quantity);
     }
 }

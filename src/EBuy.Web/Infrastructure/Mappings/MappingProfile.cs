@@ -17,6 +17,7 @@
     using Models.Categories;
     using Models.Comments;
     using Models.Contacts;
+    using Models.Orders;
     using Models.Products;
     using Models.ShoppingCart;
     using Models.Users;
@@ -35,17 +36,13 @@
 
             CreateMap<Product, ProductEditModel>();
             CreateMap<Product, ShoppingCartProductViewModel>();
-            CreateMap<Product, ShoppingCartProduct>();
+            CreateMap<Product, PurchasedProduct>();
             CreateMap<Product, ProductDetailsModel>()
                 .ForMember(x => x.Rating, opt => opt.MapFrom(x => x.Score != 0 ? (x.Score / x.VotesCount) : 0.0));
             CreateMap<Product, ProductGridModel>()
                 .ForMember(x => x.Rating, opt => opt.MapFrom(x => x.Score != 0 ? (x.Score / x.VotesCount) : 0.0));
             CreateMap<Product, ProductDataModel>()
                 .ForMember(x => x.Rating, opt => opt.MapFrom(x => x.Score != 0 ? (x.Score / x.VotesCount) : 0.0));
-
-            CreateMap<ShoppingCartProduct, PurchasedProduct>();
-            CreateMap<ShoppingCartProduct, ShoppingCartProductViewModel>();
-
 
             //Categories
 
@@ -91,11 +88,18 @@
             CreateMap<Purchase, PurchaseHistoryModel.PurchaseViewModel>()
                 .ForMember(x => x.DateOfOrder, opt => opt.MapFrom(x => x.DateOfOrder.ToString(GlobalConstants.DateFormat)));
             CreateMap<Purchase, PurchaseViewModel>()
-                .ForMember(x => x.DateOfOrder, opt => opt.MapFrom(x => x.DateOfOrder.ToString(GlobalConstants.DateFormat)));
+                .ForMember(x => x.DateOfOrder, opt => opt.MapFrom(x => x.DateOfOrder.ToString(GlobalConstants.DateFormat)))
+                .ForMember(x => x.Username, opt => opt.MapFrom(x => x.User.UserName));
 
             CreateMap<PurchasedProduct, PurchaseProductViewModel>();
             CreateMap<PurchasedProduct, PurchaseHistoryModel.PurchasedProductViewModel>();
             CreateMap<PurchasedProduct, PurchaseProductViewModel>();
+
+            //Orders
+
+            CreateMap<OrderInputModel, OrderDto>();
+
+            CreateMap<OrderDto, Purchase>();
         }
     }
 }

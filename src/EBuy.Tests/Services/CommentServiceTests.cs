@@ -83,7 +83,7 @@
         public async Task GetCommentsByProductIdLastModifiedMapping()
         {
             //Arrange
-            var lastModified = DateTime.ParseExact("01/02/2019", "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            var lastModified = new DateTime(2019, 2, 1, 10, 12, 30);
             var firstComment = new Comment() { ProductId = "1", Content = "First comment.", LastModified = lastModified };
 
             await this.context.AddAsync(firstComment);
@@ -101,7 +101,7 @@
 
             //Assert
 
-            Assert.Equal("01/02/2019", comments.First().LastModified);
+            Assert.Equal("01/02/2019 10:12 AM", comments.First().LastModified);
         }
 
         [Fact]
