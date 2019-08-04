@@ -1,7 +1,6 @@
 ﻿namespace EBuy.Tests.Services
 {
     using System;
-    using System.Globalization;
     using System.Linq;
     using System.Threading.Tasks;
 

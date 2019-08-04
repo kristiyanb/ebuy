@@ -26,9 +26,18 @@
         [Route("send")]
         public async Task<ActionResult> Send(OrderInputModel input)
         {
-            var orderDto = this.mapper.Map<OrderDto>(input);
+            if (!ModelState.IsValid)
+            {
+                return this.StatusCode(400);
+            }
 
-            await this.orderService.Create(orderDto, this.User.Identity.Name);
+            var orderDto = this.mapper.Map<OrderDto>(input);
+            var isCreated = await this.orderService.Create(orderDto, this.User.Identity.Name);
+
+            if (!isCreated)
+            {
+                return this.StatusCode(400);
+            }
 
             return this.StatusCode(201);
         }

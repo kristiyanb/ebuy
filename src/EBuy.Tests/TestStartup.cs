@@ -5,7 +5,6 @@
     using Microsoft.EntityFrameworkCore;
 
     using EBuy.Data;
-    using EBuy.Web;
 
     public class TestStartup
     {
@@ -15,7 +14,9 @@
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
                 .Options;
 
-            return new EBuyDbContext(dbOptions);
+            var context = new EBuyDbContext(dbOptions);
+
+            return context;
         }
     }
 }

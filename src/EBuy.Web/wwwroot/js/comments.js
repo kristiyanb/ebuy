@@ -74,4 +74,8 @@ async function getComments() {
 
 loadComments();
 
-document.getElementById('add-comment').addEventListener('click', addComment);
+let addCommentBtn = document.getElementById('add-comment');
+
+if (addCommentBtn) {
+    addCommentBtn.addEventListener('click', addComment);
+}

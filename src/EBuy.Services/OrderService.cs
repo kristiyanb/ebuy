@@ -2,11 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using AutoMapper;
-    using Microsoft.EntityFrameworkCore;
 
     using Contracts;
     using EBuy.Data;
@@ -20,9 +18,9 @@
         private readonly IUserService userService;
         private readonly IProductService productService;
 
-        public OrderService(EBuyDbContext context, 
-            IMapper mapper, 
-            IUserService userService, 
+        public OrderService(EBuyDbContext context,
+            IMapper mapper,
+            IUserService userService,
             IProductService productService)
         {
             this.context = context;
@@ -33,10 +31,29 @@
 
         public async Task<bool> Create(OrderDto input, string username)
         {
+            var invalidEntities = new List<string>();
+
+            foreach (var kvp in input.Products)
+            {
+                var id = kvp.Key;
+                var quantity = kvp.Value;
+
+                var product = await this.productService.GetProductById(id);
+
+                if (product == null || quantity < 1)
+                {
+                    invalidEntities.Add(id);
+                }
+            }
+
+            invalidEntities.ForEach(x => input.Products.Remove(x));
+
+            if (input.Products.Count == 0) return false;
+
             var user = await this.userService.GetUserByUserName(username);
             var purchase = new Purchase()
             {
-                Address = input.Address, 
+                Address = input.Address,
                 Email = input.Email,
                 FullName = input.FullName,
                 PhoneNumber = input.PhoneNumber,
@@ -45,8 +62,6 @@
             };
 
             //var purchase = this.mapper.Map<Purchase>(input);
-            //purchase.UserId = user?.Id;
-            //purchase.DateOfOrder = DateTime.UtcNow;
 
             await this.context.Purchases.AddAsync(purchase);
 
@@ -54,8 +69,6 @@
             {
                 var id = kvp.Key;
                 var quantity = kvp.Value;
-
-                if (quantity == 0) continue;
 
                 var product = await this.productService.GetProductById(id);
                 var purchasedProduct = this.mapper.Map<PurchasedProduct>(product);
