@@ -2,11 +2,12 @@
 {
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    using EBuy.Common;
     using EBuy.Services.Contracts;
     using Models.Users;
-    using Microsoft.AspNetCore.Authorization;
 
     public class UsersController : AdminController
     {
@@ -24,13 +25,13 @@
             return this.View(new UserListModel { Users = users });
         }
 
-        [Authorize(Roles = "Administrator, Manager")]
+        [Authorize(Roles = GlobalConstants.ManagementLevelAccess)]
         public async Task<IActionResult> ManageRoles()
         {
             return this.View();
         }
 
-        [Authorize(Roles = "Administrator, Manager")]
+        [Authorize(Roles = GlobalConstants.ManagementLevelAccess)]
         public async Task<IActionResult> RolesList()
         {
             var roles = await this.userService.GetUserRoleList();
@@ -39,7 +40,7 @@
         }
 
         [HttpPost]
-        [Authorize(Roles = "Administrator, Manager")]
+        [Authorize(Roles = GlobalConstants.ManagementLevelAccess)]
         public async Task<IActionResult> AddRole(string username, string roleName)
         {
             await this.userService.AddUserToRole(username, roleName);
@@ -48,7 +49,7 @@
         }
 
         [HttpPost]
-        [Authorize(Roles = "Administrator, Manager")]
+        [Authorize(Roles = GlobalConstants.ManagementLevelAccess)]
         public async Task<IActionResult> RemoveRole(string username, string roleName)
         {
             await this.userService.RemoveUserFromRole(username, roleName);

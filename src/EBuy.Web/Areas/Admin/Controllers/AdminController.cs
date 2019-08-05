@@ -3,8 +3,10 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    using EBuy.Common;
+
     [Area("Admin")]
-    [Authorize(Roles = "Administrator, Manager, Employee")]
+    [Authorize(Roles = GlobalConstants.EmployeeLevelAccess)]
     public abstract class AdminController : Controller
     {
     }

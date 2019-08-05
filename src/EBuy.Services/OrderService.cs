@@ -71,13 +71,14 @@
                 var quantity = kvp.Value;
 
                 var product = await this.productService.GetProductById(id);
+
+                product.InStock -= quantity;
+                product.PurchasesCount += quantity;
+
                 var purchasedProduct = this.mapper.Map<PurchasedProduct>(product);
 
                 purchasedProduct.Purchase = purchase;
                 purchasedProduct.Quantity = quantity;
-
-                product.InStock -= quantity;
-                product.PurchasesCount += quantity;
 
                 this.context.Products.Update(product);
                 await this.context.PurchasedProducts.AddAsync(purchasedProduct);

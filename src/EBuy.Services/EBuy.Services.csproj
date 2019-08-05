@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EBuy.Common\EBuy.Common.csproj" />
     <ProjectReference Include="..\EBuy.Data\EBuy.Data.csproj" />
     <ProjectReference Include="..\EBuy.Models\EBuy.Models.csproj" />
   </ItemGroup>

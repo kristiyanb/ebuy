@@ -22,7 +22,7 @@
             this.mapper = mapper;
         }
 
-        [HttpPost("Send")]
+        [HttpPost(Name = "Send")]
         [Route("send")]
         public async Task<ActionResult> Send(OrderInputModel input)
         {

@@ -1,12 +1,10 @@
 ﻿namespace EBuy.Web.Controllers
 {
     using System.Diagnostics;
-    using System.Linq;
     using System.Threading.Tasks;
 
     using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Caching.Memory;
 
     using EBuy.Services.Contracts;
     using EBuy.Services.Models;

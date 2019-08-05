@@ -79,17 +79,17 @@
             return this.mapper.Map<List<TViewModel>>(products);
         }
 
-        public async Task<List<TViewModel>> GetProductsByNameOrCategoryMatch<TViewModel>(string searchParam)
+        public async Task<List<TViewModel>> GetProductsByNameOrCategoryMatch<TViewModel>(string query)
         {
-            if (string.IsNullOrEmpty(searchParam))
+            if (string.IsNullOrEmpty(query))
             {
                 return new List<TViewModel>();
             }
 
             var products = await this.context.Products
                 .Where(x => x.IsDeleted == false)
-                .Where(x => x.Name.ToLower().Contains(searchParam.ToLower()) ||
-                            x.Category.Name.ToLower().Contains(searchParam.ToLower()))
+                .Where(x => x.Name.ToLower().Contains(query.ToLower()) ||
+                            x.Category.Name.ToLower().Contains(query.ToLower()))
                 .ToListAsync();
 
             return this.mapper.Map<List<TViewModel>>(products);
@@ -180,10 +180,7 @@
         {
             var product = await this.context.Products.FirstOrDefaultAsync(x => x.Id == id);
 
-            if (product == null)
-            {
-                return false;
-            }
+            if (product == null) return false;
 
             product.IsDeleted = true;
 
@@ -197,10 +194,7 @@
         {
             var product = await this.context.Products.FirstOrDefaultAsync(x => x.Id == id);
 
-            if (product == null)
-            {
-                return false;
-            }
+            if (product == null) return false;
 
             product.IsDeleted = false;
 
@@ -216,7 +210,10 @@
             var product = await this.context.Products.FirstOrDefaultAsync(x => x.Id == productId);
             var validRating = int.TryParse(rating, out int newRating);
 
-            if (user == null || product == null || validRating == false || (newRating < 1 && newRating > 5))
+            if (user == null || 
+                product == null || 
+                validRating == false || 
+                (newRating < 1 && newRating > 5))
             {
                 return false;
             }
@@ -238,10 +235,7 @@
             }
             else
             {
-                if (newRating == vote.Score)
-                {
-                    return false;
-                }
+                if (newRating == vote.Score) return false;
 
                 product.Score -= vote.Score;
                 product.Score += newRating;

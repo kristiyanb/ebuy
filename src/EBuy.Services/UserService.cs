@@ -10,6 +10,7 @@
     using Microsoft.EntityFrameworkCore;
 
     using Contracts;
+    using EBuy.Common;
     using EBuy.Data;
     using EBuy.Models;
 
@@ -41,7 +42,7 @@
         public async Task<List<TViewModel>> GetAll<TViewModel>()
         {
             var users = await this.context.Users
-                .Where(x => x.UserName != "admin")
+                .Where(x => x.UserName != GlobalConstants.AdminUsername)
                 .Include(x => x.PurchaseHistory)
                 .ToListAsync();
 
@@ -52,10 +53,7 @@
         {
             var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
 
-            if (user == null)
-            {
-                return false;
-            }
+            if (user == null) return false;
 
             user.FirstName = firstName;
 
@@ -69,10 +67,7 @@
         {
             var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
 
-            if (user == null)
-            {
-                return false;
-            }
+            if (user == null) return false;
 
             user.LastName = lastName;
 
@@ -86,7 +81,9 @@
         {
             var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
 
-            if (username == "admin" || user == null || !this.RoleExists(roleName))
+            if (username == GlobalConstants.AdminUsername || 
+                user == null || 
+                !this.RoleExists(roleName))
             {
                 return false;
             }
@@ -100,7 +97,9 @@
         {
             var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
 
-            if (username == "admin" || user == null || !this.RoleExists(roleName))
+            if (username == GlobalConstants.AdminUsername || 
+                user == null || 
+                !this.RoleExists(roleName))
             {
                 return false;
             }
@@ -114,10 +113,7 @@
         {
             var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
 
-            if (user == null)
-            {
-                return false;
-            }
+            if (user == null) return false;
 
             user.LastOnline = DateTime.UtcNow;
 
@@ -136,7 +132,8 @@
             {
                 var role = await this.context.Roles.FirstOrDefaultAsync(x => x.Id == userRolePair.RoleId);
 
-                if (role.Name.ToLower() == "administrator" || role.Name.ToLower() == "user")
+                if (role.NormalizedName == GlobalConstants.AdminNormalizedRoleName || 
+                    role.NormalizedName == GlobalConstants.UserNormalizedRoleName)
                 {
                     continue;
                 }

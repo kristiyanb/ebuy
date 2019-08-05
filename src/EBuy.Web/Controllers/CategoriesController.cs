@@ -1,13 +1,11 @@
 ﻿namespace EBuy.Web.Controllers
 {
-    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
 
     using EBuy.Services.Contracts;
     using Models.Categories;
-    using Models.Products;
 
     public class CategoriesController : Controller
     {

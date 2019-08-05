@@ -3,11 +3,12 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    using EBuy.Common;
     using EBuy.Services.Contracts;
     using Models.Comments;
-    using Microsoft.AspNetCore.Authorization;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -28,7 +29,7 @@
 
         [HttpPost(Name = "Create")]
         [Route("create")]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = GlobalConstants.UserNormalizedRoleName)]
         public async Task<ActionResult> Create(CommentInputModel input)
         {
             if (!this.ModelState.IsValid)

@@ -15,7 +15,9 @@
         private readonly IMapper mapper;
         private readonly ICommentService commentService;
 
-        public ProductsController(IProductService productService, IMapper mapper, ICommentService commentService)
+        public ProductsController(IProductService productService, 
+            IMapper mapper, 
+            ICommentService commentService)
         {
             this.productService = productService;
             this.mapper = mapper;

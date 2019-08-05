@@ -52,9 +52,9 @@
 
             CreateMap<Category, CategoryGridModel>();
             CreateMap<Category, CategoryDetailsModel>()
-                .ForMember(x => x.Purchases, opt => opt.MapFrom(x => x.Products.Sum(p => p.PurchasesCount)))
                 .ForMember(x => x.Score, opt => opt.MapFrom(x => x.Products.Sum(p => p.Score)))
-                .ForMember(x => x.VotesCount, opt => opt.MapFrom(x => x.Products.Sum(p => p.VotesCount)));
+                .ForMember(x => x.VotesCount, opt => opt.MapFrom(x => x.Products.Sum(p => p.VotesCount)))
+                .ForMember(x => x.Purchases, opt => opt.MapFrom(x => x.Products.Sum(p => p.PurchasesCount)));
 
 
             //Messages
@@ -69,27 +69,27 @@
             //Comments
 
             CreateMap<Comment, CommentBindingModel>()
-                .ForMember(x => x.LastModified, opt => opt.MapFrom(x => x.LastModified.ToString(GlobalConstants.DateFormat)))
-                .ForMember(x => x.Username, opt => opt.MapFrom(x => x.User.UserName));
+                .ForMember(x => x.Username, opt => opt.MapFrom(x => x.User.UserName))
+                .ForMember(x => x.LastModified, opt => opt.MapFrom(x => x.LastModified.ToString(GlobalConstants.DateFormat)));
             CreateMap<Comment, CommentViewModel>()
-                .ForMember(x => x.LastModified, opt => opt.MapFrom(x => x.LastModified.ToString(GlobalConstants.DateFormat)))
-                .ForMember(x => x.UserName, opt => opt.MapFrom(x => x.User.UserName));
+                .ForMember(x => x.UserName, opt => opt.MapFrom(x => x.User.UserName))
+                .ForMember(x => x.LastModified, opt => opt.MapFrom(x => x.LastModified.ToString(GlobalConstants.DateFormat)));
 
 
             //Users
 
             CreateMap<User, UserViewModel>();
             CreateMap<User, UserDataModel>()
-                .ForMember(x => x.RegisteredOn, opt => opt.MapFrom(x => x.RegisteredOn.ToString(GlobalConstants.DateFormat)))
-                .ForMember(x => x.LastOnline, opt => opt.MapFrom(x => x.LastOnline.ToString(GlobalConstants.DateFormat)));
+                .ForMember(x => x.LastOnline, opt => opt.MapFrom(x => x.LastOnline.ToString(GlobalConstants.DateFormat)))
+                .ForMember(x => x.RegisteredOn, opt => opt.MapFrom(x => x.RegisteredOn.ToString(GlobalConstants.DateFormat)));
 
             //Purchases
 
             CreateMap<Purchase, PurchaseHistoryModel.PurchaseViewModel>()
                 .ForMember(x => x.DateOfOrder, opt => opt.MapFrom(x => x.DateOfOrder.ToString(GlobalConstants.DateFormat)));
             CreateMap<Purchase, PurchaseViewModel>()
-                .ForMember(x => x.DateOfOrder, opt => opt.MapFrom(x => x.DateOfOrder.ToString(GlobalConstants.DateFormat)))
-                .ForMember(x => x.Username, opt => opt.MapFrom(x => x.User.UserName));
+                .ForMember(x => x.Username, opt => opt.MapFrom(x => x.User.UserName))
+                .ForMember(x => x.DateOfOrder, opt => opt.MapFrom(x => x.DateOfOrder.ToString(GlobalConstants.DateFormat)));
 
             CreateMap<PurchasedProduct, PurchaseProductViewModel>();
             CreateMap<PurchasedProduct, PurchaseHistoryModel.PurchasedProductViewModel>();
