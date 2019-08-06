@@ -75,6 +75,7 @@
             if (ModelState.IsValid)
             {
                 var result = await _signInManager.PasswordSignInAsync(Input.Username, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
@@ -86,6 +87,7 @@
                     if (redirectUrl != null)
                     {
                         this.TempData.Remove("RedirectUrl");
+
                         return Redirect(redirectUrl.ToString());
                     }
 
@@ -98,11 +100,13 @@
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
+
                     return RedirectToPage("./Lockout");
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+
                     return Page();
                 }
             }

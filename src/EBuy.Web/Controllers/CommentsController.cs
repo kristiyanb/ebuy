@@ -29,7 +29,7 @@
 
         [HttpPost(Name = "Create")]
         [Route("create")]
-        [Authorize(Roles = GlobalConstants.UserNormalizedRoleName)]
+        [Authorize(Roles = GlobalConstants.UserOnlyAccess)]
         public async Task<ActionResult> Create(CommentInputModel input)
         {
             if (!this.ModelState.IsValid)

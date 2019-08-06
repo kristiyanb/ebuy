@@ -2,8 +2,10 @@
 {
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    using EBuy.Common;
     using EBuy.Services.Contracts;
     using Models.Products;
     using Models.Categories;
@@ -33,6 +35,7 @@
             return this.View(product);
         }
 
+        [Authorize(Roles = GlobalConstants.UserOnlyAccess)]
         public async Task<IActionResult> Vote(string rating, string id)
         {
             if (this.User.Identity.Name == null)

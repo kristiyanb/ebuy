@@ -14,8 +14,10 @@
 
         public const string UserNormalizedRoleName = "USER";
 
-        public const string EmployeeLevelAccess = "ADMINISTRATOR, MANAGER, EMPLOYEE";
+        public const string EmployeeLevelAccess = "Administrator, Manager, Employee";
 
-        public const string ManagementLevelAccess = "ADMINISTRATOR, MANAGER";
+        public const string ManagementLevelAccess = "Administrator, Manager";
+
+        public const string UserOnlyAccess = "User";
     }
 }
