@@ -8,6 +8,14 @@
 <h4>Users Info: </h4>
 <hr />
 
+<form asp-area="Admin" asp-controller="Users" asp-action="Details" method="get">
+    <div class="form-actions no-color mb-4">
+        <h6>Find by name:</h6>
+        <input type="text" name="username" class="form-control w-25 mb-2"/>
+        <input type="submit" value="Search" class="btn btn-danger" />
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>
