@@ -25,6 +25,13 @@
             return this.View(new UserListModel { Users = users });
         }
 
+        public async Task<IActionResult> Details(string username)
+        {
+            var userDetailsModel = await this.userService.GetUserByUserName<UserDataModel>(username);
+
+            return this.View(userDetailsModel);
+        }
+
         [Authorize(Roles = GlobalConstants.ManagementLevelAccess)]
         public async Task<IActionResult> ManageRoles()
         {

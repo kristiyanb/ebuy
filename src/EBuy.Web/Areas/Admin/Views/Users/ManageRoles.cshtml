@@ -1,4 +1,8 @@
-﻿<div class="container col-4 text-center">
+﻿@{
+    ViewData["Title"] = "Role Management";
+}
+
+<div class="container col-4 text-center">
     <h4 class="mt-5">Add user to role</h4>
     <hr />
     <form asp-area="Admin" asp-controller="Users" asp-action="AddRole" method="post">

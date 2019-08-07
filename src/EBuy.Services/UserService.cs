@@ -34,7 +34,10 @@
 
         public async Task<TViewModel> GetUserByUserName<TViewModel>(string username)
         {
-            var user = await this.context.Users.FirstOrDefaultAsync(x => x.UserName == username);
+            var user = await this.context.Users
+                .Include(x => x.PurchaseHistory)
+                .ThenInclude(x => x.Products)
+                .FirstOrDefaultAsync(x => x.UserName == username);
 
             return this.mapper.Map<TViewModel>(user);
         }

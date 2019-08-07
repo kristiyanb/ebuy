@@ -1,6 +1,10 @@
 ﻿@using EBuy.Web.Areas.Admin.Models.Users
 @model UserListModel
 
+@{
+    ViewData["Title"] = "Users";
+}
+
 <h4>Users Info: </h4>
 <hr />
 
@@ -15,6 +19,9 @@
             </th>
             <th>
                 Email
+            </th>
+            <th>
+                Username
             </th>
             <th>
                 Registered On
@@ -33,10 +40,15 @@
             <tr>
                 <td>@user.FirstName</td>
                 <td>@user.LastName</td>
+                <td>@user.Email</td>
                 <td>@user.UserName</td>
                 <td>@user.RegisteredOn</td>
                 <td>@user.LastOnline</td>
-                <td>@user.PurchaseHistoryCount</td>
+                <td>
+                    <a asp-area="Admin" asp-controller="Users" asp-action="Details" asp-route-username="@user.UserName">
+                        @user.PurchaseHistoryCount <span class="btn-link ml-3 text-danger">Details</span>
+                    </a>
+                </td>
             </tr>
         }
     </tbody>

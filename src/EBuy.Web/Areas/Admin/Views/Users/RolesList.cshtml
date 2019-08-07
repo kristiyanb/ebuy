@@ -1,5 +1,9 @@
 ﻿@model Dictionary<string, List<string>>
 
+@{
+    ViewData["Title"] = "Role List";
+}
+
 <div class="container d-flex justify-content-between">
     @foreach (var role in Model)
     {

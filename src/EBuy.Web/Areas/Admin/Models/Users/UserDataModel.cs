@@ -1,8 +1,8 @@
 ﻿namespace EBuy.Web.Areas.Admin.Models.Users
 {
-    using AutoMapper;
+    using System.Collections.Generic;
 
-    using EBuy.Models;
+    using Purchases;
 
     public class UserDataModel
     {
@@ -12,10 +12,14 @@
 
         public string UserName { get; set; }
 
+        public string Email { get; set; }
+
         public string RegisteredOn { get; set; }
 
         public string LastOnline { get; set; }
 
         public int PurchaseHistoryCount { get; set; }
+
+        public List<PurchaseViewModel> PurchaseHistory { get; set; }
     }
 }

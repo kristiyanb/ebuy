@@ -1,0 +1,68 @@
+﻿@using EBuy.Web.Areas.Admin.Models.Users
+@model UserDataModel
+
+@{
+    ViewData["Title"] = "Messages";
+
+    var counter = 1;
+}
+
+<h4 class="text-center">User Details</h4>
+<hr class="mb-3 w-75"/>
+
+<div class="container w-50">
+    <div class="d-flex justify-content-between p-5">
+        <div>
+            <h5>Username: </h5>
+            <span>@Model.UserName</span>
+            <h5>Name: </h5>
+            <span>
+                @Model.FirstName @Model.LastName
+            </span>
+            <h5>Email: </h5>
+            <span">@Model.Email</span>
+        </div>
+        <div>
+            <h6>Registered: </h6>
+            <span>@Model.RegisteredOn</span>
+            <h6>Last Online: </h6>
+            <span>@Model.LastOnline</span>
+        </div>
+    </div>
+
+    <h5 class="text-center mb-4">Purchases: </h5>
+
+    <div class="accordion" id="purchaseHistoryAccordion">
+        @foreach (var purchase in Model.PurchaseHistory.OrderBy(x => x.DateOfOrder))
+        {
+            var collapseId = "collapse" + counter;
+            var headingId = "heading" + counter;
+
+            <div class="card">
+                <div class="card-header" id=@headingId>
+                    <h2 class="mb-0 text-center">
+                        <button class="btn btn-link text-dark" type="button" data-toggle="collapse" data-target="#@collapseId" aria-expanded="true" aria-controls="@collapseId">
+                            @purchase.DateOfOrder
+                        </button>
+                    </h2>
+                </div>
+
+                <div id=@collapseId class="collapse" aria-labelledby=@headingId data-parent="#purchaseHistoryAccordion">
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            @foreach (var product in purchase.Products)
+                            {
+                                <li class="list-group-item">@product.Name, Price: $@product.Price, Quantity @product.Quantity</li>
+                            }
+                            <li class="list-group-item">Amount: $@purchase.Amount</li>
+                            <li class="list-group-item">Address: @purchase.Address</li>
+                            <li class="list-group-item">Date: @purchase.DateOfOrder</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            counter++;
+        }
+    </div>
+</div>
