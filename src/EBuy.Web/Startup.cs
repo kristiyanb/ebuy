@@ -1,5 +1,7 @@
 ﻿namespace EBuy.Web
 {
+    using System.Linq;
+
     using AutoMapper;
     using CloudinaryDotNet;
     using Microsoft.AspNetCore.Builder;
@@ -92,6 +94,44 @@
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                using (var context = serviceScope.ServiceProvider.GetRequiredService<EBuyDbContext>())
+                {
+                    context.Database.EnsureCreated();
+
+                    if (!context.Roles.Any())
+                    {
+                        context.Roles.Add(new Role
+                        {
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        });
+
+                        context.Roles.Add(new Role
+                        {
+                            Name = "Manager",
+                            NormalizedName = "MANAGER"
+                        });
+
+
+                        context.Roles.Add(new Role
+                        {
+                            Name = "Employee",
+                            NormalizedName = "EMPLOYEE"
+                        });
+
+                        context.Roles.Add(new Role
+                        {
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
+
+                        context.SaveChanges();
+                    }
+                }
+            }
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
