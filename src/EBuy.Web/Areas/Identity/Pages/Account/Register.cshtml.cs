@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.Linq;
     using System.Text.Encodings.Web;
     using System.Threading.Tasks;
 
@@ -13,6 +14,7 @@
     using Microsoft.Extensions.Logging;
 
     using EBuy.Models;
+    using EBuy.Data;
 
     [AllowAnonymous]
     public class RegisterModel : PageModel
@@ -20,15 +22,18 @@
         private readonly UserManager<User> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly EBuyDbContext context;
 
         public RegisterModel(
             UserManager<User> userManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender, 
+            EBuyDbContext context)
         {
             _userManager = userManager;
             _logger = logger;
             _emailSender = emailSender;
+            this.context = context;
         }
 
         [BindProperty]
@@ -76,7 +81,12 @@
 
                 if (result.Succeeded)
                 {
-                    await this._userManager.AddToRoleAsync(user, "User");
+                    if (!this.context.Users.Any())
+                    {
+                        await _userManager.AddToRoleAsync(user, "Administrator");
+                    }
+
+                    await _userManager.AddToRoleAsync(user, "User");
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
