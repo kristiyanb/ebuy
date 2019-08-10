@@ -84,8 +84,9 @@
         {
             //Arrange
 
-            var admin = new User() { Id = "admin-id", UserName = "admin" };
-            var user = new User() { Id = "user-id", UserName = "Username" };
+            var admin = new User() { Id = "admin-id", UserName = "admin", EmailConfirmed = true };
+            var user = new User() { Id = "user-id", UserName = "Username", EmailConfirmed = true };
+            var userConfirmedEmailFalse = new User() { Id = "user-id", UserName = "Username", EmailConfirmed = false };
             var purchase = new Purchase() { UserId = "user-id" };
 
             await this.context.AddRangeAsync(admin, user, purchase);

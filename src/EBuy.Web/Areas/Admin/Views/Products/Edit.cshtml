@@ -5,7 +5,7 @@
     <form asp-area="Admin" asp-controller="Products" asp-action="AddProduct" method="post" enctype="multipart/form-data">
         <h4>Edit Product</h4>
         <hr />
-        <img src="@Model.ImageUrl" />
+        <img src="@Model.ImageUrl" class="w-50"/>
         <div class="form-group">
             <label>Name</label>
             <input asp-for="Name" class="form-control" type="text" id="name" name="name" />

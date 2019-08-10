@@ -84,6 +84,7 @@
             return this.View(new SearchViewModel { Name = query, Products = products });
         }
 
+        [Route("{*url}", Order = 999)]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> Error()
         {

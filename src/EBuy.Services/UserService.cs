@@ -45,7 +45,8 @@
         public async Task<List<TViewModel>> GetAll<TViewModel>()
         {
             var users = await this.context.Users
-                .Where(x => x.UserName != GlobalConstants.AdminUsername)
+                .Where(x => x.UserName != GlobalConstants.AdminUsername && 
+                            x.EmailConfirmed == true)
                 .Include(x => x.PurchaseHistory)
                 .ToListAsync();
 
